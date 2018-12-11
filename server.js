@@ -43,7 +43,7 @@ function main(isHttp, isHttps) {
   
   //CHONG TAN CONG DDDOS
   //ngan chan truy cap ddos tra ket qua cho user neu truy cap tan suat lon 
-  app.use(require('./ddos/config').express('ip', 'path'));
+  app.use(require('./ddos/ddos-config').express('ip', 'path'));
   
   //1.dang ky duong dan tuyet doi co dinh cho ionic
   app.use(express.static(__dirname + '/www'));

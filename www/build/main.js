@@ -383,7 +383,7 @@ var ApiService = /** @class */ (function () {
     function ApiService(httpClient, sanitizer) {
         this.httpClient = httpClient;
         this.sanitizer = sanitizer;
-        this.authenticationServer = ''; //'https://cuongdq-oauth.herokuapp.com';
+        this.authenticationServer = '';
         this.clientKey = new __WEBPACK_IMPORTED_MODULE_4_node_rsa___default.a({ b: 512 }, { signingScheme: 'pkcs1-sha256' }); //for decrypte
         this.midleKey = new __WEBPACK_IMPORTED_MODULE_4_node_rsa___default.a(null, { signingScheme: 'pkcs1-sha256' }); //for test
         this.serverKey = new __WEBPACK_IMPORTED_MODULE_4_node_rsa___default.a(null, { signingScheme: 'pkcs1-sha256' }); //for crypte
@@ -1094,7 +1094,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var ApiAuthService = /** @class */ (function () {
     function ApiAuthService(httpClient) {
         this.httpClient = httpClient;
-        this.authenticationServer = 'https://cuongdq-oauth.herokuapp.com';
+        this.authenticationServer = ''; //'https://cuongdq-oauth.herokuapp.com';
         this.clientKey = new __WEBPACK_IMPORTED_MODULE_3_node_rsa___default.a({ b: 512 }, { signingScheme: 'pkcs1-sha256' }); //for decrypte
         this.midleKey = new __WEBPACK_IMPORTED_MODULE_3_node_rsa___default.a(null, { signingScheme: 'pkcs1-sha256' }); //for test
         this.serverKey = new __WEBPACK_IMPORTED_MODULE_3_node_rsa___default.a(null, { signingScheme: 'pkcs1-sha256' }); //for crypte
@@ -1253,9 +1253,10 @@ var ApiAuthService = /** @class */ (function () {
     };
     ApiAuthService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object])
     ], ApiAuthService);
     return ApiAuthService;
+    var _a;
 }());
 
 //# sourceMappingURL=apiAuthService.js.map
