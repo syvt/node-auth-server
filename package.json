@@ -1,0 +1,23 @@
+{
+  "name": "node-oracle-db",
+  "version": "1.0.0",
+  "description": "Connect Oracle Database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "node-oracle-db"
+  },
+  "keywords": [
+    "node-oracle-db"
+  ],
+  "author": "cuong.dq",
+  "license": "ISC",
+  "dependencies": {
+    "node-rsa": "^1.0.1",
+    "oracledb": "^3.0.1",
+    "sqlite3": "^4.0.4"
+  }
+}
