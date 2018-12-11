@@ -7,7 +7,7 @@ const NodeRSA = require('node-rsa');
 //chen 2 doi tuong su dung cho sqlite - cuongdq
 const SQLiteDAO = require('./sqlite-dao');
 const dataType = require('./sqlite-datatype');
-const config = require('./config');
+const config = require('./sqlite-config');
 const isSilence = config.keep_silence;
 
 const dirDB = 'db';

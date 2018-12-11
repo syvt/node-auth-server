@@ -1,6 +1,6 @@
 "use strict"
 const sqlite3 = require('sqlite3').verbose();
-const isSilence = require('./config').keep_silence;
+const isSilence = require('./sqlite-config').keep_silence;
 
 class SQLiteDAO {
   constructor(dbFilePath) {

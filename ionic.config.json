@@ -1,0 +1,7 @@
+{
+  "name": "cuongdq-jwt-oauth",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

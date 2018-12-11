@@ -9,7 +9,7 @@
  * runSql --> thuc hien khong tra ket qua
  * executeFunction???, refCursor??
  */
-const dbconfig = require("./config");
+const dbconfig = require("./oracle-config");
 const oracledb = require('oracledb');
 oracledb.autoCommit = dbconfig.autoCommit;
 const isSilence = dbconfig.keep_silence;

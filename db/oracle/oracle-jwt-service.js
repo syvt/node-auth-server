@@ -4,7 +4,7 @@ const NodeRSA = require('node-rsa');
 
 const OracleDAO = require('./oracle-dao');
 const dataType = require('./oracle-datatype');
-const config = require('./config');
+const config = require('./oracle-config');
 const isSilence = config.keep_silence;
 
 const db = new OracleDAO(); //khoi tao database luon roi, ket noi pool
