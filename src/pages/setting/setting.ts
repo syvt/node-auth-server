@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ApiAuthService } from '../../services/apiAuthService';
 import { LoginPage } from '../login/login';
+import { ApiAuthService } from '../../services/apiAuthService';
 import { ApiImageService } from '../../services/apiImageService'
 
 
@@ -75,7 +75,8 @@ export class SettingPage {
   onSubmit() {
 
     var formData: FormData = new FormData();
-    formData.append("Authorization", 'Bearer ' + this.apiService.getUserToken());
+    //bo cai nay di vi da xu ly interceptor roi
+    //formData.append("Authorization", 'Bearer ' + this.apiService.getUserToken());
     if (this.myFromGroup.get("DISPLAY_NAME").value)
       formData.append("DISPLAY_NAME", this.myFromGroup.get("DISPLAY_NAME").value);
     if (this.myFromGroup.get("FULL_NAME").value)
@@ -108,9 +109,11 @@ export class SettingPage {
           position: 'middle'
         }).present();
 
-        //quay tro lai trang chu roi nhe
-        this.navCtrl.setRoot(LoginPage);
-
+        this.apiService.logout()
+          .then(d=>{
+            this.navCtrl.setRoot(LoginPage);
+          })
+          .catch(e=>{});
       })
       .catch(err => {
         loading.dismiss();

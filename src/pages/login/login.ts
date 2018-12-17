@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, Events, LoadingController, ToastController } from 'ionic-angular';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { RegisterPage } from '../register/register';
 import { SettingPage } from '../setting/setting';
 import { ApiAuthService } from '../../services/apiAuthService';
 import { ApiStorageService } from '../../services/apiStorageService';
-
-import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'page-login',
@@ -26,7 +24,7 @@ export class LoginPage {
     private loadingCtrl: LoadingController,
     private apiStorageService: ApiStorageService,
     private toastCtrl: ToastController,
-    private socket: Socket,
+    private events: Events,
     private apiService: ApiAuthService) { }
 
   ngOnInit() {
@@ -35,23 +33,15 @@ export class LoginPage {
 
 
   reset(){
+
     if (this.apiStorageService.getToken()){
-      //dam bao lenh nay se nhu lenh login thanh cong
       this.apiService.pushToken(this.apiStorageService.getToken());
-    }else{
-      //console.log('no Token saved!')
     }
 
     this.apiService.getServerPublicRSAKey()
       .then(pk => {
-        //lay public key 
-        //console.log(pk);
         this.serverKeyPublic = pk;
-        //va user info neu co
         this.serverTokenUserInfo = this.apiService.getUserInfo();
-        
-        //console.log(this.serverTokenUserInfo);
-        //neu thong tin nguoi dung co thi hien thi user, va logout
         if (this.serverTokenUserInfo){
           this.isShowInfo=true; //da login truoc do roi nhe
         }else{
@@ -91,6 +81,7 @@ export class LoginPage {
 
             this.serverTokenUserInfo = this.apiService.getUserInfo();
             this.isShowInfo = true;
+            //luu vao may de phien sau su dung khong can login
             this.apiStorageService.saveToken(token);
 
             loading.dismiss();
@@ -101,7 +92,11 @@ export class LoginPage {
               position: 'middle'
             }).present();
 
-            
+            //chuyen su kien login ve parent
+            this.events.publish('listenLogin',{ 
+                                                user:this.apiService.getUserInfo(),
+                                                token: this.apiStorageService.getToken() 
+                                              });
 
           } else {
             throw 'No Token after login!'
@@ -128,30 +123,21 @@ export class LoginPage {
   }
 
   callRegister() {
-    //console.log("goi dang ky")
     this.navCtrl.push(RegisterPage);
   }
 
   callLogout() {
     this.apiService.logout()
     .then(d=>{
-      //console.log('then');
-      this.apiStorageService.deleteToken();
       this.reset();
     })
-    .catch(e=>{
-      //console.log('catch');
-    });
+    .catch(e=>{});
   }
 
   callEdit() {
-    //neu cung site thi su dung Header de truyen token
-    //neu khac site thi phai su dung param hoac post json token
     this.apiService.getEdit()
       .then(user => {
-        //console.log(this.apiService.getUserInfoSetting());
         this.navCtrl.push(SettingPage);
-        //dong lai menu neu no dang mo
       })
       .catch(err => {
         this.toastCtrl.create({
@@ -163,6 +149,9 @@ export class LoginPage {
   }
 
   callChat(){
-
+    this.navCtrl.setRoot('ChatRoomPage', { 
+                                        user:this.apiService.getUserInfo(),
+                                        token: this.apiStorageService.getToken() 
+                                      });
   }
 }

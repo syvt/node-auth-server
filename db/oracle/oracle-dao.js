@@ -234,7 +234,8 @@ class OracleDAO {
 
   //
   /**
-   *lenh select, update, delete su dung keu json 
+   * lenh select, update, delete su dung keu json 
+   * viet tuong tu sqlite de su dung qua lai
    * @param {*} selectTable 
    */
   select(selectTable) {
@@ -264,7 +265,7 @@ class OracleDAO {
     }
     //console.log(sql);
     //console.log(params);
-    return this.getAllRsts(sql, params)
+    return this.getRst(sql, params)
   }
   //lay 1 bang ghi dau tien cua select
   /**
@@ -285,7 +286,7 @@ class OracleDAO {
             if (!isSilence) console.log('Could NOT excute: ' + sql)
             reject(err)
           }
-
+          //console.log('ket qua: ',result);
           if (result
             && result.rows
             && result.rows[0]
@@ -298,6 +299,37 @@ class OracleDAO {
     })
   }
 
+  /**
+   * Lay tat ca cac bang ghi 
+   * @param {*} selectTable 
+   */
+  selectAll(selectTable) {
+    let sql = '';
+    let i = 0;
+    let params = [];
+    let sqlNames = '';
+    for (let col of selectTable.cols) {
+      if (i++ == 0) {
+        sqlNames += col.name;
+      } else {
+        sqlNames += ', ' + col.name;
+      }
+    }
+    sql = 'SELECT ' + sqlNames + ' FROM ' + selectTable.name;
+    i = 0;
+    for (let col of selectTable.wheres) {
+      if (col.value) {
+        params.push(col.value);
+        if (i == 0) {
+          sql += ' WHERE ' + col.name + '= :' + i;
+        } else {
+          sql += ' AND ' + col.name + '= :' + i;
+        }
+        i++;
+      }
+    }
+    return this.getAllRsts(sql, params)
+  }
   /**
    * Lay tat ca cac bang ghi
    * @param {*} sql 

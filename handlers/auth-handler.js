@@ -284,7 +284,9 @@ class AuthHandler {
             }
           })
           .catch(err => {
-            throw 'Login không thành công-do lỗi query: ' + err
+            console.log('Login không thành công-do lỗi query: ' + err);
+            res.writeHead(403, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end(JSON.stringify(err));
           });
 
       } else {

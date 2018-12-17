@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { ApiStorageService } from './apiStorageService';
+
 import { RequestInterceptor } from '../interceptors/requestInterceptor';
 
 import 'rxjs/add/operator/map'
@@ -11,7 +13,8 @@ import jwt from 'jsonwebtoken';
 @Injectable()
 export class ApiAuthService {
 
-    public authenticationServer = 'http://localhost:9235/api/auth';
+    //public authenticationServer = 'http://localhost:9235/api/auth';
+    public authenticationServer = 'https://c3.mobifone.vn/api/auth';
     public clientKey = new NodeRSA({ b: 512 }, { signingScheme: 'pkcs1-sha256' }); //for decrypte
     public midleKey = new NodeRSA(null, { signingScheme: 'pkcs1-sha256' }); //for test
     public serverKey = new NodeRSA(null, { signingScheme: 'pkcs1-sha256' }); //for crypte
@@ -22,6 +25,7 @@ export class ApiAuthService {
 
 
     constructor(private httpClient: HttpClient,
+                private apiStorageService: ApiStorageService,
                 private reqInterceptor: RequestInterceptor) {
         //key nay de test thu noi bo
         this.midleKey.importKey(this.clientKey.exportKey('public'));
@@ -74,6 +78,10 @@ export class ApiAuthService {
         }
         
     logout() {
+
+        //xoa bo token luu tru
+        this.apiStorageService.deleteToken();
+
         if (this.userToken && this.userToken.token) {
                 //truong hop user co luu tren session thi xoa session di
             this.reqInterceptor.setRequestToken(this.userToken.token); //login nguoi khac
@@ -137,15 +145,7 @@ export class ApiAuthService {
             }));
         }
     }
-    //tren cung site thi khong dung den
-    //khong dung header de control
-
-    //cac thong tin lay tu client memory
-    //get token for post or get with authentication
-    getUserToken() {
-        return this.userToken.token;
-    }
-
+    
     //get userInfo from token
     getUserInfo() {
         //this.userInfo=null;
@@ -191,8 +191,14 @@ export class ApiAuthService {
         return this.userSetting;
     }
 
+    /**
+     * Thiet lap token tu local xem nhu da login
+     * @param token 
+     */
     pushToken(token){
         //gan token cho user de xem nhu da login
         this.userToken={token:token};
     }
+
+
 }

@@ -763,6 +763,68 @@ class HandleDatabase {
         );
     }
    
+    //get userInfo sau khi da verify quyen
+    getUserInfo(req, res, next){
+        if (req.user&&req.user.username){
+            //console.log(req.user);
+            var userInfoSQL ={
+                name: 'LOCAL_USERS',
+                cols: [
+                    {
+                        name: 'USERNAME'
+                    },
+                    {
+                        name: 'DISPLAY_NAME'
+                    },
+                    {
+                        name: 'URL_IMAGE'
+                    },
+                    {
+                        name: 'FULL_NAME'
+                    },
+                    {
+                        name: 'PHONE'
+                    },
+                    {
+                        name: 'EMAIL'
+                    },
+                    {
+                        name: 'FULL_ADDRESS'
+                    },
+                    {
+                        name: 'LAST_IP'
+                    },
+                    {
+                        name: 'TOKEN_ID'
+                    }
+                ],
+                wheres: [
+                    {
+                        name: 'USERNAME',
+                        value: req.user.username
+                    }
+                        ]
+            };
+    
+            db.select(userInfoSQL)
+            .then(data => {
+                if (data){
+                    if (!isSilence) console.log(data);
+                    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                    res.end(JSON.stringify(data));
+                }else{
+                    //tra loi xuong catch ben duoi
+                    throw 'User '+ req.user.username + ' NOT exists!';
+                }
+            })
+            .catch(err=>{
+                throw 'Select data error: ' + JSON.stringify(err) 
+            });
+        }else{
+            throw 'No user Info!'
+        }
+    }
+
     saveUserInfo(req,res,next){
         //req.user, req.userSave la 2 thanh phan duoc parse tu verify token
         if (req.user&&req.user.username&&req.userSave){
@@ -820,68 +882,6 @@ class HandleDatabase {
                 throw 'update db error: ' + JSON.stringify(err)
             })
 
-        }else{
-            throw 'No user info!'
-        }
-    }
-
-     //get userInfo sau khi da verify quyen
-     getUserInfo(req, res, next){
-        if (req.user&&req.user.username){
-            //console.log(req.user);
-            var userInfoSQL ={
-                name: 'LOCAL_USERS',
-                cols: [
-                    {
-                        name: 'USERNAME'
-                    },
-                    {
-                        name: 'DISPLAY_NAME'
-                    },
-                    {
-                        name: 'URL_IMAGE'
-                    },
-                    {
-                        name: 'FULL_NAME'
-                    },
-                    {
-                        name: 'PHONE'
-                    },
-                    {
-                        name: 'EMAIL'
-                    },
-                    {
-                        name: 'FULL_ADDRESS'
-                    },
-                    {
-                        name: 'LAST_IP'
-                    },
-                    {
-                        name: 'TOKEN_ID'
-                    }
-                ],
-                wheres: [
-                    {
-                        name: 'USERNAME',
-                        value: req.user.username
-                    }
-                        ]
-            };
-    
-            db.select(userInfoSQL)
-            .then(data => {
-                if (data){
-                    if (!isSilence) console.log(data);
-                    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-                    res.end(JSON.stringify(data));
-                }else{
-                    //tra loi xuong catch ben duoi
-                    throw 'User '+ req.user.username + ' NOT exists!';
-                }
-            })
-            .catch(err=>{
-                throw 'Select data error: ' + JSON.stringify(err)
-            });
         }else{
             throw 'No user info!'
         }

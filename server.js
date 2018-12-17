@@ -1,4 +1,5 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const fs = require('fs');
 const os = require('os');
 
@@ -7,6 +8,9 @@ function main(isHttp, isHttps) {
   //CHONG TAN CONG DDDOS
   //ngan chan truy cap ddos tra ket qua cho user neu truy cap tan suat lon 
   app.use(require('./ddos/ddos-config').express('ip', 'path'));
+
+  //web tinh
+  app.use('/api',express.static(__dirname + '/www'));
 
   //CORS handle
   const cors = require('./handlers/cors-handler');
