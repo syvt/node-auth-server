@@ -2,7 +2,10 @@ const router = require('express').Router();
 
 const authHandler = require('../handlers/auth-handler');
 let handlers = authHandler.AuthHandler;
-handlers.init();
+    setTimeout(()=>{
+        handlers.init();
+    },5000); //doi 5 giay de oracle ket noi va tao key truoc
+
 
 //tra publickey cho client
 router.get('/key-json', handlers.getPublickeyJson);

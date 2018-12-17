@@ -11,8 +11,11 @@ const mime = require('mime-types');
 
 const formidable = require('formidable');
 
-const db = require('../db/sqlite3/sqlite-jwt-service.js');
-db.handler.init();
+//const db = require('../db/sqlite3/sqlite-jwt-service.js');
+const db = require('../db/oracle/oracle-jwt-service');
+setTimeout(()=>{
+  db.handler.init();
+},3000); //doi 3 giay de oracle ket noi
 
 const NodeRSA = require('node-rsa');
 const MidlewareRSA = new NodeRSA(null, { signingScheme: 'pkcs1-sha256' });
@@ -78,17 +81,17 @@ class AuthHandler {
   //khoi tao key
   init() {
     db.handler.
-      createServiceKey(db.service_id)
-      .then(serverkey => {
-        MidlewareRSA.importKey(serverkey.PRIVATE_KEY);
-        PUBLIC_KEY = {
-          SERVICE_ID: serverkey.SERVICE_ID,
-          PUBLIC_KEY: serverkey.PUBLIC_KEY,
-          SERVICE_NAME: serverkey.SERVICE_NAME,
-          IS_ACTIVE: serverkey.IS_ACTIVE
-        };
-      })
-      .catch(err => { })
+        createServiceKey(db.service_id)
+        .then(serverkey => {
+          MidlewareRSA.importKey(serverkey.PRIVATE_KEY);
+          PUBLIC_KEY = {
+            SERVICE_ID: serverkey.SERVICE_ID,
+            PUBLIC_KEY: serverkey.PUBLIC_KEY,
+            SERVICE_NAME: serverkey.SERVICE_NAME,
+            IS_ACTIVE: serverkey.IS_ACTIVE
+          };
+        })
+        .catch(err => { })
   }
   //tra key
   getPublickeyJson(req, res, next) {

@@ -515,6 +515,10 @@ class HandleDatabase {
                 });
             }
         })
+        .catch(err=>{
+            console.log('Loi tao server key: ');
+            console.log(err);
+        })
     }
 
     //dua key object vao
