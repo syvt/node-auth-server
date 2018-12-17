@@ -33,11 +33,7 @@ export class SettingPage {
 
     this.userInfo = this.apiService.getUserInfoSetting()
 
-    this.toastCtrl.create({
-      message: "getUserInfoSetting: " + JSON.stringify(this.userInfo),
-      duration: 1000,
-      position: 'top'
-    }).present();
+   //console.log(this.userInfo);
 
     this.myFromGroup = this.formBuilder.group({
       DISPLAY_NAME: (this.userInfo) ? this.userInfo.DISPLAY_NAME : '',
@@ -105,11 +101,13 @@ export class SettingPage {
     this.apiService.editUser(formData)
       .then(data => {
         loading.dismiss();
+        
         this.toastCtrl.create({
-          message: "result: " + JSON.stringify(data),
-          duration: 1000,
+          message: "Thank you for your setting successful!",
+          duration: 3000,
           position: 'middle'
         }).present();
+
         //quay tro lai trang chu roi nhe
         this.navCtrl.setRoot(LoginPage);
 

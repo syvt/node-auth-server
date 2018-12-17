@@ -6,18 +6,28 @@ import { HttpClientModule } from '@angular/common/http';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { SettingPage } from '../pages/setting/setting';
-import { ApiService } from '../services/apiService';
+
+
+import { StorageServiceModule } from 'angular-webstorage-service';
+import { ApiStorageService } from '../services/apiStorageService';
+
 import { ApiAuthService } from '../services/apiAuthService';
 import { ApiImageService } from '../services/apiImageService';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RequestInterceptor } from '../interceptors/requestInterceptor';
+import { ResponseInterceptor } from '../interceptors/responseInterceptor';
+
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+//const socketIOConfig: SocketIoConfig = { url: 'http://localhost:9235', options: {} };
+const socketIOConfigOnline: SocketIoConfig = { url: 'http://localhost:9235/app-online', options: {} };
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
     RegisterPage,
     LoginPage,
     SettingPage
@@ -27,12 +37,14 @@ import { ApiImageService } from '../services/apiImageService';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    StorageServiceModule,
+    IonicModule.forRoot(MyApp),
+    //SocketIoModule.forRoot(socketIOConfig),
+    SocketIoModule.forRoot(socketIOConfigOnline)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
     RegisterPage,
     LoginPage,
     SettingPage
@@ -40,10 +52,23 @@ import { ApiImageService } from '../services/apiImageService';
   providers: [
     StatusBar,
     SplashScreen,
-    ApiService,
     ApiAuthService,
     ApiImageService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    ApiStorageService,
+    RequestInterceptor,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ResponseInterceptor,
+      multi: true
+    },
+    {
+      provide: ErrorHandler, 
+      useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}

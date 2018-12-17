@@ -455,11 +455,16 @@ class HandlerGenerator {
   }
 
   cors(req, res, next) {
-    res.header("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
-    res.header('Access-Control-Allow-Origin', 'http://localhost:9235');
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8100');
-    //muon cho phep truy cap tu server nao thi reply cac website tuong ung
-    //res.header("Access-Control-Allow-Origin", "*"); //khai bao chap nhan tat ca de test
+    console.log(req.headers); //xem header cua express
+    res.header("Access-Control-Allow-Methods", "POST, OPTIONS, GET");
+    if (req.headers&&req.headers.referer){
+/*       console.log(req.headers.referer); //xem header chu thuong do express
+      res.header('Access-Control-Allow-Origin', req.headers.referer);
+    }else if (req.headers&&req.headers.origin){ */
+      console.log(req.headers.origin); //xem header chu thuong do express
+      res.header('Access-Control-Allow-Origin', eq.headers.origin);
+    }
+
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Credentials", true);
     next();

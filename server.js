@@ -1,106 +1,44 @@
-const express = require('express');
-//const bodyParser = require('body-parser');
+const app = require('express')();
 const fs = require('fs');
-const http = require('http');
-const https = require('https');
-const privateKey = fs.readFileSync('cert/private_key.pem', 'utf8');
-const certificate = fs.readFileSync('cert/certificate.pem', 'utf8');
-
-const credentials = { key: privateKey, cert: certificate };
 const os = require('os');
 
-let middleware = require('./jwt/middleware');
-
-/**
- * CAC CONTENT_TYPE TRA VE CLIENT LUU Y NHU SAU:
- * 1. TRA JSON KET QUA DUNG: DEFAULT LA UTF-8
- * res.writeHead(200, { 'Content-Type': 'application/json'});
- * 2. TRA JSON KET QUA SAI:
- * res.writeHead(404, { 'Content-Type': 'application/json'});
- * 3. TRA VE WEB HTML: Dung la 200/sai la 404
- * res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8' });
- * 4. TRA VE FILE UNG DUNG: Dung la 200
- * res.writeHead(200, {'Content-Type': mime.lookup(filename) });
- * 
- */
-// Starting point of the server
 function main(isHttp, isHttps) {
-
-  let app = express(); // Export app for other routes to use
-  
-  //khoi tao trung gian xu ly dieu khien tao token, database
-  let handlers = middleware.HandlerGenerator;
-  //khoi tao lay bien public su dung sau
-  handlers.init();
-  //OK cuong.dq
-  
-  //chuyen doi du lieu json dau vao thanh req.body la doi tuong chua json
-  //app.use(bodyParser.json());
-  
-  //thiet lap cac tham so header dieu khien chung
-  //cho phep goi qua ajax ...
-  app.use(handlers.cors);
-  
+    
   //CHONG TAN CONG DDDOS
   //ngan chan truy cap ddos tra ket qua cho user neu truy cap tan suat lon 
   app.use(require('./ddos/ddos-config').express('ip', 'path'));
-  
-  //1.dang ky duong dan tuyet doi co dinh cho ionic
-  app.use(express.static(__dirname + '/www'));
-  
-  //luu log truy cap chi luu log nguoi dung login su dung tai nguyen thoi
-  app.use(handlers.logAccess);
 
-  //Tra khoa public cho client
-  app.get('/key-json', handlers.getPublickeyJson);
-  
-  //Tra bo khoa RSA cho admin xu ly, chi co quyen admin moi su dung duoc
-  app.get('/admin-json', handlers.checkRoles, handlers.getRSAKeyObj);
-  
-  // Routes & Handlers
-  app.post('/login', handlers.login);
-  
-  //Register user gửi lên form đăng ký
-  app.post('/register', handlers.register);
-  
-  //luu du lieu xuong database Post kieu Formdata
-  app.post('/user/save',handlers.tokenPostFormCheck, middleware.db.HandleDatabase.saveUserInfo);
-  //kiem tra token hop le hay khong, neu khong hop le thi tra ve trang chu
-  //neu hop le thi tra ket qua ve Post kieu JSON.stringify({})
-  app.post('/api', handlers.tokenPostCheck, handlers.getRandomUser);
-  app.post('/api/user-settings', handlers.tokenPostCheck, middleware.db.HandleDatabase.getUserInfo);
-  
-  //lay tai nguyen he thong qua token da cap 
-  var resources = require('./routes/get-resources');
-  app.use('/resources', handlers.tokenGetParamsCheck, resources);
+  //CORS handle
+  const cors = require('./handlers/cors-handler');
+  app.use(cors.CorsHandler.cors);
 
-  //Get Kieu Header Authenticate, the same site CORS control
-  app.get('/api', handlers.tokenGetCheck, handlers.getRandomUser);
-  app.get('/api/user-settings', handlers.tokenGetCheck, middleware.db.HandleDatabase.getUserInfo);
+  //su dung speedtest
+  const speedtest = require('./routes/speedtest');
+  app.use('/api/speedtest', speedtest); 
 
-
-
-  //de truyen csdl vao doi tuong nao viet ham nhu sau
-  /* app.use((res,res,next)=>{
-      //callFunction(req,res,next,middleware.db)
-  }); */
-
+  //su dung auth user
+  const userAuth = require('./routes/user-auth');
+  app.use('/api/auth', userAuth); 
 
   //ham tra loi cac dia chi khong co
   //The 404 Route (ALWAYS Keep this as the last route)
   app.all('*',(req, res) => {
     //gui trang thai bao noi dung tra ve
     res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end('<h1>Đừng tìm kiếm vô ích. Đố mầy hack đấy!</h1>Are You Lazy???');
+    res.end('<h1>Xin lỗi trang bạn muốn tìm không tồn tại!</h1>Địa chỉ ip của bạn là : ' + req.clientIp);
   });
 
-  //ham xu ly loi cuoi cung
-  app.use(handlers.errorProcess);
+  //cac route truoc chi can throw, thi error nay se tra loi cho nguoi sdung
+  //Error handle ALLWAYS keep last route even all
+  const err = require('./handlers/error-handler');
+  app.use(err.ErrorHandler.errors);
+
+  //---------socket.io for CHAT ------------//
+  var io; //= require('socket.io')(http);  or //= require('socket.io')(https); 
 
   if (isHttp) {
-    // your express configuration here
     // For http
-    const httpServer = http.createServer(app);
+    const httpServer = require('http').createServer(app);
     const portHttp = process.env.PORT || isHttp;
     httpServer.listen(portHttp, () => {
       console.log("Server HTTP (" + os.platform() + "; " + os.arch() + ") is started with PORT: "
@@ -109,12 +47,23 @@ function main(isHttp, isHttps) {
         + "\n " + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       );
     });
+
+    //for chat http:
+    io = require('socket.io')(httpServer,{
+                                            pingInterval: 2000,
+                                            wsEngine: 'ws'
+                                        });
   }
 
   if (isHttps) {
     // For https
+    const privateKey = fs.readFileSync('cert/private_key.pem', 'utf8');
+    const certificate = fs.readFileSync('cert/certificate.pem', 'utf8');
+    const credentials = { key: privateKey, cert: certificate };
     const portHttps = process.env.PORT || isHttps;
-    const httpsServer = https.createServer(credentials, app);
+    
+    const httpsServer = require('https').createServer(credentials, app);
+
     httpsServer.listen(portHttps, () => {
       console.log("Server HTTPS (" + os.platform() + "; " + os.arch() + ") is started with PORT: "
         + portHttps
@@ -122,11 +71,33 @@ function main(isHttp, isHttps) {
         + "\n " + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
       );
     });
+
+    //for chat https:
+    io = require('socket.io')(httpsServer,{
+                                            pingInterval: 2000,
+                                            wsEngine: 'ws'
+                                        });
   }
+
+  //------------- CHAT SERVER INCLUDE ------------//
+  //khai bao xu ly io
+  
+  const ioHandler = require('./chat/chat-handler');
+  //truyen bien IO
+  ioHandler.ChatHandler.setIO(io);
+  
+  io.use(ioHandler.ChatHandler.verify);
+
+  io.of('/app-online').on('connection', ioHandler.ChatHandler.appOnline);
+
+  io.of('/').on('connection', ioHandler.ChatHandler.rootChat);
+
+
 }
 
 //=false or port number >1000
 const isHttp = 9235;
 const isHttps = false //8443; 
+
 
 main(isHttp, isHttps);

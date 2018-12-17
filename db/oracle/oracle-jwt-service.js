@@ -462,7 +462,7 @@ class HandleDatabase {
                         throw err; //bao loi khong import key duoc
                       } 
                 }else{
-                    throw {code:403,message:'No RSAKeyRow'}
+                    throw 'No RSAKeyRow'
                 }
             })
         }
@@ -753,8 +753,7 @@ class HandleDatabase {
                 return data;
             }else{ //khong tim thay user nen tra ve loi thoi
                 //tra loi xuong catch ben duoi xem Promise trong Nodejs test
-                throw {code:403
-                       ,message:'Please check username & password again!'};
+                throw 'Please check username & password again!';
             }
         }
         );
@@ -814,13 +813,11 @@ class HandleDatabase {
                                         ,username:req.user.username}));
             })
             .catch(err=>{
-                res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end(JSON.stringify(err));
+                throw 'update db error: ' + JSON.stringify(err)
             })
 
         }else{
-            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
-            res.end(JSON.stringify({message:"No User Info!"}));
+            throw 'No user info!'
         }
     }
 
@@ -875,17 +872,14 @@ class HandleDatabase {
                     res.end(JSON.stringify(data));
                 }else{
                     //tra loi xuong catch ben duoi
-                    throw {code:403
-                        ,message:'No username '+ req.user.username + ' exists!'};
+                    throw 'User '+ req.user.username + ' NOT exists!';
                 }
             })
             .catch(err=>{
-                res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end(JSON.stringify(err));
+                throw 'Select data error: ' + JSON.stringify(err)
             });
         }else{
-            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
-            res.end(JSON.stringify({message:"No User Info!"}));
+            throw 'No user info!'
         }
     }
 
@@ -942,5 +936,5 @@ module.exports = {
     //service_id ma dich vu 
     service_id: config.service_key,
     //dieu khien luu tru csdl
-    HandleDatabase: new HandleDatabase()
+    handler: new HandleDatabase()
 };

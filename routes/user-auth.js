@@ -1,0 +1,34 @@
+const router = require('express').Router();
+
+const authHandler = require('../handlers/auth-handler');
+let handlers = authHandler.AuthHandler;
+handlers.init();
+
+//tra publickey cho client
+router.get('/key-json', handlers.getPublickeyJson);
+
+// Tien xu ly form login, post, reqister, va next(),
+router.post('/login', handlers.login);
+
+//Register user gửi lên form đăng ký
+router.post('/register', handlers.register);
+
+//kiem tra token va lay thong tin user 
+router.get('/get-user', handlers.tokenCheck, handlers.getUserInfo);
+
+//lay anh dai dien 
+router.get('/get-avatar/*', handlers.tokenCheck, handlers.getAvatar);
+
+//kiem tra token dung
+router.get('/logout', handlers.tokenCheck, handlers.logout);
+
+//Register user thong tin chinh sua ca nhan
+router.post('/edit', handlers.tokenCheck, handlers.formProcess, handlers.edit);
+
+//Load anh dai dien
+router.post('/edit-avatar', handlers.tokenCheck , handlers.editAvatar);
+
+//load anh nen
+router.post('/edit-background', handlers.tokenCheck , handlers.editBackground);
+
+module.exports = router;

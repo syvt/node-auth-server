@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+import { RequestInterceptor } from '../interceptors/requestInterceptor';
+
 import 'rxjs/add/operator/map'
 
 import NodeRSA from 'node-rsa';
@@ -8,7 +11,7 @@ import jwt from 'jsonwebtoken';
 @Injectable()
 export class ApiAuthService {
 
-    public authenticationServer = '';//'https://cuongdq-oauth.herokuapp.com';
+    public authenticationServer = 'http://localhost:9235/api/auth';
     public clientKey = new NodeRSA({ b: 512 }, { signingScheme: 'pkcs1-sha256' }); //for decrypte
     public midleKey = new NodeRSA(null, { signingScheme: 'pkcs1-sha256' }); //for test
     public serverKey = new NodeRSA(null, { signingScheme: 'pkcs1-sha256' }); //for crypte
@@ -18,13 +21,16 @@ export class ApiAuthService {
     public userInfo: any;
 
 
-    constructor(private httpClient: HttpClient) {
+    constructor(private httpClient: HttpClient,
+                private reqInterceptor: RequestInterceptor) {
         //key nay de test thu noi bo
         this.midleKey.importKey(this.clientKey.exportKey('public'));
     }
 
     getServerPublicRSAKey() {
+        //console.log('get Public key');
         if (this.publicKey && this.publicKey.PUBLIC_KEY) {
+            //console.log('Public key from in session');
             return (new Promise((resolve, reject) => {
                 try {
                     this.serverKey.importKey(this.publicKey.PUBLIC_KEY);
@@ -33,12 +39,14 @@ export class ApiAuthService {
                 }
                 resolve(this.serverKey);
             }));
-
+            
         } else {
+            //console.log('get Public key from server');
             return this.httpClient.get(this.authenticationServer + '/key-json')
-                .toPromise()
-                .then(jsonData => {
-                    this.publicKey = jsonData;
+            .toPromise()
+            .then(jsonData => {
+                this.publicKey = jsonData;
+                    //console.log('co tra ve');
                     if (this.publicKey && this.publicKey.PUBLIC_KEY) {
                         try {
                             this.serverKey.importKey(this.publicKey.PUBLIC_KEY);
@@ -49,39 +57,44 @@ export class ApiAuthService {
                     } else {
                         throw new Error('No PUBLIC_KEY exists!');
                     }
-                });
+                })
+            ;
         }
     }
 
     login(formData) {
+        this.reqInterceptor.setRequestToken(null); //login nguoi khac
         return this.httpClient.post(this.authenticationServer + '/login', formData)
             .toPromise()
             .then(data => {
                 this.userToken = data;
+                this.reqInterceptor.setRequestToken(this.userToken.token); //login nguoi khac
                 return this.userToken.token;
             });
-    }
-
+        }
+        
     logout() {
         if (this.userToken && this.userToken.token) {
-            //truong hop user co luu tren session thi xoa session di
-            let req = { Authorization: 'Bearer ' + this.userToken.token };
-            return this.httpClient.post(this.authenticationServer + '/logout', JSON.stringify(req))
+                //truong hop user co luu tren session thi xoa session di
+            this.reqInterceptor.setRequestToken(this.userToken.token); //login nguoi khac
+            return this.httpClient.get(this.authenticationServer + '/logout')
                 .toPromise()
                 .then(data => {
-                    console.log(data);
+                    //console.log(data);
                     this.userToken = null; //reset token nay
-                    return data; //tra ve nguyen mau data cho noi goi logout xu ly
+                    this.reqInterceptor.setRequestToken(null);
+                    return true; //tra ve nguyen mau data cho noi goi logout xu ly
                 })
                 .catch(err => {
                     //xem nhu da logout khong cap luu tru
-                    console.log(err);
+                    //console.log(err);
+                    this.reqInterceptor.setRequestToken(null);
                     this.userToken = null; //reset token nay
-                    return err; //tra ve nguyen mau data cho noi goi logout xu ly
+                    return true; //tra ve nguyen mau data cho noi goi logout xu ly
                 });
         } else {
             return (new Promise((resolve, reject) => {
-                resolve({ status: 'ok', message: 'Logout susccess!' });
+                resolve(true);
             }));
 
         }
@@ -97,7 +110,9 @@ export class ApiAuthService {
     }
 
     editUser(formData) {
-        return this.httpClient.post(this.authenticationServer + '/user/save', formData)
+        //them token vao truoc khi edit
+        this.reqInterceptor.setRequestToken(this.userToken.token);
+        return this.httpClient.post(this.authenticationServer + '/edit', formData)
             .toPromise()
             .then(data => {
                 return data;
@@ -107,8 +122,9 @@ export class ApiAuthService {
     //lay thong tin nguoi dung de edit
     getEdit() {
         if (this.userToken && this.userToken.token) {
-            let jsonRequest = { Authorization: 'Bearer ' + this.userToken.token };
-            return this.httpClient.post(this.authenticationServer + '/api/user-settings', JSON.stringify(jsonRequest))
+            //them token vao truoc khi edit
+            this.reqInterceptor.setRequestToken(this.userToken.token);
+            return this.httpClient.get(this.authenticationServer + '/get-user')
                 .toPromise()
                 .then(jsonData => {
                     this.userSetting = jsonData;
@@ -146,12 +162,13 @@ export class ApiAuthService {
                 this.userInfo.image.toLowerCase().indexOf('https://') < 0) {
                 //chuyen doi duong dan lay tai nguyen tai he thong
                 this.userInfo.image = this.authenticationServer
-                    + '/resources/user-image/'
+                    + '/get-avatar/'
                     + this.userInfo.image
                     + '?token=' + this.userToken.token;
                 //console.log(this.userInfo.image);
             }
         } catch (err) {
+            this.userInfo = null;
         }
         return this.userInfo;
     }
@@ -166,7 +183,7 @@ export class ApiAuthService {
             this.userSetting.URL_IMAGE.toLowerCase().indexOf('https://') < 0) {
             //chuyen doi duong dan lay tai nguyen tai he thong
             this.userSetting.URL_IMAGE = this.authenticationServer
-                + '/resources/user-image/'
+                + '/get-avatar/'
                 + this.userSetting.URL_IMAGE
                 + '?token=' + this.userToken.token;
             //console.log(this.userSetting.URL_IMAGE);
@@ -174,4 +191,8 @@ export class ApiAuthService {
         return this.userSetting;
     }
 
+    pushToken(token){
+        //gan token cho user de xem nhu da login
+        this.userToken={token:token};
+    }
 }

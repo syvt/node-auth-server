@@ -73,4 +73,16 @@
     </ion-card>
   </form>
 
+
+  <ion-fab right bottom auto-close-on-click-outside *ngIf="isShowInfo">
+    <button ion-fab mini color="primary">
+      <ion-icon name="arrow-dropleft"></ion-icon>
+    </button>
+    <ion-fab-list side="left">
+      <button color="primary" ion-fab (click)="callChat()">
+        <ion-icon name="chatbubbles" ios="ios-chatbubbles" md="md-chatbubbles"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
 </ion-content>

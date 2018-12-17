@@ -55,11 +55,13 @@ export class RegisterPage {
     this.apiService.register(formData)
     .then(data=>{
         loading.dismiss();
+
         this.toastCtrl.create({
-          message:"result: " + JSON.stringify(data),
-          duration: 1000,
+          message: "Thank you "+ this.myFromGroup.get('user').value +"! You are registered!",
+          duration: 3000,
           position: 'middle'
         }).present();
+
         this.navCtrl.setRoot(LoginPage);
       })
     .catch(err=>{
