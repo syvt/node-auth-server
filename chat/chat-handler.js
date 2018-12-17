@@ -1,3 +1,5 @@
+const chatFunction = require('./chat-function');
+
 var io;
 var countAppOnline = 0;
 var countAll = 0;
@@ -72,6 +74,11 @@ class ChatHandler {
     });
 
     //-----------client communicate-------------//
+    socket.on('set-user-token',(data)=>{
+      chatFunction.registerUser(io,socket,data);
+    })
+
+
     //gui toan bo
     socket.send('hello client');
 
