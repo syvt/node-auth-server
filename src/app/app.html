@@ -33,7 +33,7 @@
       <ion-content class="menu-container">
         <ion-list no-lines>
           <button menuClose ion-item *ngFor="let room of rooms" (click)="openRoom(room)" class="transparent list-item">
-            {{room.title}}
+            {{room.name}}({{room.length}})
           </button>
         </ion-list>
       </ion-content>

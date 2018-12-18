@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage, NavParams, ToastController } from 'ionic-angular';
+import { NavController, Events, IonicPage, NavParams, ToastController } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
 import { LoginPage } from '../login/login';
@@ -17,13 +17,30 @@ export class ChatRoomPage {
   user:any;
   token:any;
  
+  //doc tu storage hoac server??
   rooms = [
     {
-      title:'Noi bo',
+      room_name:'Phong ban',
+      lasttime:0,
+      friends:['A','B'],
     }
     ,
     {
-      title:'Gia dinh',
+      room_name:'Gia dinh',
+      lasttime:0,
+      friends:['A','C'],
+    }
+    ,
+    {
+      room_name:'Ban be',
+      lasttime:0,
+      friends:['A','D'],
+    }
+    ,
+    {
+      room_name:'Cong viec',
+      lasttime:0,
+      friends:['A'],
     }
     ,
   ];
@@ -34,6 +51,7 @@ export class ChatRoomPage {
   constructor(private navCtrl: NavController, 
               private navParams: NavParams, 
               private socket: Socket, 
+              private events: Events,
               private toastCtrl: ToastController) {}
 
   ngOnInit() {
@@ -45,12 +63,13 @@ export class ChatRoomPage {
         this.navCtrl.setRoot(LoginPage);
         return;
       }
-      //ket noi lai session
-      this.socket.connect();
-      //gui token de xac thuc gan voi id
-      this.socket.emit('set-user-token',this.token);
+      
+      this.openRoom();
 
-
+      this.getRoomChating().subscribe(data=>{
+        console.log(data);
+        this.events.publish('listenChatGroup',data);
+      })
 
       this.getMessages().subscribe(message => {
         this.messages.push(message);
@@ -64,11 +83,27 @@ export class ChatRoomPage {
           this.showToast('User joined: ' + user);
         }
       });
+
+
   }
  
 
-  openRoom(room){
-    //
+  openRoom(){
+    //ket noi lai session
+    this.socket.connect();
+    //gui token de xac thuc gan voi id
+    this.socket.emit('verify-user-room-token',{ rooms: this.rooms,
+                                                token: this.token
+                                              });
+  }
+
+  getRoomChating() {
+    let observable = new Observable(observer => {
+      this.socket.on('server-send-room-chating', (data) => {
+        observer.next(data);
+      });
+    });
+    return observable;
   }
 
   listUnread(){

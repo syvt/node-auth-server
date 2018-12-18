@@ -18,6 +18,7 @@ export class MyApp {
   isWeb: boolean = false; //cua thiet bi
   isLogin:boolean = false;
   user:any;
+  rooms:any;
 
   constructor(private platform: Platform, 
               private statusBar: StatusBar, 
@@ -51,6 +52,7 @@ export class MyApp {
       this.isLogin = true;
       //set user in login
       this.user = data.user;
+
     }else{
       this.isLogin = false;
       this.user = null;
@@ -77,9 +79,12 @@ export class MyApp {
       }));
     }
 
-   
 
-    
+    this.events.subscribe('listenChatGroup', ((data) => {
+      //console.log('data: ');
+      //console.log(data);
+      this.rooms = data.rooms;
+    }));
 
     //khoi tao public key
     this.apiService.getServerPublicRSAKey()

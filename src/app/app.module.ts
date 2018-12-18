@@ -21,9 +21,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from '../interceptors/requestInterceptor';
 import { ResponseInterceptor } from '../interceptors/responseInterceptor';
 
-import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+//import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 //const socketIOConfig: SocketIoConfig = { url: 'http://localhost:9235', options: {} };
-const socketIOConfigOnline: SocketIoConfig = { url: 'http://localhost:9235/app-online', options: {} };
+//const socketIOConfigOnline: SocketIoConfig = { url: 'http://localhost:9235/app-online', options: {} };
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ const socketIOConfigOnline: SocketIoConfig = { url: 'http://localhost:9235/app-o
     StorageServiceModule,
     IonicModule.forRoot(MyApp),
     //SocketIoModule.forRoot(socketIOConfig),
-    SocketIoModule.forRoot(socketIOConfigOnline)
+    //SocketIoModule.forRoot(socketIOConfigOnline)
   ],
   bootstrap: [IonicApp],
   entryComponents: [

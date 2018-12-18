@@ -2,7 +2,39 @@ const chatFunction = require('./chat-function');
 
 var io;
 var countAppOnline = 0;
+var countc3Online = 0;
 var countAll = 0;
+
+var socketTransform = function (socket) {
+  let agentUser = {};
+  //console.log(socket.handshake);
+  if (socket.handshake && socket.handshake.headers) {
+    let clientIp;
+    if (socket.handshake.headers["client_ip"]) {
+      clientIp = socket.handshake.headers["client_ip"];
+    } else if (socket.handshake.headers["x-real-ip"]) {
+      clientIp = socket.handshake.headers["x-real-ip"];
+    } else if (socket.handshake.headers["x-forwarded-for"]) {
+      clientIp = socket.handshake.headers["x-forwarded-for"];
+    } else if (socket.handshake.headers["remote_add"]) {
+      clientIp = socket.handshake.headers["remote_add"];
+    } else {
+      clientIp = socket.handshake.address;
+    }
+
+    agentUser.id = socket.id;
+    agentUser.ip = clientIp;
+    agentUser.time = socket.handshake.time;
+    agentUser.local_time = (new Date()).toLocaleTimeString();
+    agentUser.issued = socket.handshake.issued;
+    agentUser.device_info = socket.handshake.headers['user-agent'];
+    agentUser.origin = socket.handshake.headers.origin;
+    socket.agentUser = agentUser; //gan lai cho socket de lay thong tin sau
+  }
+  //console.log(socket.agentUser);
+  return socket;
+
+}
 
 class ChatHandler {
 
@@ -10,7 +42,7 @@ class ChatHandler {
    * Gan bien io de xu ly trong handler
    * @param {*} mainIO 
    */
-  setIO(mainIO){
+  setIO(mainIO) {
     io = mainIO;
   }
 
@@ -21,37 +53,11 @@ class ChatHandler {
    * @param {*} next 
    */
   verify(socket, next) {
-    console.log('Socket IO verify: ' + socket.id);
-    let agentUser = {};
-    if (socket.handshake && socket.handshake.headers) {
-
-      let clientIp;
-      if (socket.handshake.headers["client_ip"]){
-        clientIp=socket.handshake.headers["client_ip"];
-      }else if (socket.handshake.headers["x-real-ip"]){
-        clientIp=socket.handshake.headers["x-real-ip"];
-      }else if (socket.handshake.headers["x-forwarded-for"]){
-        clientIp=socket.handshake.headers["x-forwarded-for"];
-      }else if (socket.handshake.headers["remote_add"]){
-        clientIp=socket.handshake.headers["remote_add"];
-      }else{
-        clientIp=socket.handshake.address;
-      }
-
-      agentUser.id = socket.id;
-      agentUser.ip = clientIp;
-      agentUser.time = socket.handshake.time;
-      agentUser.local_time = (new Date()).toLocaleTimeString();
-      agentUser.issued = socket.handshake.issued;
-      agentUser.device_info = socket.handshake.headers['user-agent'];
-      agentUser.origin = socket.handshake.headers.origin;
-      socket.agentUser = agentUser; //gan lai cho socket de lay thong tin sau
-
-    }else{
-      throw 'Khong cho phep ket noi - headers undifined!';
+    console.log('### Socket IO verify: ' + socket.id);
+    socket = socketTransform(socket);
+    if (!socket.agentUser){
+      throw 'No agent User for chat';
     }
-
-    console.log(socket.agentUser);
     next();
   }
 
@@ -60,12 +66,11 @@ class ChatHandler {
    * @param {*} socket 
    */
   rootChat(socket) {
-    console.log('Socket IO root (' + ++countAll + ') on Connect: ' + socket.id);
+    console.log('### Socket IO root (' + ++countAll + ') on Connect: ' + socket.id);
     //xem co bao nhieu rooms
-    console.log(socket.adapter.rooms);
-    
+
     socket.on('disconnect', function () {
-      console.log('disconnect (' + countAll-- + ')  on Root: ' + socket.id);
+      console.log('### disconnect (' + countAll-- + ')  on Root: ' + socket.id);
 
     });
 
@@ -74,16 +79,12 @@ class ChatHandler {
     });
 
     //-----------client communicate-------------//
-    socket.on('set-user-token',(data)=>{
-      chatFunction.registerUser(io,socket,data);
-    })
-
-
-    //gui toan bo
-    socket.send('hello client');
-
-    //gui het
-    io.emit("server-send-rooms", {});
+    socket = socketTransform(socket);
+    
+    socket.on('verify-user-room-token', (data) => {
+      console.log('### Client register ROOMS and token ROOT: ' + socket.id);
+      chatFunction.registerUserRoom(io, socket, data);
+    });
 
     socket.on('room', function () {
       var args = slice.call(arguments);
@@ -102,9 +103,37 @@ class ChatHandler {
   //neu query boi duong dan thi no se goi vao day
   //vi du: /test thi se goi vao day
   appOnline(socket) {
-    console.log('appOnline (' + ++countAppOnline + ') socket IO ROOM Connect #: ' + socket.id);
+    console.log('### appOnline (' + ++countAppOnline + ') socket IO ROOM Connect #: ' + socket.id);
     socket.on('disconnect', function () {
-      console.log('disconnect (' + countAppOnline-- + ') in appOnline #: ' + socket.id);
+      console.log('### disconnect (' + countAppOnline-- + ') in appOnline #: ' + socket.id);
+    });
+
+    socket.on('set-user-token', (data) => {
+
+      console.log('#############################',
+        'client gui du lieu Trong ID ne ');
+
+      //chatFunction.registerUserRoom(io,socket,data);
+    });
+  }
+
+  /**
+   * room chat cho c3
+   * @param {*} socket 
+   */
+  c3Online(socket) {
+    console.log('### c3Online (' + ++countc3Online + ') socket IO ROOM Connect #: ' + socket.id);
+    
+    
+    socket.on('disconnect', function () {
+      console.log('### disconnect (' + countc3Online-- + ') in c3Online #: ' + socket.id);
+    });
+    
+    socket = socketTransform(socket);
+    
+    socket.on('verify-user-room-token', (data) => {
+      console.log('### Client register ROOMS and token Online: ' + socket.id);
+      chatFunction.registerUserRoom(io, socket, data);
     });
   }
 

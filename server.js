@@ -93,6 +93,7 @@ function main(isHttp, isHttps) {
   io.use(ioHandler.ChatHandler.verify);
 
   io.of('/app-online').on('connection', ioHandler.ChatHandler.appOnline);
+  io.of('/c3-chat').on('connection', ioHandler.ChatHandler.c3Online);
 
   io.of('/').on('connection', ioHandler.ChatHandler.rootChat);
 
