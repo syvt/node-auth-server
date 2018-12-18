@@ -6,6 +6,8 @@ import { SettingPage } from '../setting/setting';
 import { ApiAuthService } from '../../services/apiAuthService';
 import { ApiStorageService } from '../../services/apiStorageService';
 
+//var worker = null;
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -33,9 +35,13 @@ export class LoginPage {
 
 
   reset(){
+    
+    //worker = new Worker('worker-message.js');
 
     if (this.apiStorageService.getToken()){
-      this.apiService.pushToken(this.apiStorageService.getToken());
+      this.apiService.authorize(this.apiStorageService.getToken())
+      .then(status=>{})
+      .catch(err=>{});
     }
 
     this.apiService.getServerPublicRSAKey()
@@ -153,5 +159,6 @@ export class LoginPage {
                                         user:this.apiService.getUserInfo(),
                                         token: this.apiStorageService.getToken() 
                                       });
+    //worker.postMessage({command:'gui thong tin day'});
   }
 }

@@ -14,7 +14,7 @@ export class RequestInterceptor implements HttpInterceptor {
   constructor() {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
    if (token){
-     console.log('request with token interceptor!')
+     //console.log('request with token interceptor!')
      request = request.clone(
        {
          setHeaders: {

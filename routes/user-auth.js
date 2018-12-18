@@ -25,6 +25,8 @@ router.get('/get-avatar/*', handlers.tokenCheck, handlers.getAvatar);
 //kiem tra token dung
 router.get('/logout', handlers.tokenCheck, handlers.logout);
 
+router.get('/authorize', handlers.tokenCheck, handlers.authorize);
+
 //Register user thong tin chinh sua ca nhan
 router.post('/edit', handlers.tokenCheck, handlers.formProcess, handlers.edit);
 

@@ -195,10 +195,29 @@ export class ApiAuthService {
      * Thiet lap token tu local xem nhu da login
      * @param token 
      */
-    pushToken(token){
+    /* pushToken(token){
         //gan token cho user de xem nhu da login
         this.userToken={token:token};
-    }
+    } */
 
+
+    /**
+     * Gui len server kiem tra token co verify thi tra ve token, khong thi khong ghi 
+     * @param token 
+     */
+    authorize(token){
+        this.reqInterceptor.setRequestToken(token); //login nguoi khac
+        return this.httpClient.get(this.authenticationServer + '/authorize')
+            .toPromise()
+            .then(data => {
+                //console.log(data);                
+                this.userToken={token:token};
+                return true; 
+            })
+            .catch(err => {
+                //console.log(err);
+                return false; 
+            });
+    }
 
 }

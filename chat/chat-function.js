@@ -77,7 +77,7 @@ var tokenVerify = (socket,token) => {
             users.push({id:socket, username:username})
           }
         }
-        rooms.push({name:room,length:length,users:users});
+        if (users.length>0) rooms.push({name:room,length:length,users:users});
       }
     }
     return rooms;
@@ -116,12 +116,15 @@ var registerUserRoom = (io,socket,data)=>{
       }
       //users chua [{id,username}]
       let userIDs = getUserChatList(socket.adapter.rooms);
-      console.log(userIDs);
-      let rooms = getRoomChatList(socket.adapter.rooms,userIDs);
-      console.log(rooms);
+      // console.log('userIDs:');
+      // console.log(userIDs);
+      let rooms = getRoomChatList(socket.adapter.rooms,userIDs,socket.id);
+      // console.log('JSON.stringify(rooms):');
+      // console.log(JSON.stringify(rooms));
 
-    /*
-            socket.broadcast.to(r).emit('server-send-user-join-room',{
+    /* 
+    //gui cho cac thanh vien gia nhap vao room
+    socket.broadcast.to(room).emit('server-send-user-join-room',{
                           user: socket.user,
                           id: socket.id,
                           room: r,
@@ -129,36 +132,30 @@ var registerUserRoom = (io,socket,data)=>{
             });
     */
       //chi tra lai cho 
-      //gui cho session
-      /* socket.emit('server-send-room-chating',{
+    /*   
+    //gui cho session dang ket noi
+    socket.emit('server-send-room-chating',{
                                                 user: socket.user,
                                                 id: socket.id,
                                                 rooms: rooms
         }); */
       
-        //gui cho tat ca user bat duoc no
-      io.sockets.emit('server-send-room-chating',{
+    //gui cho tat ca cac session dang online tren server
+    io.sockets.emit('server-send-room-chating',{
                           user: socket.user,
                           id: socket.id,
                           time: new Date().getTime(),
                           rooms: rooms
         });
 
-       // socket.broadcast.to('justin bieber fans').emit('new fan');
-       // io.sockets.in('rammstein fans').emit('new non-fan');
-
-
-        //thuc hien dang ky token id voi token
-       
-    
-
-        //user se gui len room
-        //server tra cho id gui len la da xac thuc dung
+    // socket.broadcast.to(room).emit('new fan');
+    // io.sockets.in(room).emit('new non-fan');
         
     }
     
 }
 
 module.exports = {
-  registerUserRoom: registerUserRoom
+  registerUserRoom: registerUserRoom,
+  tokenVerify: tokenVerify
 };

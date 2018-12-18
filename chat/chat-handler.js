@@ -8,7 +8,10 @@ var countAll = 0;
 var socketTransform = function (socket) {
   let agentUser = {};
   //console.log(socket.handshake);
-  if (socket.handshake && socket.handshake.headers) {
+  if (socket.handshake 
+    && socket.handshake.headers 
+    && socket.handshake.query
+    && socket.handshake.query.token) {
     let clientIp;
     if (socket.handshake.headers["client_ip"]) {
       clientIp = socket.handshake.headers["client_ip"];
@@ -21,7 +24,7 @@ var socketTransform = function (socket) {
     } else {
       clientIp = socket.handshake.address;
     }
-
+    agentUser.token = socket.handshake.query.token;
     agentUser.id = socket.id;
     agentUser.ip = clientIp;
     agentUser.time = socket.handshake.time;
@@ -55,10 +58,17 @@ class ChatHandler {
   verify(socket, next) {
     console.log('### Socket IO verify: ' + socket.id);
     socket = socketTransform(socket);
-    if (!socket.agentUser){
-      throw 'No agent User for chat';
+
+    if (!socket.agentUser||!socket.agentUser.token){
+      console.log('#-->No agent User & token for chat');
+      next(new Error('No agent User & token for chat'));
+      //no se khong vao duoc on.connect
+    }else if (!chatFunction.tokenVerify(socket,socket.agentUser.token)) {
+      console.log('#-->Token for chat invalid!');
+      next(new Error('Token for chat invalid!'));
+    }else{
+      next(); //khi hop le no moi vao duoc connect tiep theo
     }
-    next();
   }
 
   /**
@@ -69,13 +79,13 @@ class ChatHandler {
     console.log('### Socket IO root (' + ++countAll + ') on Connect: ' + socket.id);
     //xem co bao nhieu rooms
 
-    socket.on('disconnect', function () {
+    socket.on('disconnect', ()=>{
       console.log('### disconnect (' + countAll-- + ')  on Root: ' + socket.id);
 
     });
 
-    socket.on('error', function () {
-      console.log('error: ' + socket.id, arguments);
+    socket.on('error',()=>{
+      console.log('error: ' + socket.id);
     });
 
     //-----------client communicate-------------//

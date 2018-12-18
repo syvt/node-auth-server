@@ -25732,6 +25732,38 @@ page-chat-room .message_row {
   background-color: #fff;
 }
 
+page-chatting .user_name {
+  color: #afafaf;
+}
+
+page-chatting .message {
+  padding: 10px !important;
+  -webkit-transition: all 250ms ease-in-out !important;
+  transition: all 250ms ease-in-out !important;
+  border-radius: 10px !important;
+  margin-bottom: 4px !important;
+}
+
+page-chatting .my_message {
+  background: #488aff !important;
+  color: #000 !important;
+}
+
+page-chatting .other_message {
+  background: #dcdcdc !important;
+  color: #000 !important;
+}
+
+page-chatting .time {
+  color: #afafaf;
+  float: right;
+  font-size: small;
+}
+
+page-chatting .message_row {
+  background-color: #fff;
+}
+
 page-login input[type="file"] {
   position: absolute;
   top: 0;

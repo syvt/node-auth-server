@@ -120,7 +120,7 @@ class AuthHandler {
     if (tokenVerify(req)) {
       next();
     } else {
-      throw 'Auth token is not supplied';
+      throw {code:403, message:'Auth token is not supplied or you are unauthorized!'};
     }
   }
 
@@ -304,6 +304,20 @@ class AuthHandler {
     res.end(JSON.stringify({
       success: true,
       message: 'Logout successfull!'
+    }));
+  }
+
+  /**
+   * 
+   * @param {*} req 
+   * @param {*} res 
+   * @param {*} next 
+   */
+  authorize(req, res, next) {
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({
+      success: true,
+      message: 'Your token were authorized!'
     }));
   }
 

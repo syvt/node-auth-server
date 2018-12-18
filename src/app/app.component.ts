@@ -7,7 +7,6 @@ import { LoginPage } from '../pages/login/login';
 import { ApiAuthService } from '../services/apiAuthService';
 import { ApiStorageService } from '../services/apiStorageService';
 
-
 @Component({
   templateUrl: 'app.html'
 })
@@ -19,6 +18,7 @@ export class MyApp {
   isLogin:boolean = false;
   user:any;
   rooms:any;
+  public static token;
 
   constructor(private platform: Platform, 
               private statusBar: StatusBar, 
@@ -52,11 +52,19 @@ export class MyApp {
       this.isLogin = true;
       //set user in login
       this.user = data.user;
-
+      MyApp.token = data.token; //gan token su dung public
     }else{
       this.isLogin = false;
       this.user = null;
     }
+  }
+
+
+  subscriberLogin(){
+    this.isLogin = false;
+    this.events.subscribe('listenLogin', ((data) => {
+      this.setUserInfo(data);
+    }));
   }
 
   viewDidLoad() {
@@ -65,18 +73,19 @@ export class MyApp {
 
     //kiem tra token da cap chua neu co thi lay user
     if (this.apiStorageService.getToken()){
-      this.apiService.pushToken(this.apiStorageService.getToken());
-      this.isLogin = true;
-      //set user in login
-      this.user = this.apiService.getUserInfo();
-      // console.log(this.user);
-
+      //yeu cau server xac thuc neu dung thi da login, sai thi bo qua
+      this.apiService.authorize(this.apiStorageService.getToken())
+      .then(status=>{
+        if (status){
+          this.isLogin = true;
+          this.user = this.apiService.getUserInfo();
+          MyApp.token =this.apiStorageService.getToken(); //gan token su dung public
+        }else{
+          this.subscriberLogin();
+        }
+      });
     }else{
-      this.isLogin = false;
-       //cho login xong se lang nghe su kien login nay
-      this.events.subscribe('listenLogin', ((data) => {
-        this.setUserInfo(data);
-      }));
+      this.subscriberLogin();
     }
 
 
@@ -96,7 +105,12 @@ export class MyApp {
 
   }
 
+  /**
+   * Mo mot room ra de chatting
+   * @param room 
+   */
   openRoom(room){
+    console.log(room);
 
   }
 }

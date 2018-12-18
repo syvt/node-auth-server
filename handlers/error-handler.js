@@ -16,9 +16,13 @@ class ErrorHandler {
     }
 
     errors(err, req, res, next) {
-        //console.log(err);
-        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end(JSON.stringify(err))
+        if (err&&err.code&&err.message){
+            res.writeHead(err.code, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end('Error ' + err.message);
+        }else{
+            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end('Error unkow: ' + JSON.stringify(err));
+        }
     }
   }
   
