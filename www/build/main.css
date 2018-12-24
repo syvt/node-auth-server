@@ -25683,85 +25683,113 @@ ion-navbar.toolbar {
   background-color: #556cd69c;
 }
 
-.avataUser {
-  min-height: 50px !important;
-  width: 50px !important;
-  background-size: cover;
-  margin: 0px !important;
-  padding: 0px !important;
+page-chat-home .item-settings {
+  color: #9c2626;
+  margin-bottom: 1px;
+  font-size: 2rem;
+  cursor: pointer;
+  background-color: #abd6c8;
 }
 
-.menu-avatar img {
+page-chat-home .item-settings:hover {
+  background-color: #2289a8;
+}
+
+page-chat-home ion-avatar {
   width: 100% !important;
   height: 100% !important;
+  max-width: 50px !important;
+  max-height: 50px !important;
 }
 
-.usernameItem {
-  padding: 0 2px !important;
+page-chat-home .other-avatar {
+  background: transparent !important;
 }
 
-page-chat-room .user_name {
-  color: #afafaf;
+page-chat-home .list-avatar-page ion-note {
+  font-size: 12px;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
+  margin-top: 14px;
 }
 
-page-chat-room .message {
-  padding: 10px !important;
+page-chat-home .swiper-slide {
+  overflow-y: scroll;
+  display: block;
+}
+
+page-chat-home .message {
+  padding: 5px !important;
+  margin: 0px !important;
   -webkit-transition: all 250ms ease-in-out !important;
   transition: all 250ms ease-in-out !important;
   border-radius: 10px !important;
   margin-bottom: 4px !important;
 }
 
-page-chat-room .my_message {
-  background: #488aff !important;
-  color: #000 !important;
+page-chat-home .my_message {
+  background: #dff4f8 !important;
+  color: #7425f1 !important;
 }
 
-page-chat-room .other_message {
-  background: #dcdcdc !important;
-  color: #000 !important;
+page-chat-home .other_message {
+  background: #e0e0e0 !important;
+  color: #0c056b !important;
 }
 
-page-chat-room .time {
-  color: #afafaf;
+page-chat-home .nick-name {
+  float: left;
+  color: #650572;
+  font-size: large;
+}
+
+page-chat-home .text-message {
+  float: left;
+}
+
+page-chat-home .time {
+  color: #f15c82;
   float: right;
   font-size: small;
 }
 
-page-chat-room .message_row {
+page-chat-home .message_row {
   background-color: #fff;
 }
 
-page-chatting .user_name {
-  color: #afafaf;
+page-chatting ion-icon {
+  font-size: 30px;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
 }
 
-page-chatting .message {
-  padding: 10px !important;
-  -webkit-transition: all 250ms ease-in-out !important;
-  transition: all 250ms ease-in-out !important;
-  border-radius: 10px !important;
-  margin-bottom: 4px !important;
+page-chatting ion-buttons {
+  margin: auto;
+  -webkit-flex-basis: 50px;
+  -ms-flex-preferred-size: 50px;
+  flex-basis: 50px;
 }
 
-page-chatting .my_message {
-  background: #488aff !important;
-  color: #000 !important;
+page-chatting ion-searchbar {
+  border-radius: 2em !important;
+  opacity: 0.7;
+  font-size: 0.9em;
+  width: 100%;
 }
 
-page-chatting .other_message {
-  background: #dcdcdc !important;
-  color: #000 !important;
+page-config .item-settings {
+  color: #9c2626;
+  margin-bottom: 1px;
+  font-size: 2rem;
+  cursor: pointer;
+  background-color: #abd6c8;
 }
 
-page-chatting .time {
-  color: #afafaf;
-  float: right;
-  font-size: small;
-}
-
-page-chatting .message_row {
-  background-color: #fff;
+page-config .item-settings:hover {
+  background-color: #2289a8;
 }
 
 page-login input[type="file"] {
@@ -25810,6 +25838,33 @@ page-register .card-background-page .card-subtitle {
   top: 52%;
   width: 100%;
   color: #fff;
+}
+
+page-sample-icons ion-icon {
+  font-size: 30px;
+  padding-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+
+page-sample-icons ion-buttons {
+  margin: auto;
+  -webkit-flex-basis: 50px;
+  -ms-flex-preferred-size: 50px;
+  flex-basis: 50px;
+}
+
+page-sample-icons ion-searchbar {
+  opacity: 0.7;
+  font-size: 0.9em;
+  width: 50%;
+}
+
+page-sample-icons ion-select {
+  opacity: 0.7;
+  font-size: 0.9em;
+  width: 50%;
 }
 
 page-setting input[type="file"] {

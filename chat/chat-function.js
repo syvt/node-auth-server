@@ -13,7 +13,10 @@ var tokenVerify = (socket,token) => {
             if (err) {
               return false;
             } else {
-              socket.user = decoded;
+              socket.user = decoded; //{username,nickname,image,...}
+              //gan device & ip cho user nay theo socket
+              socket.user.device = socket.agentUser.device_info;
+              socket.user.ip = socket.agentUser.ip;
               return true
             }
           });
@@ -110,52 +113,108 @@ var registerUserRoom = (io,socket,data)=>{
       }
 
       if (data.rooms){
-        data.rooms.forEach((value,index) => {
-          socket.join(chatConfig.roomType + value.room_name);
+        data.rooms.forEach((room,index) => {
+          socket.join(room.name);
         });
       }
-      //users chua [{id,username}]
-      let userIDs = getUserChatList(socket.adapter.rooms);
-      // console.log('userIDs:');
-      // console.log(userIDs);
-      let rooms = getRoomChatList(socket.adapter.rooms,userIDs,socket.id);
-      // console.log('JSON.stringify(rooms):');
-      // console.log(JSON.stringify(rooms));
-
-    /* 
-    //gui cho cac thanh vien gia nhap vao room
-    socket.broadcast.to(room).emit('server-send-user-join-room',{
-                          user: socket.user,
-                          id: socket.id,
-                          room: r,
-                          time: new Date().getTime()
-            });
-    */
-      //chi tra lai cho 
-    /*   
-    //gui cho session dang ket noi
-    socket.emit('server-send-room-chating',{
-                                                user: socket.user,
-                                                id: socket.id,
-                                                rooms: rooms
-        }); */
       
-    //gui cho tat ca cac session dang online tren server
-    io.sockets.emit('server-send-room-chating',{
-                          user: socket.user,
-                          id: socket.id,
-                          time: new Date().getTime(),
-                          rooms: rooms
+      let userIDs = getUserChatList(socket.adapter.rooms); //[{id:socket, username:username}]
+      let rooms = getRoomChatList(socket.adapter.rooms,userIDs,socket.id);
+
+      //chuoi nay nhan tu client cac phien va ghi lai tra cho user login sau
+      rooms.forEach((room,index)=>{
+        room.messages = data.rooms.find(x => x.name==room.name).messages
+      })
+   
+      //gui cho tat ca cac session dang online tren server
+      io.sockets.emit(chatConfig.server_reply_room,{
+                          user: socket.user, //verify tao ra chua {username,nickname,image,ip,device}
+                          id: socket.id, //= socket.id moi khoi tao cua socket
+                          time: new Date().getTime(), //thoi gian connect
+                          last_time: data.last_time, //thoi gian nhan tin nhan cuoi cung cua user bao cho cac user khac
+                          users: userIDs, //[{id:socket.id,username}] -->tap tu dien username<-->socket.id
+                          rooms: rooms //[{name,length,[{id:socket.id,username}]}]
         });
 
-    // socket.broadcast.to(room).emit('new fan');
-    // io.sockets.in(room).emit('new non-fan');
-        
+    //io.sockets.in(room).emit('new non-fan');
+    //io.to(socket.id).emit()
     }
-    
+  }
+
+var userSocketLeftRoom = (io,socket)=>{
+
+      console.log(socket.adapter.rooms);
+      
+      let userIDs = getUserChatList(socket.adapter.rooms);
+      
+      console.log(userIDs);
+
+      let rooms = getAllRoomChatList(socket.adapter.rooms,userIDs);
+
+      console.log(socket.id, socket.adapter.rooms);
+
+      //gui cho tat ca cac session dang online tren server
+      io.sockets.emit(chatConfig.server_send_user_left,{
+                          id: socket.id, //= socket.id vua moi disconnect
+                          time: new Date().getTime(), //thoi gian disconnect
+                          users: userIDs, //ds user con lai: [{id:socket.id,username}] -->tap tu dien username<-->socket.id
+                          rooms: rooms //ds room con lai: [{name,length,[{id:socket.id,username}]}]
+        });
+}
+
+var sendMessage = (io,socket,data)=>{
+    if (tokenVerify(socket,data.token)){
+      // console.log('SERVER send ... data.room.name: ');
+      // console.log(data.room.name);
+      // console.log(data.room.messages);
+      // console.log(data.text);
+      io.to(data.room.name).emit(chatConfig.server_emit_message,
+        {
+          user: socket.user,
+          id: socket.id,
+          created: data.created,
+          room_name: data.room.name,
+          text:data.text
+      }
+      );
+    }
+}
+
+var sendOldMessage = (io,socket,data)=>{
+    if (tokenVerify(socket,data.token)){
+      // console.log('Client send mess --> old id: ');
+      // console.log(data.messages);
+      // console.log(data.id);
+      io.to(data.id).emit(chatConfig.server_emit_old_message_to_new_user,
+        {
+          user: socket.user,
+          id: socket.id,
+          created: data.created,
+          room_name: data.room_name,
+          messages: data.messages
+      }
+      );
+    }
+}
+
+var sendOldUser = (io,socket,data)=>{
+    if (tokenVerify(socket,data.token)){
+      io.to(data.id).emit(chatConfig.server_emit_old_user_to_new_user,
+        {
+          user: socket.user,
+          id: socket.id,
+          created: data.created,
+          old_user: data.old_user
+        }
+      );
+    }
 }
 
 module.exports = {
   registerUserRoom: registerUserRoom,
+  sendMessage: sendMessage,
+  sendOldMessage: sendOldMessage,
+  userSocketLeftRoom: userSocketLeftRoom,
+  sendOldUser: sendOldUser,
   tokenVerify: tokenVerify
 };

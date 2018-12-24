@@ -1,27 +1,19 @@
 page-chatting {
-    .user_name {
-        color: #afafaf;
+    ion-icon {
+        font-size: 30px; //Preferred size here
+        padding-top: 5px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        padding-left: 5px;
     }
-    .message {
-        padding: 10px !important;
-        transition: all 250ms ease-in-out !important;
-        border-radius: 10px !important;
-        margin-bottom: 4px !important;
+    ion-buttons{
+        margin: auto;
+        flex-basis: 50px;
     }
-    .my_message {
-        background: color($colors, primary) !important;
-        color: #000 !important;
-    }
-    .other_message {
-        background: #dcdcdc !important;
-        color: #000 !important;
-    }
-    .time {
-        color: #afafaf;
-        float: right;
-        font-size: small;
-    }
-    .message_row {
-        background-color: #fff;
+    ion-searchbar{
+        border-radius: 2em !important;
+		opacity: 0.7;
+        font-size: 0.9em;
+        width: 100%;
     }
 }

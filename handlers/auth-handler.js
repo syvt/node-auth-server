@@ -11,8 +11,8 @@ const mime = require('mime-types');
 
 const formidable = require('formidable');
 
-//const db = require('../db/sqlite3/sqlite-jwt-service.js');
-const db = require('../db/oracle/oracle-jwt-service');
+const db = require('../db/sqlite3/sqlite-jwt-service.js');
+//const db = require('../db/oracle/oracle-jwt-service');
 setTimeout(()=>{
   db.handler.init();
 },3000); //doi 3 giay de oracle ket noi

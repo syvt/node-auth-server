@@ -1,18 +1,17 @@
 webpackJsonp([0],{
 
-/***/ 495:
+/***/ 501:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatRoomPageModule", function() { return ChatRoomPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatHomePageModule", function() { return ChatHomePageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__chat_room__ = __webpack_require__(517);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__chatting_chatting__ = __webpack_require__(538);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng_socket_io__ = __webpack_require__(501);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng_socket_io__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_app_component__ = __webpack_require__(490);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__chat_home__ = __webpack_require__(523);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng_socket_io__ = __webpack_require__(510);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_ng_socket_io__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_apiStorageService__ = __webpack_require__(51);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,35 +21,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-
 //room chat c3 rieng nhe
 
 
-//console.log(MyApp.token); lay token de xem nhu login de vao server neu khong se khong cho
-var socketIOConfigC3 = { url: 'http://localhost:9235?token=' + __WEBPACK_IMPORTED_MODULE_5__app_app_component__["a" /* MyApp */].token, options: {} };
-var ChatRoomPageModule = /** @class */ (function () {
-    function ChatRoomPageModule() {
+//console.log(ApiStorageService.token); //lay token de xem nhu login de vao server neu khong se khong cho
+var socketIOConfigC3 = { url: 'http://localhost:9235?token=' + __WEBPACK_IMPORTED_MODULE_4__services_apiStorageService__["a" /* ApiStorageService */].token, options: {} };
+var ChatHomePageModule = /** @class */ (function () {
+    function ChatHomePageModule() {
     }
-    ChatRoomPageModule = __decorate([
+    ChatHomePageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__chat_room__["a" /* ChatRoomPage */],
-                __WEBPACK_IMPORTED_MODULE_3__chatting_chatting__["a" /* ChattingPage */]
+                __WEBPACK_IMPORTED_MODULE_2__chat_home__["a" /* ChatHomePage */]
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__chat_room__["a" /* ChatRoomPage */]),
-                __WEBPACK_IMPORTED_MODULE_4_ng_socket_io__["SocketIoModule"].forRoot(socketIOConfigC3)
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__chat_home__["a" /* ChatHomePage */]),
+                __WEBPACK_IMPORTED_MODULE_3_ng_socket_io__["SocketIoModule"].forRoot(socketIOConfigC3)
             ],
         })
-    ], ChatRoomPageModule);
-    return ChatRoomPageModule;
+    ], ChatHomePageModule);
+    return ChatHomePageModule;
 }());
 
-//# sourceMappingURL=chat-room.module.js.map
+//# sourceMappingURL=chat-home.module.js.map
 
 /***/ }),
 
-/***/ 496:
+/***/ 502:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {/**
@@ -59,7 +56,7 @@ var ChatRoomPageModule = /** @class */ (function () {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(521);
+exports = module.exports = __webpack_require__(527);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -243,7 +240,7 @@ function localstorage() {
 
 /***/ }),
 
-/***/ 497:
+/***/ 503:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -413,22 +410,22 @@ Emitter.prototype.hasListeners = function(event){
 
 /***/ }),
 
-/***/ 498:
+/***/ 504:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var keys = __webpack_require__(527);
-var hasBinary = __webpack_require__(512);
-var sliceBuffer = __webpack_require__(528);
-var after = __webpack_require__(529);
-var utf8 = __webpack_require__(530);
+var keys = __webpack_require__(533);
+var hasBinary = __webpack_require__(518);
+var sliceBuffer = __webpack_require__(534);
+var after = __webpack_require__(535);
+var utf8 = __webpack_require__(536);
 
 var base64encoder;
 if (typeof ArrayBuffer !== 'undefined') {
-  base64encoder = __webpack_require__(531);
+  base64encoder = __webpack_require__(537);
 }
 
 /**
@@ -486,7 +483,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(532);
+var Blob = __webpack_require__(538);
 
 /**
  * Encodes a packet.
@@ -1025,7 +1022,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 
 /***/ }),
 
-/***/ 499:
+/***/ 505:
 /***/ (function(module, exports) {
 
 /**
@@ -1069,7 +1066,7 @@ exports.decode = function(qs){
 
 /***/ }),
 
-/***/ 500:
+/***/ 506:
 /***/ (function(module, exports) {
 
 
@@ -1082,21 +1079,7 @@ module.exports = function(a, b){
 
 /***/ }),
 
-/***/ 501:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var socket_io_module_1 = __webpack_require__(505);
-exports.SocketIoModule = socket_io_module_1.SocketIoModule;
-var socket_io_service_1 = __webpack_require__(506);
-exports.Socket = socket_io_service_1.WrappedSocket;
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ 502:
+/***/ 507:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1104,11 +1087,11 @@ exports.Socket = socket_io_service_1.WrappedSocket;
  * Module dependencies.
  */
 
-var debug = __webpack_require__(496)('socket.io-parser');
-var Emitter = __webpack_require__(497);
-var binary = __webpack_require__(522);
+var debug = __webpack_require__(502)('socket.io-parser');
+var Emitter = __webpack_require__(503);
+var binary = __webpack_require__(528);
 var isArray = __webpack_require__(152);
-var isBuf = __webpack_require__(508);
+var isBuf = __webpack_require__(514);
 
 /**
  * Protocol version.
@@ -1518,12 +1501,12 @@ function error(msg) {
 
 /***/ }),
 
-/***/ 503:
+/***/ 508:
 /***/ (function(module, exports, __webpack_require__) {
 
 // browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(525);
+var hasCORS = __webpack_require__(531);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -1562,15 +1545,15 @@ module.exports = function (opts) {
 
 /***/ }),
 
-/***/ 504:
+/***/ 509:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var parser = __webpack_require__(498);
-var Emitter = __webpack_require__(497);
+var parser = __webpack_require__(504);
+var Emitter = __webpack_require__(503);
 
 /**
  * Module exports.
@@ -1729,14 +1712,28 @@ Transport.prototype.onClose = function () {
 
 /***/ }),
 
-/***/ 505:
+/***/ 510:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var socket_io_module_1 = __webpack_require__(511);
+exports.SocketIoModule = socket_io_module_1.SocketIoModule;
+var socket_io_service_1 = __webpack_require__(512);
+exports.Socket = socket_io_service_1.WrappedSocket;
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ 511:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(0);
-var socket_io_service_1 = __webpack_require__(506);
+var socket_io_service_1 = __webpack_require__(512);
 /** Socket factory */
 function SocketFactory(config) {
     return new socket_io_service_1.WrappedSocket(config);
@@ -1771,7 +1768,7 @@ exports.SocketIoModule = SocketIoModule;
 
 /***/ }),
 
-/***/ 506:
+/***/ 512:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1779,9 +1776,9 @@ exports.SocketIoModule = SocketIoModule;
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(0);
 var Observable_1 = __webpack_require__(13);
-__webpack_require__(518);
-var io = __webpack_require__(519);
-var socket_io_module_1 = __webpack_require__(505);
+__webpack_require__(524);
+var io = __webpack_require__(525);
+var socket_io_module_1 = __webpack_require__(511);
 var WrappedSocket = /** @class */ (function () {
     function WrappedSocket(config) {
         this.subscribersCounter = 0;
@@ -1840,7 +1837,7 @@ exports.WrappedSocket = WrappedSocket;
 
 /***/ }),
 
-/***/ 507:
+/***/ 513:
 /***/ (function(module, exports) {
 
 /**
@@ -1886,7 +1883,7 @@ module.exports = function parseuri(str) {
 
 /***/ }),
 
-/***/ 508:
+/***/ 514:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {
@@ -1914,7 +1911,7 @@ function isBuf(obj) {
 
 /***/ }),
 
-/***/ 509:
+/***/ 515:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -1922,15 +1919,15 @@ function isBuf(obj) {
  * Module dependencies.
  */
 
-var eio = __webpack_require__(523);
-var Socket = __webpack_require__(514);
-var Emitter = __webpack_require__(497);
-var parser = __webpack_require__(502);
-var on = __webpack_require__(515);
-var bind = __webpack_require__(516);
-var debug = __webpack_require__(496)('socket.io-client:manager');
-var indexOf = __webpack_require__(296);
-var Backoff = __webpack_require__(537);
+var eio = __webpack_require__(529);
+var Socket = __webpack_require__(520);
+var Emitter = __webpack_require__(503);
+var parser = __webpack_require__(507);
+var on = __webpack_require__(521);
+var bind = __webpack_require__(522);
+var debug = __webpack_require__(502)('socket.io-client:manager');
+var indexOf = __webpack_require__(301);
+var Backoff = __webpack_require__(543);
 
 /**
  * IE6+ hasOwnProperty
@@ -2494,17 +2491,17 @@ Manager.prototype.onreconnect = function () {
 
 /***/ }),
 
-/***/ 510:
+/***/ 516:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies
  */
 
-var XMLHttpRequest = __webpack_require__(503);
-var XHR = __webpack_require__(526);
-var JSONP = __webpack_require__(533);
-var websocket = __webpack_require__(534);
+var XMLHttpRequest = __webpack_require__(508);
+var XHR = __webpack_require__(532);
+var JSONP = __webpack_require__(539);
+var websocket = __webpack_require__(540);
 
 /**
  * Export transports.
@@ -2554,19 +2551,19 @@ function polling (opts) {
 
 /***/ }),
 
-/***/ 511:
+/***/ 517:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(504);
-var parseqs = __webpack_require__(499);
-var parser = __webpack_require__(498);
-var inherit = __webpack_require__(500);
-var yeast = __webpack_require__(513);
-var debug = __webpack_require__(496)('engine.io-client:polling');
+var Transport = __webpack_require__(509);
+var parseqs = __webpack_require__(505);
+var parser = __webpack_require__(504);
+var inherit = __webpack_require__(506);
+var yeast = __webpack_require__(519);
+var debug = __webpack_require__(502)('engine.io-client:polling');
 
 /**
  * Module exports.
@@ -2579,7 +2576,7 @@ module.exports = Polling;
  */
 
 var hasXHR2 = (function () {
-  var XMLHttpRequest = __webpack_require__(503);
+  var XMLHttpRequest = __webpack_require__(508);
   var xhr = new XMLHttpRequest({ xdomain: false });
   return null != xhr.responseType;
 })();
@@ -2806,7 +2803,7 @@ Polling.prototype.uri = function () {
 
 /***/ }),
 
-/***/ 512:
+/***/ 518:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {/* global Blob File */
@@ -2878,7 +2875,7 @@ function hasBinary (obj) {
 
 /***/ }),
 
-/***/ 513:
+/***/ 519:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2954,7 +2951,7 @@ module.exports = yeast;
 
 /***/ }),
 
-/***/ 514:
+/***/ 520:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2962,14 +2959,14 @@ module.exports = yeast;
  * Module dependencies.
  */
 
-var parser = __webpack_require__(502);
-var Emitter = __webpack_require__(497);
-var toArray = __webpack_require__(536);
-var on = __webpack_require__(515);
-var bind = __webpack_require__(516);
-var debug = __webpack_require__(496)('socket.io-client:socket');
-var parseqs = __webpack_require__(499);
-var hasBin = __webpack_require__(512);
+var parser = __webpack_require__(507);
+var Emitter = __webpack_require__(503);
+var toArray = __webpack_require__(542);
+var on = __webpack_require__(521);
+var bind = __webpack_require__(522);
+var debug = __webpack_require__(502)('socket.io-client:socket');
+var parseqs = __webpack_require__(505);
+var hasBin = __webpack_require__(518);
 
 /**
  * Module exports.
@@ -3399,7 +3396,7 @@ Socket.prototype.binary = function (binary) {
 
 /***/ }),
 
-/***/ 515:
+/***/ 521:
 /***/ (function(module, exports) {
 
 
@@ -3430,7 +3427,7 @@ function on (obj, ev, fn) {
 
 /***/ }),
 
-/***/ 516:
+/***/ 522:
 /***/ (function(module, exports) {
 
 /**
@@ -3460,18 +3457,24 @@ module.exports = function(obj, fn){
 
 /***/ }),
 
-/***/ 517:
+/***/ 523:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatRoomPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatHomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(510);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_socket_io__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__login_login__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_apiAuthService__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_apiStorageService__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config__ = __webpack_require__(153);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug__ = __webpack_require__(544);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3486,148 +3489,471 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ChatRoomPage = /** @class */ (function () {
-    function ChatRoomPage(navCtrl, navParams, socket, events, toastCtrl) {
-        this.navCtrl = navCtrl;
+
+
+
+
+var slideSelected = {
+    home: 0,
+    chatting: 1,
+    create_group: 2,
+    setting: 3,
+};
+var ChatHomePage = /** @class */ (function () {
+    function ChatHomePage(formBuilder, navParams, navCtrl, apiService, socket, events, apiStorage) {
+        this.formBuilder = formBuilder;
         this.navParams = navParams;
+        this.navCtrl = navCtrl;
+        this.apiService = apiService;
         this.socket = socket;
         this.events = events;
-        this.toastCtrl = toastCtrl;
-        this.messages = [];
+        this.apiStorage = apiStorage;
+        this.slideIndex = 0;
+        this.title = 'CHAT HOME';
+        this.image_default = './assets/imgs/group.jpeg';
         this.nickname = '';
         this.message = '';
+        this.messages = [];
+        this.rooms = [];
+        this.last_time = new Date().getTime();
         //doc tu storage hoac server??
-        this.rooms = [
+        this.temprooms = [
             {
-                room_name: 'Phong ban',
-                lasttime: 0,
-                friends: ['A', 'B'],
+                name: __WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.roomType + 'Phong ban',
+                messages: []
             },
             {
-                room_name: 'Gia dinh',
-                lasttime: 0,
-                friends: ['A', 'C'],
+                name: __WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.roomType + 'Gia dinh',
+                messages: []
             },
             {
-                room_name: 'Ban be',
-                lasttime: 0,
-                friends: ['A', 'D'],
+                name: __WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.roomType + 'Ban be',
+                messages: []
             },
             {
-                room_name: 'Cong viec',
-                lasttime: 0,
-                friends: ['A'],
+                name: __WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.roomType + 'Cong viec',
+                messages: []
             },
         ];
+        //userRooms:any;
         this.unreadCount = 0;
     }
-    ChatRoomPage.prototype.ngOnInit = function () {
+    ChatHomePage.prototype.ngOnInit = function () {
         var _this = this;
-        this.user = this.navParams.get('user'); //dung de view nguoi dung len 
-        this.token = this.navParams.get('token'); //dung bao mat du lieu kenh truyen
-        if (!this.token) {
-            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__login_login__["a" /* LoginPage */]);
-            return;
-        }
-        this.openRoom();
-        this.getRoomChating().subscribe(function (data) {
-            console.log(data);
-            _this.events.publish('listenChatGroup', data);
+        __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('ngOnInit() - chat-home.ts!', this.session);
+        //Log.print(); //kiem tra log
+        //Log.put('dd: ',object) //ghi vao log
+        //Log.get()); //lay log gui cho may chu xem
+        //Log.reset(); //xoa log
+        this.addFromGroup = this.formBuilder.group({
+            room_name: '',
         });
-        this.getMessages().subscribe(function (message) {
-            _this.messages.push(message);
-        });
-        this.getUsers().subscribe(function (data) {
-            var user = data['user'];
-            if (data['event'] === 'left') {
-                _this.showToast('User left: ' + user);
+        //lay thong tin login ghi vao menu va token de gui len server khi can thiet
+        var user = this.navParams.get('user');
+        var token = __WEBPACK_IMPORTED_MODULE_6__services_apiStorageService__["a" /* ApiStorageService */].token;
+        this.authenticationServer = __WEBPACK_IMPORTED_MODULE_6__services_apiStorageService__["a" /* ApiStorageService */].authenticationServer;
+        if (user && token) {
+            this.user = user;
+            this.token = token;
+            //this.apiStorage.deleteUserRooms(this.user); //de reset moi
+            this.rooms = this.apiStorage.getUserRooms(this.user);
+            this.last_time = this.apiStorage.getUserLastTime(this.user) == 0 ? new Date().getTime() : this.apiStorage.getUserLastTime(this.user);
+            if (this.rooms && this.rooms.length > 0) {
+                this.rooms.forEach(function (room, index) {
+                    room.messages = _this.apiStorage.getUserRoomMessages(_this.user, room);
+                });
             }
             else {
-                _this.showToast('User joined: ' + user);
+                this.rooms = this.temprooms;
+            }
+        }
+        else {
+            location.href = '/';
+        }
+        //ghi vao menu chatroom tu server gui xuong
+        //new session & user joining
+        this.getRoomChating().subscribe(function (userRooms) {
+            //Log.put(userRooms);
+            var newSession;
+            /**
+               {
+              user: socket.user, //verify tao ra chua {username,nickname,image,ip,device}
+              id: socket.id, //= socket.id moi khoi tao cua socket
+              time: new Date().getTime(), //thoi gian connect
+              last_time: data.last_time, //thoi gian nhan tin nhan cuoi cung cua user bao cho cac user khac
+              users: userIDs, //[{id:socket.id,username}] -->tap tu dien username<-->socket.id
+              rooms: rooms //[{name,length,[{id:socket.id,username}]}]
+              }
+              */
+            newSession = userRooms;
+            if (_this.session) {
+                var newRooms = _this.session.rooms;
+                _this.session.rooms.forEach(function (room, index) {
+                    //update thong tin room moi voi room cua nguoi broashcasd
+                    var sameRoomNew = newSession.rooms.find(function (r) { return r.name === room.name; });
+                    if (sameRoomNew) {
+                        room.length = sameRoomNew.length;
+                        room.users = sameRoomNew.users;
+                        var oldMsgs = room.messages.filter(function (m) { return (m.user.username === _this.session.user.username
+                            && m.user.socket_id === _this.session.id
+                            && m.created <= newSession.time
+                            && m.created >= newSession.last_time); });
+                        if (oldMsgs && oldMsgs.length > 0) {
+                            __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('Old Message send to new user:? ', oldMsgs);
+                            _this.sendOldMessageToNewUser(sameRoomNew, oldMsgs, newSession.id);
+                        }
+                    }
+                });
+                //if (newSession.users) {
+                var sessionUserOld = _this.session.users.find(function (u) { return u.id === newSession.id; }); //{id:socket.id,username}
+                if (sessionUserOld) {
+                    __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('New session Users IN OLD SESSION??? ** KHONG BAO GIO XAY RA: ', sessionUserOld);
+                }
+                else {
+                    __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('New session Users: ', newSession.users);
+                    //chuyen doi this.session.users [{id,username}]-->[{id,username,ip,device,time}] 
+                    var sessionUser = newSession.users.find(function (u) { return u.id === newSession.id; }); //{id:socket.id,username}
+                    if (sessionUser) {
+                        sessionUser.ip = newSession.user.ip;
+                        sessionUser.device = newSession.user.device;
+                        sessionUser.time = newSession.time;
+                    }
+                    //them vao ds user moi gia nhap
+                    _this.session.users.push(sessionUser);
+                    //gui tin nhan bao toan mang biet user moi dang nhap vao
+                    //truoc mat bao cho this.session nay 
+                    __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('My session Users PUSH new user: ', _this.session.users);
+                    //bao cho user moi biet ds users da login truoc do tu thiet bi nao???
+                    //gui session cua minh cho new user
+                    _this.sendMySessionIdToNewUser(newSession.id);
+                }
+                //}
+                __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('My Session users list from other session: ', _this.session.users);
+                _this.events.publish(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.event_register_room, newRooms);
+            }
+            else {
+                _this.session = userRooms;
+                //chuyen doi this.session.users [{id,username}]-->[{id,username,ip,device,time}] 
+                //if (newSession.users) {
+                var sessionUser = _this.session.users.find(function (u) { return u.id === newSession.id; }); //{id:socket.id,username}
+                __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('sessionUser First: ', sessionUser);
+                if (sessionUser) {
+                    sessionUser.ip = newSession.user.ip;
+                    sessionUser.device = newSession.user.device;
+                    sessionUser.time = newSession.time;
+                }
+                //}
+                __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('My Session users list first: ', _this.session.users);
+                if (_this.session.rooms)
+                    _this.events.publish(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.event_register_room, _this.session.rooms);
+            }
+            //luu thong tin vao storage theo user
+            var rooms = [];
+            _this.session.rooms.forEach(function (room, index) {
+                rooms.push({
+                    name: room.name,
+                    length: room.length,
+                    users: room.users
+                });
+            });
+            _this.apiStorage.saveUserRooms(_this.session.user, rooms);
+        });
+        /**
+         * {
+          id: socket.id, //= socket.id vua moi disconnect
+          time: new Date().getTime(), //thoi gian disconnect
+          users: userIDs, //ds user con lai: [{id:socket.id,username}] -->tap tu dien username<-->socket.id
+          rooms: rooms //ds room con lai: [{name,length,[{id:socket.id,username}]}]
+          }
+         */
+        this.getRoomUserLeft().subscribe(function (userRooms) {
+            var oldSession;
+            oldSession = userRooms;
+            if (_this.session) {
+                var newRooms = _this.session.rooms;
+                var oldUserWithSocketLeft = _this.session.users.find(function (u) { return u.id === oldSession.id; });
+                if (oldUserWithSocketLeft) {
+                    __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('User socket Left:', oldUserWithSocketLeft);
+                }
+                _this.session.rooms.forEach(function (room, index) {
+                    var sameRoomNew = oldSession.rooms.find(function (r) { return r.name === room.name; });
+                    if (sameRoomNew) {
+                        room.length = sameRoomNew.length;
+                        room.users = sameRoomNew.users;
+                    }
+                });
+                //thay doi vi tri room moi cho session nay
+                _this.events.publish(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.event_register_room, newRooms);
             }
         });
+        //chuyen slide khi su kien click group
+        this.events.subscribe(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.event_change_room, (function (room) {
+            _this.room = _this.session.rooms.find(function (x) { return x.name === room.name; });
+            _this.messages = _this.room.messages;
+            _this.title = "CHAT WITH: " + _this.room && _this.room.name ? _this.room.name.substring(3) : '...';
+            _this.goToSlide(slideSelected.chatting);
+            if (_this.room && _this.room.name) {
+                _this.contentMessages = document.getElementById("contentMessages");
+                setTimeout(function () {
+                    //element.scrollTop = 0; //neu muon scroll ve dau
+                    _this.contentMessages.scrollTop = _this.contentMessages.scrollHeight;
+                }, 300);
+            }
+        }));
+        this.events.subscribe(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.event_chat_setting, (function () {
+            _this.goToSlide(slideSelected.setting);
+        }));
+        this.getMessages().subscribe(function (roomMessage) {
+            var msg;
+            msg = roomMessage;
+            var msgRoom = _this.session.rooms.find(function (x) { return x.name === msg.room_name; });
+            if (msgRoom) {
+                msg.user.socket_id = msg.id; //gan them session_id cho user nhan tin        
+                msgRoom.messages.push(//FIFO unshift===push shift===pop //push( //LIFO pop
+                { user: msg.user,
+                    created: msg.created,
+                    text: msg.text
+                });
+                //luu xuong dia
+                _this.apiStorage.saveUserRoomMessages(_this.session.user, msgRoom);
+                if (_this.room && msg.room_name === _this.room.name) {
+                    _this.contentMessages = document.getElementById("contentMessages");
+                    //element.scrollTop = 0;
+                    setTimeout(function () {
+                        _this.contentMessages.scrollTop = _this.contentMessages.scrollHeight;
+                    }, 300);
+                }
+                //neu message trong room hien dang view thi scroll no 
+            }
+        });
+        this.getOldMessages().subscribe(function (userMsgs) {
+            var uMsgs;
+            uMsgs = userMsgs;
+            //Log.put(uMsgs);
+            var newRoom = _this.session.rooms.find(function (x) { return x.name === uMsgs.room_name; });
+            __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('getOld message for new session: ', newRoom);
+            if (newRoom) {
+                var oldMsgs = uMsgs.messages; // -- user name and session filter thoi.filter(m=>);
+                newRoom.messages = newRoom.messages.concat(oldMsgs);
+                _this.apiStorage.saveUserRoomMessages(_this.session.user, newRoom);
+            }
+        });
+        //lay user cu ghi vao lsu user
+        /**
+         * {
+          user: socket.user,
+          id: socket.id,
+          created: data.created,
+          old_user: data.old_user = {id,username,device,time}
+        }
+         */
+        this.getOldUser().subscribe(function (oldUser) {
+            var oldU;
+            oldU = oldUser;
+            __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('oldU', oldU);
+            __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('Users', _this.session.users);
+            //chuyen doi this.session.users [{id,username}]-->[{id,username,ip,device,time}] 
+            //if (newSession.users) {
+            var sessionUser = _this.session.users.find(function (u) { return u.id === oldU.id; }); //{id:socket.id,username}
+            if (sessionUser) {
+                sessionUser.ip = oldU.user.ip;
+                sessionUser.device = oldU.user.device;
+                sessionUser.time = oldU.old_user.time;
+            }
+            //}
+            __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('My Session users list after: ', _this.session.users);
+        });
     };
-    ChatRoomPage.prototype.openRoom = function () {
-        //ket noi lai session
-        this.socket.connect();
+    ChatHomePage.prototype.ionViewDidLoad = function () {
+        if (this.token) {
+            this.socket.connect();
+            this.joinRoom(); //gui dang ky room cua user minh
+        }
+    };
+    ChatHomePage.prototype.ionViewWillLeave = function () {
+        this.socket.disconnect();
+        __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.put('this.socket.disconnect()', this.session);
+        //Log.print();
+        //Log.reset();
+    };
+    /**
+     * doc tu disk ds room - user - gui len server
+     * server ktra token cho phep join va tra ds room ve
+     */
+    ChatHomePage.prototype.joinRoom = function () {
         //gui token de xac thuc gan voi id
-        this.socket.emit('verify-user-room-token', { rooms: this.rooms,
+        this.socket.emit(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.client_join_room, { rooms: this.rooms,
+            last_time: this.last_time,
             token: this.token
         });
     };
-    ChatRoomPage.prototype.getRoomChating = function () {
+    ChatHomePage.prototype.getRoomChating = function () {
         var _this = this;
         var observable = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"](function (observer) {
-            _this.socket.on('server-send-room-chating', function (data) {
+            _this.socket.on(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.server_reply_room, function (data) {
                 observer.next(data);
             });
         });
         return observable;
     };
-    ChatRoomPage.prototype.listUnread = function () {
-    };
-    ChatRoomPage.prototype.sendMessage = function () {
-        this.socket.emit('add-message', { text: this.message });
-        this.message = '';
-    };
-    ChatRoomPage.prototype.getMessages = function () {
+    ChatHomePage.prototype.getRoomUserLeft = function () {
         var _this = this;
         var observable = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"](function (observer) {
-            _this.socket.on('message', function (data) {
+            _this.socket.on(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.server_send_user_left, function (data) {
                 observer.next(data);
             });
         });
         return observable;
     };
-    ChatRoomPage.prototype.getUsers = function () {
+    ChatHomePage.prototype.sendMessage = function () {
+        if (this.message.length > 0) {
+            this.socket.emit(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.client_send_message, {
+                text: this.message,
+                room: this.room,
+                created: new Date().getTime(),
+                token: this.token
+            });
+            this.message = '';
+        }
+    };
+    /**
+     * gui tin nhan cu den new session
+     * @param messages
+     * @param socketId
+     */
+    ChatHomePage.prototype.sendOldMessageToNewUser = function (room, messages, socketId) {
+        this.socket.emit(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.client_send_old_message_to_new_user, {
+            room_name: room.name,
+            messages: messages,
+            id: socketId,
+            created: new Date().getTime(),
+            token: this.token
+        });
+    };
+    /**
+     * gui {id,username,ip,device} cho user moi login
+     * @param socketId
+     * @param mySession
+     */
+    ChatHomePage.prototype.sendMySessionIdToNewUser = function (socketId) {
+        this.socket.emit(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.client_send_session_to_new_user, {
+            id: socketId,
+            created: new Date().getTime(),
+            token: this.token,
+            old_user: {
+                id: this.session.id,
+                username: this.session.user.username,
+                time: this.session.time,
+                ip: this.session.user.ip,
+                device: this.session.user.device
+            }
+        });
+    };
+    ChatHomePage.prototype.getMessages = function () {
         var _this = this;
         var observable = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"](function (observer) {
-            _this.socket.on('users-changed', function (data) {
+            _this.socket.on(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.server_emit_message, function (data) {
                 observer.next(data);
             });
         });
         return observable;
     };
-    ChatRoomPage.prototype.ionViewWillLeave = function () {
-        this.socket.disconnect();
-    };
-    ChatRoomPage.prototype.showToast = function (msg) {
-        var toast = this.toastCtrl.create({
-            message: msg,
-            duration: 2000
+    ChatHomePage.prototype.getOldMessages = function () {
+        var _this = this;
+        var observable = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"](function (observer) {
+            _this.socket.on(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.server_emit_old_message_to_new_user, function (data) {
+                observer.next(data);
+            });
         });
-        toast.present();
+        return observable;
     };
-    ChatRoomPage = __decorate([
+    ChatHomePage.prototype.getOldUser = function () {
+        var _this = this;
+        var observable = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"](function (observer) {
+            _this.socket.on(__WEBPACK_IMPORTED_MODULE_7__assets_chat_chat_config___default.a.server_emit_old_user_to_new_user, function (data) {
+                observer.next(data);
+            });
+        });
+        return observable;
+    };
+    /**
+     * Dieu khien slide
+     * @param i
+     */
+    ChatHomePage.prototype.goToSlide = function (i) {
+        this.slides.slideTo(i, 500);
+    };
+    /**
+     * xac dinh slide
+     */
+    ChatHomePage.prototype.slideChanged = function () {
+        this.slideIndex = this.slides.getActiveIndex();
+    };
+    ChatHomePage.prototype.formAddRoom = function () {
+        this.goToSlide(2);
+    };
+    ChatHomePage.prototype.addRoom = function () {
+        //mo slide ten nhom, 
+        //anh dai dien
+        //thanh vien cua nhom
+        /* this.session.rooms.push({
+          name:chatConfig.roomType+'Nhóm mới thêm',
+          image:this.image_default,
+          messages:[]
+        }) */
+    };
+    ChatHomePage.prototype.listUnread = function () {
+    };
+    ChatHomePage.prototype.reset = function () {
+        location.href = '/';
+    };
+    ChatHomePage.prototype.selectIcon = function () {
+        //this.navCtrl.push(SampleIconsPage);
+    };
+    ChatHomePage.prototype.callSendLog = function () {
+        __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.print();
+        //Log.get(); -->for send
+        __WEBPACK_IMPORTED_MODULE_8__assets_log_log_debug___default.a.reset();
+    };
+    ChatHomePage.prototype.callLogout = function () {
+        var _this = this;
+        this.apiService.logout()
+            .then(function (d) {
+            _this.reset();
+        })
+            .catch(function (e) { });
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Slides */]),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Slides */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Slides */]) === "function" && _a || Object)
+    ], ChatHomePage.prototype, "slides", void 0);
+    ChatHomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-chat-room',template:/*ion-inline-start:"D:\IONIC\ionic-token-oracle-c3-chat\src\pages\chat-rom\chat-room.html"*/'<ion-header>\n\n  <ion-navbar>\n\n          <button ion-button menuToggle color="primary">\n\n            <ion-icon name="menu"></ion-icon>\n\n          </button>\n\n          <ion-buttons start>\n\n              <img src="assets/imgs/logo.png">\n\n          </ion-buttons>\n\n          <ion-buttons end>\n\n              <button ion-button icon-only color="royal" (click)="listUnread()">\n\n                <ion-icon name="notifications" ios="ios-notifications" md="md-notifications"></ion-icon>\n\n                <ion-badge color="danger" *ngIf="unreadCount > 0">{{ unreadCount }}</ion-badge>\n\n              </button>\n\n          </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-grid>\n\n    <ion-row *ngFor="let message of messages">\n\n      \n\n      <ion-col col-9 *ngIf="message.from !== nickname" class="message" [ngClass]="{\'my_message\': message.from === nickname, \'other_message\': message.from !== nickname}">\n\n        <span class="user_name">{{ message.from }}:</span><br>\n\n        <span>{{ message.text }}</span>\n\n        <div class="time">{{message.created | date:\'dd.MM hh:MM\'}}</div>\n\n      </ion-col>\n\n \n\n      <ion-col offset-3 col-9 *ngIf="message.from === nickname" class="message" [ngClass]="{\'my_message\': message.from === nickname, \'other_message\': message.from !== nickname}">\n\n        <span class="user_name">{{ message.from }}:</span><br>\n\n        <span>{{ message.text }}</span>\n\n        <div class="time">{{message.created | date:\'dd.MM hh:MM\'}}</div>\n\n      </ion-col>\n\n \n\n    </ion-row>\n\n  </ion-grid>\n\n \n\n</ion-content>\n\n \n\n<ion-footer>\n\n  <ion-toolbar>\n\n    <ion-row class="message_row">\n\n      <ion-col col-9>\n\n        <ion-item no-lines>\n\n          <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>\n\n        </ion-item>\n\n      </ion-col>\n\n      <ion-col col-3>\n\n        <button ion-button clear color="primary" (click)="sendMessage()" [disabled]="message === \'\'">\n\n        Send\n\n      </button>\n\n      </ion-col>\n\n    </ion-row>\n\n  </ion-toolbar>\n\n</ion-footer>\n\n'/*ion-inline-end:"D:\IONIC\ionic-token-oracle-c3-chat\src\pages\chat-rom\chat-room.html"*/,
+            selector: 'page-chat-home',template:/*ion-inline-start:"/Users/cuongdq/IONIC/ionic-token-oracle-c3/src/pages/chat-home/chat-home.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <button ion-button menuToggle color="primary">\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-buttons start *ngIf="slideIndex>0">\n\n      <button ion-button icon-only color="royal" (click)="goToSlide(0)">\n\n        <ion-icon name="arrow-back" ios="ios-arrow-back" md="md-arrow-back"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n    <ion-title>\n\n      {{title}}\n\n    </ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button icon-only color="royal" (click)="listUnread()">\n\n        <ion-icon name="notifications" ios="ios-notifications" md="md-notifications"></ion-icon>\n\n        <ion-badge color="danger" *ngIf="unreadCount > 0">{{ unreadCount }}</ion-badge>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content class="list-avatar-page">\n\n\n\n  <ion-slides (ionSlideDidChange)="slideChanged()">\n\n    <!-- #id=0 -->\n\n    <ion-slide>\n\n      <ion-card>\n\n        <ion-card-header>\n\n          Thêm nhóm\n\n          <button ion-button color="royal" (click)="formAddRoom()">\n\n            <ion-icon name="add-circle" ios="ios-add-circle" md="md-add-circle"></ion-icon>\n\n          </button>\n\n        </ion-card-header>\n\n        \n\n        <ion-list>\n\n          <button ion-item *ngFor="let r of rooms">\n\n            <ion-avatar item-start>\n\n              <img src="{{r.image?r.image:image_default}}">\n\n            </ion-avatar>\n\n            <h2>{{r?.name?.substring(3)}}</h2>\n\n            <p>tin nhan cuoi cung</p>\n\n            <ion-note>3:43 pm</ion-note>\n\n          </button>\n\n        </ion-list>\n\n      </ion-card>\n\n      \n\n    </ion-slide>\n\n    \n\n    \n\n    <!-- #id=1 -->\n\n    <ion-slide id="contentMessages">\n\n      <ion-grid>\n\n        <ion-row *ngFor="let message of messages">\n\n          <ion-col class="other-avatar" col-2 *ngIf="message?.user?.username !== user?.username">\n\n            <ion-item class="other-avatar">\n\n              <ion-avatar item-start>\n\n                <img src="{{message?.user?.image?message?.user?.image.toLowerCase().indexOf(\'://\')>0?message?.user?.image:(authenticationServer + \'/get-avatar/\' + message?.user?.image + \'?token=\' + token):image_default}}" />\n\n              </ion-avatar>\n\n            </ion-item>\n\n          </ion-col>\n\n          <ion-col class="message other_message" offset-1 col-9 *ngIf="message?.user?.username !== user?.username">\n\n            <div class="nick-name">{{ message?.user?.username }}:</div>\n\n            <br>\n\n            <div class="text-message">{{ message?.text }}</div>\n\n            <br>\n\n            <div class="time">{{message?.created | date:\'dd.MM hh:MM\'}}</div>\n\n          </ion-col>\n\n          \n\n          <ion-col class="message my_message" offset-2 col-9 *ngIf="message?.user?.username === user?.username">\n\n            <div class="nick-name">{{ message?.user?.username }}:</div>\n\n            <br>\n\n            <div class="text-message">{{ message?.text }}</div>\n\n            <br>\n\n            <div class="time">{{message?.created | date:\'dd.MM hh:MM\'}}</div>\n\n          </ion-col>\n\n          <ion-col class="other-avatar" col-2 *ngIf="message?.user?.username === user?.username">\n\n            <ion-item class="other-avatar">\n\n              <ion-avatar item-start>\n\n                <img src="{{message?.user?.image?message?.user?.image.toLowerCase().indexOf(\'://\')>0?message?.user?.image:(authenticationServer + \'/get-avatar/\' + message?.user?.image + \'?token=\' + token):image_default}}" />\n\n              </ion-avatar>\n\n            </ion-item>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-grid>\n\n    </ion-slide>\n\n    \n\n    \n\n    <!-- #id=2 -->\n\n    <ion-slide>\n\n      <form (ngSubmit)="onSubmit()" [formGroup]="addFromGroup" *ngIf="!(isShowInfo)">\n\n        <ion-list>\n\n          <ion-item>\n\n            <ion-icon name="leaf" item-start></ion-icon>\n\n            <ion-label floating>Tên nhóm</ion-label>\n\n            <ion-input type="text" formControlName="room_name"></ion-input>\n\n            <ion-icon name="add" item-end></ion-icon>\n\n          </ion-item>\n\n          <ion-item>\n\n            Them\n\n          </ion-item>\n\n          \n\n        </ion-list>\n\n      </form>\n\n      \n\n    </ion-slide>\n\n    \n\n    <!-- #id=3 -->\n\n    <ion-slide>\n\n      <ion-list no-lines>\n\n        \n\n        <ion-item class=\'item-settings\' (click)="selectIcon()">\n\n          <ion-icon name="images" item-start></ion-icon>\n\n          Icons\n\n        </ion-item>\n\n        <ion-item class=\'item-settings\' (click)="callSendLog()">\n\n          <ion-icon name="add" item-start></ion-icon>\n\n          <ion-label>Send Log To Server</ion-label>\n\n        </ion-item>\n\n        <ion-item class=\'item-settings\' (click)="callLogout()">\n\n          <ion-icon name="add" item-start></ion-icon>\n\n          <ion-label>Logout</ion-label>\n\n        </ion-item>\n\n        \n\n      </ion-list>\n\n    </ion-slide>\n\n    \n\n    <!-- #id=4 -->\n\n    <!-- #id=5 -->\n\n    <!-- #id=6 -->\n\n\n\n\n\n  </ion-slides>\n\n</ion-content>\n\n\n\n<ion-footer>\n\n  <ion-toolbar>\n\n    <ion-row class="message_row" *ngIf="slideIndex==1">\n\n      <ion-col col-10>\n\n        <ion-item no-lines>\n\n          <ion-input type="text" placeholder="Gõ nội dung tin nhắn cần gửi" [(ngModel)]="message" (keyup.enter)="sendMessage()"></ion-input>\n\n        </ion-item>\n\n      </ion-col>\n\n      <ion-col col-2>\n\n        <button ion-button type="button" round color="primary" (click)="sendMessage()" [disabled]="message === \'\'">\n\n          <ion-icon name="undo"></ion-icon>\n\n        </button>\n\n      </ion-col>\n\n    </ion-row>\n\n  </ion-toolbar>\n\n</ion-footer>'/*ion-inline-end:"/Users/cuongdq/IONIC/ionic-token-oracle-c3/src/pages/chat-home/chat-home.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* ToastController */]])
-    ], ChatRoomPage);
-    return ChatRoomPage;
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_forms__["a" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_forms__["a" /* FormBuilder */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__services_apiAuthService__["a" /* ApiAuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_apiAuthService__["a" /* ApiAuthService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_6__services_apiStorageService__["a" /* ApiStorageService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_apiStorageService__["a" /* ApiStorageService */]) === "function" && _h || Object])
+    ], ChatHomePage);
+    return ChatHomePage;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
 }());
 
-//# sourceMappingURL=chat-room.js.map
+//# sourceMappingURL=chat-home.js.map
 
 /***/ }),
 
-/***/ 518:
+/***/ 524:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var Observable_1 = __webpack_require__(13);
-var share_1 = __webpack_require__(297);
+var share_1 = __webpack_require__(302);
 Observable_1.Observable.prototype.share = share_1.share;
 //# sourceMappingURL=share.js.map
 
 /***/ }),
 
-/***/ 519:
+/***/ 525:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3635,10 +3961,10 @@ Observable_1.Observable.prototype.share = share_1.share;
  * Module dependencies.
  */
 
-var url = __webpack_require__(520);
-var parser = __webpack_require__(502);
-var Manager = __webpack_require__(509);
-var debug = __webpack_require__(496)('socket.io-client');
+var url = __webpack_require__(526);
+var parser = __webpack_require__(507);
+var Manager = __webpack_require__(515);
+var debug = __webpack_require__(502)('socket.io-client');
 
 /**
  * Module exports.
@@ -3722,13 +4048,13 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(509);
-exports.Socket = __webpack_require__(514);
+exports.Manager = __webpack_require__(515);
+exports.Socket = __webpack_require__(520);
 
 
 /***/ }),
 
-/***/ 520:
+/***/ 526:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3736,8 +4062,8 @@ exports.Socket = __webpack_require__(514);
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(507);
-var debug = __webpack_require__(496)('socket.io-client:url');
+var parseuri = __webpack_require__(513);
+var debug = __webpack_require__(502)('socket.io-client:url');
 
 /**
  * Module exports.
@@ -3810,7 +4136,7 @@ function url (uri, loc) {
 
 /***/ }),
 
-/***/ 521:
+/***/ 527:
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -3826,7 +4152,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(298);
+exports.humanize = __webpack_require__(303);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -4019,7 +4345,7 @@ function coerce(val) {
 
 /***/ }),
 
-/***/ 522:
+/***/ 528:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*global Blob,File*/
@@ -4029,7 +4355,7 @@ function coerce(val) {
  */
 
 var isArray = __webpack_require__(152);
-var isBuf = __webpack_require__(508);
+var isBuf = __webpack_require__(514);
 var toString = Object.prototype.toString;
 var withNativeBlob = typeof Blob === 'function' || (typeof Blob !== 'undefined' && toString.call(Blob) === '[object BlobConstructor]');
 var withNativeFile = typeof File === 'function' || (typeof File !== 'undefined' && toString.call(File) === '[object FileConstructor]');
@@ -4167,11 +4493,11 @@ exports.removeBlobs = function(data, callback) {
 
 /***/ }),
 
-/***/ 523:
+/***/ 529:
 /***/ (function(module, exports, __webpack_require__) {
 
 
-module.exports = __webpack_require__(524);
+module.exports = __webpack_require__(530);
 
 /**
  * Exports parser
@@ -4179,25 +4505,25 @@ module.exports = __webpack_require__(524);
  * @api public
  *
  */
-module.exports.parser = __webpack_require__(498);
+module.exports.parser = __webpack_require__(504);
 
 
 /***/ }),
 
-/***/ 524:
+/***/ 530:
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
  * Module dependencies.
  */
 
-var transports = __webpack_require__(510);
-var Emitter = __webpack_require__(497);
-var debug = __webpack_require__(496)('engine.io-client:socket');
-var index = __webpack_require__(296);
-var parser = __webpack_require__(498);
-var parseuri = __webpack_require__(507);
-var parseqs = __webpack_require__(499);
+var transports = __webpack_require__(516);
+var Emitter = __webpack_require__(503);
+var debug = __webpack_require__(502)('engine.io-client:socket');
+var index = __webpack_require__(301);
+var parser = __webpack_require__(504);
+var parseuri = __webpack_require__(513);
+var parseqs = __webpack_require__(505);
 
 /**
  * Module exports.
@@ -4332,9 +4658,9 @@ Socket.protocol = parser.protocol; // this is an int
  */
 
 Socket.Socket = Socket;
-Socket.Transport = __webpack_require__(504);
-Socket.transports = __webpack_require__(510);
-Socket.parser = __webpack_require__(498);
+Socket.Transport = __webpack_require__(509);
+Socket.transports = __webpack_require__(516);
+Socket.parser = __webpack_require__(504);
 
 /**
  * Creates transport of the given type.
@@ -4937,7 +5263,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 
 /***/ }),
 
-/***/ 525:
+/***/ 531:
 /***/ (function(module, exports) {
 
 
@@ -4961,7 +5287,7 @@ try {
 
 /***/ }),
 
-/***/ 526:
+/***/ 532:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* global attachEvent */
@@ -4970,11 +5296,11 @@ try {
  * Module requirements.
  */
 
-var XMLHttpRequest = __webpack_require__(503);
-var Polling = __webpack_require__(511);
-var Emitter = __webpack_require__(497);
-var inherit = __webpack_require__(500);
-var debug = __webpack_require__(496)('engine.io-client:polling-xhr');
+var XMLHttpRequest = __webpack_require__(508);
+var Polling = __webpack_require__(517);
+var Emitter = __webpack_require__(503);
+var inherit = __webpack_require__(506);
+var debug = __webpack_require__(502)('engine.io-client:polling-xhr');
 
 /**
  * Module exports.
@@ -5383,7 +5709,7 @@ function unloadHandler () {
 
 /***/ }),
 
-/***/ 527:
+/***/ 533:
 /***/ (function(module, exports) {
 
 
@@ -5409,7 +5735,7 @@ module.exports = Object.keys || function keys (obj){
 
 /***/ }),
 
-/***/ 528:
+/***/ 534:
 /***/ (function(module, exports) {
 
 /**
@@ -5445,7 +5771,7 @@ module.exports = function(arraybuffer, start, end) {
 
 /***/ }),
 
-/***/ 529:
+/***/ 535:
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -5480,7 +5806,7 @@ function noop() {}
 
 /***/ }),
 
-/***/ 530:
+/***/ 536:
 /***/ (function(module, exports) {
 
 /*! https://mths.be/utf8js v2.1.2 by @mathias */
@@ -5697,7 +6023,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 531:
+/***/ 537:
 /***/ (function(module, exports) {
 
 /*
@@ -5771,7 +6097,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 532:
+/***/ 538:
 /***/ (function(module, exports) {
 
 /**
@@ -5878,15 +6204,15 @@ module.exports = (function() {
 
 /***/ }),
 
-/***/ 533:
+/***/ 539:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module requirements.
  */
 
-var Polling = __webpack_require__(511);
-var inherit = __webpack_require__(500);
+var Polling = __webpack_require__(517);
+var inherit = __webpack_require__(506);
 
 /**
  * Module exports.
@@ -6125,23 +6451,23 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 
 /***/ }),
 
-/***/ 534:
+/***/ 540:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {/**
  * Module dependencies.
  */
 
-var Transport = __webpack_require__(504);
-var parser = __webpack_require__(498);
-var parseqs = __webpack_require__(499);
-var inherit = __webpack_require__(500);
-var yeast = __webpack_require__(513);
-var debug = __webpack_require__(496)('engine.io-client:websocket');
+var Transport = __webpack_require__(509);
+var parser = __webpack_require__(504);
+var parseqs = __webpack_require__(505);
+var inherit = __webpack_require__(506);
+var yeast = __webpack_require__(519);
+var debug = __webpack_require__(502)('engine.io-client:websocket');
 var BrowserWebSocket, NodeWebSocket;
 if (typeof self === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(535);
+    NodeWebSocket = __webpack_require__(541);
   } catch (e) { }
 } else {
   BrowserWebSocket = self.WebSocket || self.MozWebSocket;
@@ -6417,14 +6743,14 @@ WS.prototype.check = function () {
 
 /***/ }),
 
-/***/ 535:
+/***/ 541:
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
 
-/***/ 536:
+/***/ 542:
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -6444,7 +6770,7 @@ function toArray(list, index) {
 
 /***/ }),
 
-/***/ 537:
+/***/ 543:
 /***/ (function(module, exports) {
 
 
@@ -6533,161 +6859,6 @@ Backoff.prototype.setJitter = function(jitter){
 };
 
 
-
-/***/ }),
-
-/***/ 538:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChattingPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__ = __webpack_require__(501);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_socket_io___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_socket_io__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__login_login__ = __webpack_require__(67);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-var ChattingPage = /** @class */ (function () {
-    function ChattingPage(navCtrl, navParams, socket, events, toastCtrl) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.socket = socket;
-        this.events = events;
-        this.toastCtrl = toastCtrl;
-        this.messages = [];
-        this.nickname = '';
-        this.message = '';
-        //doc tu storage hoac server??
-        this.rooms = [
-            {
-                room_name: 'Phong ban',
-                lasttime: 0,
-                friends: ['A', 'B'],
-            },
-            {
-                room_name: 'Gia dinh',
-                lasttime: 0,
-                friends: ['A', 'C'],
-            },
-            {
-                room_name: 'Ban be',
-                lasttime: 0,
-                friends: ['A', 'D'],
-            },
-            {
-                room_name: 'Cong viec',
-                lasttime: 0,
-                friends: ['A'],
-            },
-        ];
-        this.unreadCount = 0;
-    }
-    ChattingPage.prototype.ngOnInit = function () {
-        var _this = this;
-        this.user = this.navParams.get('user'); //dung de view nguoi dung len 
-        this.token = this.navParams.get('token'); //dung bao mat du lieu kenh truyen
-        if (!this.token) {
-            this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_4__login_login__["a" /* LoginPage */]);
-            return;
-        }
-        this.openRoom();
-        this.getRoomChating().subscribe(function (data) {
-            console.log(data);
-            _this.events.publish('listenChatGroup', data);
-        });
-        this.getMessages().subscribe(function (message) {
-            _this.messages.push(message);
-        });
-        this.getUsers().subscribe(function (data) {
-            var user = data['user'];
-            if (data['event'] === 'left') {
-                _this.showToast('User left: ' + user);
-            }
-            else {
-                _this.showToast('User joined: ' + user);
-            }
-        });
-    };
-    ChattingPage.prototype.openRoom = function () {
-        //ket noi lai session
-        this.socket.connect();
-        //gui token de xac thuc gan voi id
-        this.socket.emit('verify-user-room-token', { rooms: this.rooms,
-            token: this.token
-        });
-    };
-    ChattingPage.prototype.getRoomChating = function () {
-        var _this = this;
-        var observable = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"](function (observer) {
-            _this.socket.on('server-send-room-chating', function (data) {
-                observer.next(data);
-            });
-        });
-        return observable;
-    };
-    ChattingPage.prototype.listUnread = function () {
-    };
-    ChattingPage.prototype.sendMessage = function () {
-        this.socket.emit('add-message', { text: this.message });
-        this.message = '';
-    };
-    ChattingPage.prototype.getMessages = function () {
-        var _this = this;
-        var observable = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"](function (observer) {
-            _this.socket.on('message', function (data) {
-                observer.next(data);
-            });
-        });
-        return observable;
-    };
-    ChattingPage.prototype.getUsers = function () {
-        var _this = this;
-        var observable = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["Observable"](function (observer) {
-            _this.socket.on('users-changed', function (data) {
-                observer.next(data);
-            });
-        });
-        return observable;
-    };
-    ChattingPage.prototype.ionViewWillLeave = function () {
-        this.socket.disconnect();
-    };
-    ChattingPage.prototype.showToast = function (msg) {
-        var toast = this.toastCtrl.create({
-            message: msg,
-            duration: 2000
-        });
-        toast.present();
-    };
-    ChattingPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-chatting',template:/*ion-inline-start:"D:\IONIC\ionic-token-oracle-c3-chat\src\pages\chatting\chatting.html"*/'<ion-header>\n\n  <ion-navbar>\n\n          <button ion-button menuToggle color="primary">\n\n            <ion-icon name="menu"></ion-icon>\n\n          </button>\n\n          <ion-buttons start>\n\n              <img src="assets/imgs/logo.png">\n\n          </ion-buttons>\n\n          <ion-buttons end>\n\n              <button ion-button icon-only color="royal" (click)="listUnread()">\n\n                <ion-icon name="notifications" ios="ios-notifications" md="md-notifications"></ion-icon>\n\n                <ion-badge color="danger" *ngIf="unreadCount > 0">{{ unreadCount }}</ion-badge>\n\n              </button>\n\n          </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-grid>\n\n    <ion-row *ngFor="let message of messages">\n\n      \n\n      <ion-col col-9 *ngIf="message.from !== nickname" class="message" [ngClass]="{\'my_message\': message.from === nickname, \'other_message\': message.from !== nickname}">\n\n        <span class="user_name">{{ message.from }}:</span><br>\n\n        <span>{{ message.text }}</span>\n\n        <div class="time">{{message.created | date:\'dd.MM hh:MM\'}}</div>\n\n      </ion-col>\n\n \n\n      <ion-col offset-3 col-9 *ngIf="message.from === nickname" class="message" [ngClass]="{\'my_message\': message.from === nickname, \'other_message\': message.from !== nickname}">\n\n        <span class="user_name">{{ message.from }}:</span><br>\n\n        <span>{{ message.text }}</span>\n\n        <div class="time">{{message.created | date:\'dd.MM hh:MM\'}}</div>\n\n      </ion-col>\n\n \n\n    </ion-row>\n\n  </ion-grid>\n\n \n\n</ion-content>\n\n \n\n<ion-footer>\n\n  <ion-toolbar>\n\n    <ion-row class="message_row">\n\n      <ion-col col-9>\n\n        <ion-item no-lines>\n\n          <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>\n\n        </ion-item>\n\n      </ion-col>\n\n      <ion-col col-3>\n\n        <button ion-button clear color="primary" (click)="sendMessage()" [disabled]="message === \'\'">\n\n        Send\n\n      </button>\n\n      </ion-col>\n\n    </ion-row>\n\n  </ion-toolbar>\n\n</ion-footer>\n\n'/*ion-inline-end:"D:\IONIC\ionic-token-oracle-c3-chat\src\pages\chatting\chatting.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_2_ng_socket_io__["Socket"],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* Events */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* ToastController */]])
-    ], ChattingPage);
-    return ChattingPage;
-}());
-
-//# sourceMappingURL=chatting.js.map
 
 /***/ })
 

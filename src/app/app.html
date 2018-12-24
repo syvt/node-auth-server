@@ -1,6 +1,6 @@
 
 <ion-split-pane when="md">
-    <ion-menu [content]="content" no-border *ngIf="isLogin">
+    <ion-menu [content]="menuContent" no-border *ngIf="isLogin">
       <ion-header no-border>
         <ion-toolbar color="primary">
           <ion-buttons start>
@@ -9,21 +9,20 @@
             </button>
           </ion-buttons>
           
-          <button ion-button clear round small class="avataUser" item-left no-margin no-padding>
-                <ion-avatar item-left class="menu-avatar" no-margin no-padding>
-                  <img src={{user?.image}} round >
-                </ion-avatar>
-           </button>
-           <ion-title class="usernameItem" item-start >{{user?.nickname}}</ion-title>
-
+          <ion-item no-lines class="background-transparent">
+            <ion-avatar item-start>
+              <img src={{user?.image}}>
+            </ion-avatar>
+            <ion-title>{{user?.nickname?user.nickname:user?.username}}</ion-title>
+          </ion-item>
 
           <ion-buttons end>
-            <button ion-button icon-only color="royal">
+            <button ion-button icon-only color="royal" (click)="callAddGroup()">
               <ion-icon name="person-add"></ion-icon>
             </button>
           </ion-buttons>
           <ion-buttons right>
-            <button ion-button icon-only color="royal">
+            <button ion-button icon-only color="royal" (click)="callSettings()">
               <ion-icon name="cog" ios="ios-cog" md="md-cog"></ion-icon>
             </button>
           </ion-buttons>
@@ -39,6 +38,6 @@
       </ion-content>
     </ion-menu>
    
-<ion-nav [root]="rootPage" #content main swipeBackEnabled="false"></ion-nav>
+<ion-nav #menuContent [root]="rootPage" main swipeBackEnabled="false"></ion-nav>
 
 </ion-split-pane>

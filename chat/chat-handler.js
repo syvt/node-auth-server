@@ -1,4 +1,5 @@
 const chatFunction = require('./chat-function');
+const chatConfig = require('./chat-config');
 
 var io;
 var countAppOnline = 0;
@@ -81,7 +82,7 @@ class ChatHandler {
 
     socket.on('disconnect', ()=>{
       console.log('### disconnect (' + countAll-- + ')  on Root: ' + socket.id);
-
+      chatFunction.userSocketLeftRoom(io, socket);
     });
 
     socket.on('error',()=>{
@@ -91,20 +92,27 @@ class ChatHandler {
     //-----------client communicate-------------//
     socket = socketTransform(socket);
     
-    socket.on('verify-user-room-token', (data) => {
+    socket.on(chatConfig.client_join_room, (data) => {
       console.log('### Client register ROOMS and token ROOT: ' + socket.id);
       chatFunction.registerUserRoom(io, socket, data);
     });
 
-    socket.on('room', function () {
-      var args = slice.call(arguments);
-      io.to(socket.id).emit.apply(socket, ['roomBack'].concat(args));
+
+    socket.on(chatConfig.client_send_message, (data) => {
+      console.log('### Client send message, ROOM and token ROOT: ' + socket.id);
+      chatFunction.sendMessage(io, socket, data);
+    });
+    
+    socket.on(chatConfig.client_send_old_message_to_new_user, (data) => {
+      console.log('### Client send old message to id: ' + socket.id);
+      chatFunction.sendOldMessage(io, socket, data);
     });
 
-    socket.on('broadcast', function (data) {
-      var args = slice.call(arguments);
-      socket.broadcast.emit.apply(socket, ['broadcastBack'].concat(args));
+    socket.on(chatConfig.client_send_session_to_new_user, (data) => {
+      console.log('### Client send old user to id: ' + socket.id);
+      chatFunction.sendOldUser(io, socket, data);
     });
+
     //------------end client communicate ----------//
 
   }

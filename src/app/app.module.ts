@@ -9,6 +9,9 @@ import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { SettingPage } from '../pages/setting/setting';
+import { ChattingPage } from '../pages/chatting/chatting';
+import { SampleIconsPage } from '../pages/sample-icons/sample-icons';
+import { ConfigPage } from '../pages/config/config';
 
 
 import { StorageServiceModule } from 'angular-webstorage-service';
@@ -16,21 +19,22 @@ import { ApiStorageService } from '../services/apiStorageService';
 
 import { ApiAuthService } from '../services/apiAuthService';
 import { ApiImageService } from '../services/apiImageService';
+import { ApiChattingService } from '../services/apiChattingService';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestInterceptor } from '../interceptors/requestInterceptor';
 import { ResponseInterceptor } from '../interceptors/responseInterceptor';
 
-//import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-//const socketIOConfig: SocketIoConfig = { url: 'http://localhost:9235', options: {} };
-//const socketIOConfigOnline: SocketIoConfig = { url: 'http://localhost:9235/app-online', options: {} };
 
 @NgModule({
   declarations: [
     MyApp,
     RegisterPage,
     LoginPage,
-    SettingPage
+    SettingPage,
+    ChattingPage,
+    SampleIconsPage,
+    ConfigPage
   ],
   imports: [
     BrowserModule,
@@ -38,16 +42,17 @@ import { ResponseInterceptor } from '../interceptors/responseInterceptor';
     ReactiveFormsModule,
     HttpClientModule,
     StorageServiceModule,
-    IonicModule.forRoot(MyApp),
-    //SocketIoModule.forRoot(socketIOConfig),
-    //SocketIoModule.forRoot(socketIOConfigOnline)
+    IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     RegisterPage,
     LoginPage,
-    SettingPage
+    SettingPage,
+    ChattingPage,
+    SampleIconsPage,
+    ConfigPage
   ],
   providers: [
     StatusBar,
@@ -55,6 +60,7 @@ import { ResponseInterceptor } from '../interceptors/responseInterceptor';
     ApiAuthService,
     ApiImageService,
     ApiStorageService,
+    ApiChattingService,
     RequestInterceptor,
     {
       provide: HTTP_INTERCEPTORS,

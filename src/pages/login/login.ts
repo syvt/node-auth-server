@@ -5,8 +5,7 @@ import { RegisterPage } from '../register/register';
 import { SettingPage } from '../setting/setting';
 import { ApiAuthService } from '../../services/apiAuthService';
 import { ApiStorageService } from '../../services/apiStorageService';
-
-//var worker = null;
+import chatConfig from '../../assets/chat/chat-config';
 
 @Component({
   selector: 'page-login',
@@ -36,22 +35,26 @@ export class LoginPage {
 
   reset(){
     
-    //worker = new Worker('worker-message.js');
-
-    if (this.apiStorageService.getToken()){
-      this.apiService.authorize(this.apiStorageService.getToken())
-      .then(status=>{})
-      .catch(err=>{});
-    }
-
     this.apiService.getServerPublicRSAKey()
       .then(pk => {
         this.serverKeyPublic = pk;
         this.serverTokenUserInfo = this.apiService.getUserInfo();
-        if (this.serverTokenUserInfo){
-          this.isShowInfo=true; //da login truoc do roi nhe
+        
+        if (this.apiStorageService.getToken()){
+          this.apiService.authorize(this.apiStorageService.getToken())
+          .then(status=>{
+            console.log('Login page ready authorize: ', status);
+            this.isShowInfo = true;
+            this.callChat();      
+          })
+          .catch(err=>{
+            console.log('Login page ready UNauthorize: ', err);
+            this.isShowInfo = false;
+            this.events.publish(chatConfig.event_logout,'logout!');
+          });
         }else{
-          this.isShowInfo=false;
+          this.isShowInfo = false;
+          this.events.publish(chatConfig.event_logout,'logout!');
         }
 
       })
@@ -99,10 +102,11 @@ export class LoginPage {
             }).present();
 
             //chuyen su kien login ve parent
-            this.events.publish('listenLogin',{ 
+            this.events.publish(chatConfig.event_login,{ 
                                                 user:this.apiService.getUserInfo(),
                                                 token: this.apiStorageService.getToken() 
                                               });
+            this.reset();
 
           } else {
             throw 'No Token after login!'
@@ -111,7 +115,7 @@ export class LoginPage {
         .catch(err => {
           loading.dismiss();
           
-          console.log(err);          
+          console.log('Login page err catch:', err);          
           //error 
           this.toastCtrl.create({
             message: "Check again username & password!",
@@ -123,15 +127,21 @@ export class LoginPage {
         );
 
     } catch (err) {
-      console.log(err);
+      console.log('Login page err try encrypted: ',err);
     }
 
   }
 
+  /**
+   * Dang ky user moi
+   */
   callRegister() {
     this.navCtrl.push(RegisterPage);
   }
 
+  /**
+   * lohout
+   */
   callLogout() {
     this.apiService.logout()
     .then(d=>{
@@ -140,6 +150,9 @@ export class LoginPage {
     .catch(e=>{});
   }
 
+  /**
+   * chinh sua user info
+   */
   callEdit() {
     this.apiService.getEdit()
       .then(user => {
@@ -154,11 +167,15 @@ export class LoginPage {
       });
   }
 
+  /**
+   * vao chat
+   */
   callChat(){
-    this.navCtrl.setRoot('ChatRoomPage', { 
-                                        user:this.apiService.getUserInfo(),
-                                        token: this.apiStorageService.getToken() 
-                                      });
-    //worker.postMessage({command:'gui thong tin day'});
+    if  (ApiStorageService.token){
+      this.navCtrl.setRoot('ChatHomePage', { 
+                                          user:this.apiService.getUserInfo(),
+                                          token: ApiStorageService.token 
+                                        });
+    }
   }
 }

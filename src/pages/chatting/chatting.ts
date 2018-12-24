@@ -1,147 +1,68 @@
-import { Component } from '@angular/core';
-import { NavController, Events, NavParams, ToastController } from 'ionic-angular';
-import { Socket } from 'ng-socket-io';
-import { Observable } from 'rxjs/Observable';
-import { LoginPage } from '../login/login';
+import { ViewChild, Component } from '@angular/core';
+import { NavController, Events, Slides, ToastController, Ion } from 'ionic-angular';
+
+import { ApiChattingService } from '../../services/apiChattingService';
+
+import Icons from '../../assets/icon/icons';
 
 @Component({
   selector: 'page-chatting',
-  templateUrl: 'chatting.html',
+  templateUrl: 'chatting.html'
 })
+
 export class ChattingPage {
-  messages = [];
-  nickname = '';
-  message = '';
+  @ViewChild(Slides) slides: Slides;
+  icons=[];
+  iconTypes = {
+    icon:1,
+    list:2,
+    button:3
+  }
 
-  user:any;
-  token:any;
- 
-  //doc tu storage hoac server??
-  rooms = [
-    {
-      room_name:'Phong ban',
-      lasttime:0,
-      friends:['A','B'],
-    }
-    ,
-    {
-      room_name:'Gia dinh',
-      lasttime:0,
-      friends:['A','C'],
-    }
-    ,
-    {
-      room_name:'Ban be',
-      lasttime:0,
-      friends:['A','D'],
-    }
-    ,
-    {
-      room_name:'Cong viec',
-      lasttime:0,
-      friends:['A'],
-    }
-    ,
-  ];
-
-
-  unreadCount = 0;
+  iconTypeList = [
+    {name:'icon',value:1},
+    {name:'list',value:2},
+    {name:'button',value:3},
+    ];
+  iconType=this.iconTypes.icon;
 
   constructor(private navCtrl: NavController, 
-              private navParams: NavParams, 
-              private socket: Socket, 
               private events: Events,
+              private apiChatting: ApiChattingService,
               private toastCtrl: ToastController) {}
 
-  ngOnInit() {
-      
-      this.user = this.navParams.get('user'); //dung de view nguoi dung len 
-      this.token = this.navParams.get('token'); //dung bao mat du lieu kenh truyen
- 
-      if (!this.token){
-        this.navCtrl.setRoot(LoginPage);
-        return;
-      }
-      
-      this.openRoom();
+  ngOnInit() {    
+    this.icons=Icons;
+  }
 
-      this.getRoomChating().subscribe(data=>{
-        console.log(data);
-        this.events.publish('listenChatGroup',data);
+  getIcons(ev){
+
+    var val = ev.target.value;
+    if (val && val.trim() != '') {
+      this.icons = Icons.filter((item) => {
+        return (item.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
-
-      this.getMessages().subscribe(message => {
-        this.messages.push(message);
-      });
-  
-      this.getUsers().subscribe(data => {
-        let user = data['user'];
-        if (data['event'] === 'left') {
-          this.showToast('User left: ' + user);
-        } else {
-          this.showToast('User joined: ' + user);
-        }
-      });
-
-
-  }
- 
-
-  openRoom(){
-    //ket noi lai session
-    this.socket.connect();
-    //gui token de xac thuc gan voi id
-    this.socket.emit('verify-user-room-token',{ rooms: this.rooms,
-                                                token: this.token
-                                              });
+    }else{
+      this.icons = Icons;
+    }
   }
 
-  getRoomChating() {
-    let observable = new Observable(observer => {
-      this.socket.on('server-send-room-chating', (data) => {
-        observer.next(data);
-      });
-    });
-    return observable;
-  }
-
-  listUnread(){
-    
+  selectIcon(icon)
+  {
+    console.log(icon);
   }
 
 
-  sendMessage() {
-    this.socket.emit('add-message', { text: this.message });
-    this.message = '';
+  resetFilter(e){
+
   }
- 
-  getMessages() {
-    let observable = new Observable(observer => {
-      this.socket.on('message', (data) => {
-        observer.next(data);
-      });
-    })
-    return observable;
+
+  goToSlide(i) {
+    this.slides.slideTo(i, 500);
   }
- 
-  getUsers() {
-    let observable = new Observable(observer => {
-      this.socket.on('users-changed', (data) => {
-        observer.next(data);
-      });
-    });
-    return observable;
-  }
- 
-  ionViewWillLeave() {
-    this.socket.disconnect();
-  }
- 
-  showToast(msg) {
-    let toast = this.toastCtrl.create({
-      message: msg,
-      duration: 2000
-    });
-    toast.present();
+
+  slideChanged() {
+    let currentIndex = this.slides.getActiveIndex();
+    console.log('Current index is', currentIndex);
   }
 }

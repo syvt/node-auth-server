@@ -1,11 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Events, Platform } from 'ionic-angular';
+import { MenuController, Nav, Events, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { LoginPage } from '../pages/login/login';
 
 import { ApiAuthService } from '../services/apiAuthService';
 import { ApiStorageService } from '../services/apiStorageService';
+
+import chatConfig from '../assets/chat/chat-config';
+import Log from '../assets/log/log-debug';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -16,13 +20,14 @@ export class MyApp {
   rootPage:any;
   isWeb: boolean = false; //cua thiet bi
   isLogin:boolean = false;
-  user:any;
-  rooms:any;
-  public static token;
+  user:any;   //ghi login
+  rooms:any; // ghi menu
+  //public static token;
 
   constructor(private platform: Platform, 
               private statusBar: StatusBar, 
-              public events: Events,
+              private events: Events,
+              private menuCtrl: MenuController,
               private apiStorageService: ApiStorageService,
               private apiService: ApiAuthService,
               private splashScreen: SplashScreen
@@ -45,31 +50,25 @@ export class MyApp {
   //sau khi login xong 
   //trang login se cho biet user va token
   setUserInfo(data){
-    // console.log('login xong nhan du lieu');
-    // console.log(data);
-    //kiem tra token da cap chua neu co thi lay user
     if (data&&data.token&&data.user){
       this.isLogin = true;
-      //set user in login
       this.user = data.user;
-      MyApp.token = data.token; //gan token su dung public
+      //MyApp.token = data.token; 
+
     }else{
       this.isLogin = false;
       this.user = null;
     }
   }
 
-
-  subscriberLogin(){
-    this.isLogin = false;
-    this.events.subscribe('listenLogin', ((data) => {
-      this.setUserInfo(data);
-    }));
-  }
-
   viewDidLoad() {
 
     this.rootPage = LoginPage;
+
+     //khoi tao public key
+     this.apiService.getServerPublicRSAKey()
+     .then(pk => {})
+     .catch(err=>{})
 
     //kiem tra token da cap chua neu co thi lay user
     if (this.apiStorageService.getToken()){
@@ -79,39 +78,69 @@ export class MyApp {
         if (status){
           this.isLogin = true;
           this.user = this.apiService.getUserInfo();
-          MyApp.token =this.apiStorageService.getToken(); //gan token su dung public
-        }else{
-          this.subscriberLogin();
         }
       });
-    }else{
-      this.subscriberLogin();
     }
 
-
-    this.events.subscribe('listenChatGroup', ((data) => {
-      //console.log('data: ');
-      //console.log(data);
-      this.rooms = data.rooms;
+    
+    this.events.subscribe(chatConfig.event_register_room, ((rooms) => {
+      Log.put('App rooms: ', rooms);
+      this.rooms = rooms;
+    }));
+    
+    this.events.subscribe(chatConfig.event_logout, ((data) => {
+      Log.put('App logout: ', data);
+      this.user = null;
+      this.rooms = null;
+      this.isLogin = false;
+      this.rootPage = LoginPage;
     }));
 
-    //khoi tao public key
-    this.apiService.getServerPublicRSAKey()
-      .then(pk => {})
-      .catch(err=>{})
+    this.events.subscribe(chatConfig.event_login, ((data) => {
+      Log.put('App login: ', data);
+      this.setUserInfo(data);
+    }));
+    
   }
-
-  goSearch(){
-
-  }
-
+  
   /**
    * Mo mot room ra de chatting
    * @param room 
    */
   openRoom(room){
-    console.log(room);
-
+    Log.put('App open room: ', room);
+    this.events.publish(chatConfig.event_change_room,room);
+    this.menuCtrl.close();
   }
+  
+  
+  callSettings(){
+    Log.put('App call setting: ');
+    this.events.publish(chatConfig.event_chat_setting);
+    this.menuCtrl.close();
+  }
+
+  goSearch(){
+    this.events.publish(chatConfig.event_chat_search);
+    this.menuCtrl.close();
+  }
+
+  callAddGroup(){
+    this.events.publish(chatConfig.event_chat_add_group);
+    this.menuCtrl.close();
+  }
+
+  openMenu() {
+    this.menuCtrl.open();
+  }
+ 
+  closeMenu() {
+    this.menuCtrl.close();
+  }
+ 
+  toggleMenu() {
+    this.menuCtrl.toggle();
+  }
+
 }
 
