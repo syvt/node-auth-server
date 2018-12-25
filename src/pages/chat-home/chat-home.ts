@@ -88,6 +88,7 @@ export class ChatHomePage {
      //Log.put('dd: ',object) //ghi vao log
      //Log.get()); //lay log gui cho may chu xem
      //Log.reset(); //xoa log
+     this.slides.lockSwipes(true);
 
     this.addFromGroup = this.formBuilder.group({
       room_name:'',
@@ -452,8 +453,9 @@ export class ChatHomePage {
    * @param i 
    */
   goToSlide(i) {
+    this.slides.lockSwipes(false);
     this.slides.slideTo(i, 500);
-    
+    this.slides.lockSwipes(true);
   }
 
   /**

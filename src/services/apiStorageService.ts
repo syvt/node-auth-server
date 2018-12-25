@@ -8,8 +8,9 @@ const sessionStorageAvailable = isStorageAvailable(sessionStorage);
 export class ApiStorageService {
  
     public static token;
-    public static authenticationServer = 'http://localhost:9235/api/auth';
-    //public static authenticationServer = 'https://c3.mobifone.vn/api/auth';
+    //public static apiServer = 'http://localhost:9235'; 
+    public static apiServer = 'https://c3.mobifone.vn';
+    public static authenticationServer = ApiStorageService.apiServer + '/api/auth';
 
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
     }
