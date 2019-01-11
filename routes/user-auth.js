@@ -37,6 +37,7 @@ router.post('/edit-avatar', handlers.tokenCheck , handlers.editAvatar);
 router.post('/edit-background', handlers.tokenCheck , handlers.editBackground);
 
 //send-sms - thuc hien xac thuc cho phep gui sms qua 9235 (gui sms hay smses)
+//curl -X POST -H 'Content-Type: application/json' -d '{ “isdn”: “903500888”, “sms”: “test gui tin nhan qua api” }' https://c3.mobifone.vn/api/auth/send-sms
 router.post('/send-sms', handlers.jsonProcess, handlers.sendSMS);
 
 module.exports = router;

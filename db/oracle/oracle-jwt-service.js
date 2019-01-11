@@ -943,13 +943,13 @@ class HandleDatabase {
         //sms_owner.send_sms_vlr_mnp ('903500888','gui Key2','MobiFone3',5);
         db.executeJavaFunction('sms_owner.send_sms_vlr_mnp',[req.jsonData.isdn,req.jsonData.sms,'MobiFone3',5])
         .then(data=>{
-            console.log('data', data);
+            //console.log('data', data);
             res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
             res.end(JSON.stringify(data));
         })
         .catch(err=>{
-            console.log('err',err);
-            throw err;
+            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end(JSON.stringify(err));
         })
     }
 }

@@ -21,7 +21,7 @@ class ErrorHandler {
             res.end('Error ' + err.message);
         }else{
             res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-            res.end('Error unkow: ' + JSON.stringify(err));
+            res.end('Error unkow: ');
         }
     }
   }

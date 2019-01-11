@@ -99,7 +99,8 @@ class AuthHandler {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify(PUBLIC_KEY));
     } else {
-      throw 'No PUBLIC_KEY init on server!'
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(JSON.stringify({code:403, message:'No PUBLIC_KEY init on server!'}));
     }
   }
 
@@ -120,7 +121,8 @@ class AuthHandler {
     if (tokenVerify(req)) {
       next();
     } else {
-      throw {code:403, message:'Auth token is not supplied or you are unauthorized!'};
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(JSON.stringify({code:403, message:'Auth token is not supplied or you are unauthorized!'}));
     }
   }
 
@@ -136,7 +138,8 @@ class AuthHandler {
     form.parse(req, function (err, fields, files) {
       let formData = {};
       if (err) {
-        throw 'Parse Formdata Error: ' + err;
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end(JSON.stringify({code:403, message:'Parse Formdata Error', error: err}));
       } else {
         for (let key in fields) {
           //gan them thuoc tinh dynamic
@@ -177,11 +180,21 @@ class AuthHandler {
    */
   jsonProcess(req, res, next){
 
-    req.jsonData = {
-      isdn:'+84903500888',
-      sms:'Your key required authentication is 123',
-    };
-    next();
+    let postDataString = '';
+    req.on('data', (chunk) => {
+        postDataString += chunk;
+    });
+    req.on('end', () => {
+      var postDataObject;
+      try{
+        postDataObject = JSON.parse(postDataString);
+        req.jsonData = postDataObject;
+        next();
+      }catch(err){
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end(JSON.stringify({code:403,message:"No JSON parse Data",error:err}));
+      }
+    })
   }
 
   //dang ky user
@@ -194,7 +207,8 @@ class AuthHandler {
       let password = '';
 
       if (err) {
-        throw 'Error on parse form : ' + err
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end(JSON.stringify({code:403, message:'Parse Formdata Error', error: err}));
       } else {
         for (let key in fields) {
           if (key = 'username') username = fields[key];
@@ -235,10 +249,12 @@ class AuthHandler {
             }));
           })
           .catch(err => {
-            throw 'Đăng ký không thành công đâu nhé! error: ' + err
+            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end(JSON.stringify({code:403, message:'Đăng ký không thành công đâu nhé!', error: err}));
           });
       } else {
-        throw 'Lỗi truyền số liệu không đúng'
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end(JSON.stringify({code:403, message:'Lỗi truyền số liệu không đúng'}));
       }
     });
 
@@ -306,7 +322,8 @@ class AuthHandler {
           });
 
       } else {
-        throw 'Lỗi truyền số liệu không đúng!'
+        res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end(JSON.stringify({code:403, message:'Lỗi truyền số liệu không đúng'}));
       }
     })
   }
@@ -403,10 +420,8 @@ class AuthHandler {
     if (req.jsonData&&req.jsonData.isdn){
       db.handler.sendSMS(req, res, next);
     }else{
-      throw JSON.stringify({
-        status: 'NOK',
-        message: 'No jsonData for Send SMS!'
-      })
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(JSON.stringify({code:403, message:'No jsonData for Send SMS!'}));
     }
   }
 
