@@ -929,8 +929,29 @@ class HandleDatabase {
      //-----------------------------------------
      //tra den phien tiep theo
      next(); 
-     }
+    }
 
+    /**
+     * Gui tin nhan
+     * ket qua la tra ve web
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
+    sendSMS(req, res, next){
+        //lay req.jsonData va gui sms
+        //sms_owner.send_sms_vlr_mnp ('903500888','gui Key2','MobiFone3',5);
+        db.executeJavaFunction('sms_owner.send_sms_vlr_mnp',[req.jsonData.isdn,req.jsonData.sms,'MobiFone3',5])
+        .then(data=>{
+            console.log('data', data);
+            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+            res.end(JSON.stringify(data));
+        })
+        .catch(err=>{
+            console.log('err',err);
+            throw err;
+        })
+    }
 }
 
 

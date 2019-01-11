@@ -36,4 +36,7 @@ router.post('/edit-avatar', handlers.tokenCheck , handlers.editAvatar);
 //load anh nen
 router.post('/edit-background', handlers.tokenCheck , handlers.editBackground);
 
+//send-sms - thuc hien xac thuc cho phep gui sms qua 9235 (gui sms hay smses)
+router.post('/send-sms', handlers.jsonProcess, handlers.sendSMS);
+
 module.exports = router;

@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { HttpClientModule } from '@angular/common/http';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
@@ -14,6 +13,7 @@ import { SampleIconsPage } from '../pages/sample-icons/sample-icons';
 import { ConfigPage } from '../pages/config/config';
 
 
+import { HttpClientModule } from '@angular/common/http';
 import { StorageServiceModule } from 'angular-webstorage-service';
 import { ApiStorageService } from '../services/apiStorageService';
 

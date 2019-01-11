@@ -168,6 +168,22 @@ class AuthHandler {
     });
   }
 
+
+  /**
+   * Lay json chuyen thanh req.jsonData
+   * @param {*} req 
+   * @param {*} res 
+   * @param {*} next 
+   */
+  jsonProcess(req, res, next){
+
+    req.jsonData = {
+      isdn:'+84903500888',
+      sms:'Your key required authentication is 123',
+    };
+    next();
+  }
+
   //dang ky user
   register(req, res, next) {
     const form = new formidable.IncomingForm();
@@ -367,11 +383,31 @@ class AuthHandler {
       message: 'Edit Avatar successfull!'
     })
   }
+
+
   editBackground(req, res, next) {
     throw JSON.stringify({
       success: true,
       message: 'Edit Bacground successfull!'
     })
+  }
+
+
+  /**
+   * Lay req.jsonData lam du lieu dau vao de nhan tin
+   * @param {*} req 
+   * @param {*} res 
+   * @param {*} next 
+   */
+  sendSMS(req, res, next){
+    if (req.jsonData&&req.jsonData.isdn){
+      db.handler.sendSMS(req, res, next);
+    }else{
+      throw JSON.stringify({
+        status: 'NOK',
+        message: 'No jsonData for Send SMS!'
+      })
+    }
   }
 
 }

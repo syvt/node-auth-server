@@ -44,8 +44,12 @@ export class LoginPage {
           this.apiService.authorize(this.apiStorageService.getToken())
           .then(status=>{
             console.log('Login page ready authorize: ', status);
-            this.isShowInfo = true;
-            this.callChat();      
+            if (status){
+              this.isShowInfo = true;
+              this.callChat();      
+            }else{
+              throw 'Your session expired!';
+            }
           })
           .catch(err=>{
             console.log('Login page ready UNauthorize: ', err);

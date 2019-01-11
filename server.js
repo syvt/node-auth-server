@@ -53,7 +53,7 @@ function main(isHttp, isHttps) {
     });
 
     //for chat http:
-    io = require('socket.io')(httpServer,{
+    io = require('socket.io')(httpServer,{  path:'/api/socket', //duong dan can live cho client khong trung voi express
                                             pingInterval: 2000,
                                             wsEngine: 'ws'
                                         });
@@ -77,7 +77,7 @@ function main(isHttp, isHttps) {
     });
 
     //for chat https:
-    io = require('socket.io')(httpsServer,{
+    io = require('socket.io')(httpsServer,{ path:'/api/socket', //duong dan can live cho client khong trung voi express
                                             pingInterval: 2000,
                                             wsEngine: 'ws'
                                         });
