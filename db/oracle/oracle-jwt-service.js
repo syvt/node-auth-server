@@ -938,18 +938,12 @@ class HandleDatabase {
      * @param {*} res 
      * @param {*} next 
      */
-    sendSMS(req, res, next){
-        //lay req.jsonData va gui sms
+    sendSMS(req){
+        //lay req.json_data va gui sms
         //sms_owner.send_sms_vlr_mnp ('903500888','gui Key2','MobiFone3',5);
-        db.executeJavaFunction('sms_owner.send_sms_vlr_mnp',[req.jsonData.isdn,req.jsonData.sms,'MobiFone3',5])
+        return db.executeJavaFunction('sms_owner.send_sms_vlr_mnp',[req.json_data.phone,req.json_data.sms,'MobiFone3',5])
         .then(data=>{
-            //console.log('data', data);
-            res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-            res.end(JSON.stringify(data));
-        })
-        .catch(err=>{
-            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-            res.end(JSON.stringify(err));
+            return data;
         })
     }
 }

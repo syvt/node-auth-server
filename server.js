@@ -21,8 +21,12 @@ function main(isHttp, isHttps) {
   app.use('/api/speedtest', speedtest); 
 
   //su dung auth user
-  const userAuth = require('./routes/user-auth');
-  app.use('/api/auth', userAuth); 
+  //const userAuth = require('./routes/user-auth');
+  //app.use('/api/auth', userAuth); 
+ 
+  //xac thuc theo phone cho website external
+  const externalAuth = require('./routes/ext-auth');
+  app.use('/api/ext-auth', externalAuth); 
 
   //ham tra loi cac dia chi khong co
   //The 404 Route (ALWAYS Keep this as the last route)
@@ -34,8 +38,8 @@ function main(isHttp, isHttps) {
 
   //cac route truoc chi can throw, thi error nay se tra loi cho nguoi sdung
   //Error handle ALLWAYS keep last route even all
-  const err = require('./handlers/error-handler');
-  app.use(err.ErrorHandler.errors);
+  //const err = require('./handlers/error-handler');
+  //app.use(err.ErrorHandler.errors);
 
   //---------socket.io for CHAT ------------//
   var io; //= require('socket.io')(http);  or //= require('socket.io')(https); 

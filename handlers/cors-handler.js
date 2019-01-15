@@ -1,5 +1,5 @@
 //chi cho phep cac domain chua cac thong tin nhu sau moi duoc phep truy cap
-var Access_Control_Allow_Origin_List=['.mobifone.vn','cuongdq','localhost','file'];
+var Access_Control_Allow_Origin_List=['.mobifone.vn','cuongdq','herokuapp','localhost','file'];
 
 function validateOrigin(originStr){
   for (let value of Access_Control_Allow_Origin_List){
@@ -15,9 +15,9 @@ class CorsHandler {
 
     cors(req, res, next) {
 
-      console.log(req.method);
-      console.log(req.url);
-      console.log(req.headers);
+      console.log('req.method',req.method);
+      console.log('req.url',req.url);
+      console.log('req.headers',req.headers);
 
       let ip;
       if (req.headers["client_ip"]){
@@ -38,8 +38,11 @@ class CorsHandler {
       let Access_Control_Request_Method = req.header&&req.headers['access-control-request-method']?req.headers['access-control-request-method']:'';
       let Access_Control_Request_Credentials = req.header&&req.headers['access-control-request-credentials']?req.headers['access-control-request-credentials']:'';
 
+      //console.log('req.headers.origin...', origin);
+     
       if (validateOrigin(origin)){ //
-        console.log('Access-Control-Allow-Origin: ' + origin);
+        req.origin = origin;
+        console.log('Access-Control-Allow-Origin: ', req.origin);
         res.header("Access-Control-Allow-Origin", origin); 
       }else{
         if (origin) console.log('Access-Control-Reject-Origin: ' + origin);
