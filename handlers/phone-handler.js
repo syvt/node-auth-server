@@ -151,9 +151,9 @@ const requestIsdn = (req,res,next)=>{
 
 const confirmKey = (req,res,next)=>{
     //console.log('req.json_data',req.json_data); //da dich duoc json
-    if (req.json_data&&req.json_data.key&&req.json_data.token){
+    if (req.json_data&&req.json_data.key&&req.token){
       
-      let session = aliveSession.find(x=>x.token === req.json_data.token);
+      let session = aliveSession.find(x=>x.token === req.token);
         //neu session co luu thi moi cho phep verify
         console.log('session confirm Key:',session);
         //luu lai session.last_time
@@ -161,7 +161,6 @@ const confirmKey = (req,res,next)=>{
         if (session||!isVerifyAlive){
           //console.log(req.json_data);
           req.keyOTP = req.json_data.key; //user nhap vao khi nhan duoc sms
-          req.token = req.json_data.token;          
           
           if (tokenHandler.tokenVerify(req)) { //sau khi 
             
@@ -209,18 +208,17 @@ const confirmKey = (req,res,next)=>{
 
 const authorizeToken = (req,res,next)=>{
     
-    console.log('req.json_data',req.json_data); //da dich duoc json
+    console.log('authorizeToken req.json_data',req.json_data); //da dich duoc json
 
-    if (req.json_data&&req.json_data.token){
+    if (req.json_data&&req.token){
         
-      let session = aliveSession.find(x=>x.token === req.json_data.token);
+      let session = aliveSession.find(x=>x.token === req.token);
         //neu session co luu thi moi cho phep verify
-        console.log('session confirm Key:',session);
+        console.log('session authorizeToken:',session);
         //luu lai session.last_time
         //neu co thi verify alive ==> neu restart thi mat
         if (session||!isVerifyAlive){
-            req.token = req.json_data.token;
-
+         
             if (tokenHandler.tokenVerify(req)) { 
                 
                 if (session){
