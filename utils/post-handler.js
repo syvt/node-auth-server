@@ -18,7 +18,7 @@ var formProcess = (req, res, next) => {
       let formData = {};
       if (err) {
         res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end(JSON.stringify({code:403, message:'Parse Formdata Error', error: err}));
+        res.end(JSON.stringify({message:'Parse Formdata Error', error: err}));
       } else {
         for (let key in fields) {
           //gan them thuoc tinh dynamic
@@ -69,7 +69,7 @@ var formProcess = (req, res, next) => {
         next();
       }catch(err){
         res.writeHead(403, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end(JSON.stringify({code:403,message:"No JSON parse Data",error:err}));
+        res.end(JSON.stringify({message:"No JSON parse Data",error:err}));
       }
     })
   }

@@ -943,7 +943,11 @@ class HandleDatabase {
         //sms_owner.send_sms_vlr_mnp ('903500888','gui Key2','MobiFone3',5);
         return db.executeJavaFunction('sms_owner.send_sms_vlr_mnp',[req.json_data.phone,req.json_data.sms,'MobiFone3',5])
         .then(data=>{
-            return data;
+            if (data&&data.v_out){
+                return data.v_out //chuyen doi ra chuoi thuc te tu db tra ra
+            } else {
+                throw data;       //du lieu khong dung dang cua oracle-dao.js
+            }
         })
     }
 }
