@@ -33,7 +33,8 @@ const getAliveSession = (req, res, next) =>{
       user_info: tokenHandler.getInfoFromToken(el.token),
       status: el.status,
       hacker_online: el.hacker_online,
-      current_time: new Date().getTime()
+      current_time: new Date().getTime(),
+      token:el.token
     })
 
     //kiem tra session nao het hieu luc thi xoa di
@@ -86,7 +87,7 @@ const getPublickeyJson = (req, res, next) =>{
             res.end(JSON.stringify(PUBLIC_KEY));
           } else {
             res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-            res.end(JSON.stringify({code:403, message:'No PUBLIC_KEY init on server!'}));
+            res.end(JSON.stringify({message:'No PUBLIC_KEY init on server!'}));
           }
   }
 
@@ -141,11 +142,11 @@ const requestIsdn = (req,res,next)=>{
         })
         .catch(err=>{
           res.writeHead(403, { 'Content-Type': 'text/html; charset=utf-8' });
-          res.end(JSON.stringify({code:403, message:'Oracle Error', error: err}));
+          res.end(JSON.stringify({message:'Oracle Error', error: err}));
         });
     }else{
       res.writeHead(403, { 'Content-Type': 'text/html; charset=utf-8' });
-      res.end(JSON.stringify({code:403, message:'No json_data for Request phone!'}));
+      res.end(JSON.stringify({message:'No json_data for Request phone!', error: 'No json_data for Request phone!'}));
     }
   }
 
