@@ -1,5 +1,39 @@
 "use strict"
 
+const tokenHandler = require('../utils/token-handler');
+
+const db = require('../db/oracle/oracle-jwt-service');
+
+const NodeRSA = require('node-rsa');
+const MidlewareRSA = new NodeRSA(null, { signingScheme: 'pkcs1-sha256' });
+var PUBLIC_KEY;
+
+  setTimeout(()=>{
+     db.handler.init(); //khoi tao cac bang du lieu admin va rsa_key
+  },3000); //doi 3 giay de oracle ket noi
+
+
+  var init = () => {
+    db.handler.
+        createServiceKey(db.service_id)
+        .then(serverkey => {
+          MidlewareRSA.importKey(serverkey.PRIVATE_KEY);
+          PUBLIC_KEY = {
+            SERVICE_ID: serverkey.SERVICE_ID,
+            PUBLIC_KEY: serverkey.PUBLIC_KEY,
+            SERVICE_NAME: serverkey.SERVICE_NAME,
+            IS_ACTIVE: serverkey.IS_ACTIVE
+          };
+        })
+        .catch(err => { })
+  }
+  //tra key
+
+setTimeout(()=>{
+init(); //5 giay sau khoi tao public key tra cho nguoi dung
+},5000); //doi 3 giay de oracle ket noi
+
+
 /**
  * phone-handler: 
  * 
@@ -46,38 +80,6 @@ const getAliveSession = (req, res, next) =>{
 
 }
 
-const tokenHandler = require('../utils/token-handler');
-
-const db = require('../db/oracle/oracle-jwt-service');
-    
-  setTimeout(()=>{
-     db.handler.init(); //khoi tao cac bang du lieu admin va rsa_key
-  },3000); //doi 3 giay de oracle ket noi
-
-  
-const NodeRSA = require('node-rsa');
-const MidlewareRSA = new NodeRSA(null, { signingScheme: 'pkcs1-sha256' });
-var PUBLIC_KEY;
-
- var init = () => {
-          db.handler.
-              createServiceKey(db.service_id)
-              .then(serverkey => {
-                MidlewareRSA.importKey(serverkey.PRIVATE_KEY);
-                PUBLIC_KEY = {
-                  SERVICE_ID: serverkey.SERVICE_ID,
-                  PUBLIC_KEY: serverkey.PUBLIC_KEY,
-                  SERVICE_NAME: serverkey.SERVICE_NAME,
-                  IS_ACTIVE: serverkey.IS_ACTIVE
-                };
-              })
-              .catch(err => { })
-        }
-        //tra key
-
-setTimeout(()=>{
-  init(); //5 giay sau khoi tao public key tra cho nguoi dung
-},5000); //doi 3 giay de oracle ket noi
 
 
 
@@ -248,8 +250,6 @@ const authorizeToken = (req,res,next)=>{
           res.writeHead(403, {'Content-Type': 'application/json; charset=utf-8' });
           res.end(JSON.stringify({message:'No Session init in Serer!'}));
         }
-
-
         
     }else{
         res.writeHead(403, {'Content-Type': 'application/json; charset=utf-8' });          

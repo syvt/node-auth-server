@@ -38,8 +38,8 @@ function main(isHttp, isHttps) {
 
   //cac route truoc chi can throw, thi error nay se tra loi cho nguoi sdung
   //Error handle ALLWAYS keep last route even all
-  //const err = require('./handlers/error-handler');
-  //app.use(err.ErrorHandler.errors);
+  const err = require('./handlers/error-handler');
+  app.use(err.ErrorHandler.errors);
 
   //---------socket.io for CHAT ------------//
   var io; //= require('socket.io')(http);  or //= require('socket.io')(https); 
