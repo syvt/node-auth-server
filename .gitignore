@@ -24,7 +24,9 @@ node_modules/
 tmp/
 #khong chuyen file database len vi se bi ghi de mat so lieu
 #/db/*.db
-db/oracle/oracle-config.js
+
+db/oracle/oracle-config.*
+
 temp/
 #phai day www len server cho ionic hoat dong
 #www/
