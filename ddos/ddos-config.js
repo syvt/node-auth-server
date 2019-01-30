@@ -5,23 +5,19 @@ module.exports = new DDDoS({
                         errorCode: 429,
                         //HTTP error code to be set on DDoS detection. Default: 429 (Too Many Requests)
                         weight: 1,
-                        maxWeight: 10,
+                        maxWeight: 5,
                         checkInterval: 1000,
                         rules: [
-                        { //cho phep trang chu truy cap 30 yeu cau / 1 giay
-                            string: '/',
+                        /* { //cho phep trang api chi cho phep 1 giay 1 yeu cau thoi
+                            string: '/api/ext-auth/alive-session',
                             maxWeight: 1
-                        },
-                        { // Allow 4 requests accessing the application API per checkInterval 
-                            regexp: "^/api/*",
+                        } */
+                        { // Allow 1 requests accessing the application API per checkInterval 
+                            regexp: "^/api/ext-auth/*",
                             flags: "i",
-                            maxWeight: 4,
-                            queueSize: 4 // If request limit is exceeded, new requests are added to the queue 
+                            maxWeight: 1,
+                            queueSize: 1 // If request limit is exceeded, new requests are added to the queue 
                         },
-                        { // Allow up to 16 other requests per check interval.
-                            regexp: ".*",
-                            maxWeight: 16
-                        }
                         ]
                     })
 ;
