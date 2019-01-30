@@ -1,4 +1,9 @@
+
 "use strict"
+/**
+ * doi tuong sqlite-dao - cuong.dq version 3.0 
+ * repaired 20190105: col.value !=undefined && !=null 
+ */
 const sqlite3 = require('sqlite3').verbose();
 const isSilence = require('./sqlite-config').keep_silence;
 
@@ -13,6 +18,34 @@ class SQLiteDAO {
     })
   }
 
+  /**
+   * Ham chuyen doi mot doi tuong json thanh cau lenh sqlJson 
+   * su dung de goi lenh db.insert/update/delete/select
+   * vi du: 
+   * convertSqlFromJson(dual_table,{x:null,y:1},['y'])
+   * return : {name:dual_table,cols:[{name:x,value:null},{name:y,value:1}],wheres:[name:y,value:1]}
+   * Cau lenh tren su dung de:
+   *  select x,y from dual_table where y=1;
+   * hoac:
+   *  update dual_table x=null, y=1 where y=1;
+   * hoac 
+   *  delete
+   * hoac
+   * insert
+   * @param {*} tableName 
+   * @param {*} obj 
+   * @param {*} wheres 
+   */
+  convertSqlFromJson(tablename, json, idFields){
+    let jsonInsert = { name: tablename, cols: [], wheres: [] }
+    let whereFields = idFields ? idFields : ['id'];
+    for (let key in json) {
+        jsonInsert.cols.push({ name: key, value: json[key] });
+        if (whereFields.find(x => x === key)) jsonInsert.wheres.push({ name: key, value: json[key] })
+    }
+    return jsonInsert;
+  }
+  
   /**
    * 
    * @param {*} table 
@@ -64,7 +97,7 @@ class SQLiteDAO {
     let sqlValues='';
     let params = [];
     for (let col of insertTable.cols) {
-      if (col.value){
+      if (col.value!=undefined&&col.value!=null){
         params.push(col.value);
         if (i++ == 0) {
           sqlNames += col.name;
@@ -104,7 +137,7 @@ class SQLiteDAO {
     let i = 0;
     let params = [];
     for (let col of updateTable.cols) {
-      if (col.value){
+      if (col.value!=undefined&&col.value!=null){
         //neu gia tri khong phai undefined moi duoc thuc thi
         params.push(col.value);
         if (i++ == 0) {
@@ -117,7 +150,7 @@ class SQLiteDAO {
 
     i = 0;
     for (let col of updateTable.wheres) {
-      if (col.value){
+      if (col.value!=undefined&&col.value!=null){
         params.push(col.value);
         if (i++ == 0) {
           sql += ' WHERE ' + col.name + '= ?';
@@ -141,7 +174,7 @@ class SQLiteDAO {
     let i = 0;
     let params = [];
     for (let col of deleteTable.wheres) {
-      if (col.value){
+      if (col.value!=undefined&&col.value!=null){
         params.push(col.value);
         if (i++ == 0) {
           sql += ' WHERE ' + col.name + '= ?';
@@ -174,13 +207,15 @@ class SQLiteDAO {
     }
     sql = 'SELECT '+sqlNames+' FROM ' + selectTable.name;
     i = 0;
-    for (let col of selectTable.wheres) {
-      if (col.value){
-        params.push(col.value);
-        if (i++ == 0) {
-          sql += ' WHERE ' + col.name + '= ?';
-        } else {
-          sql += ' AND ' + col.name + '= ?';
+    if (selectTable.wheres){
+      for (let col of selectTable.wheres) {
+        if (col.value!=undefined&&col.value!=null){
+          params.push(col.value);
+          if (i++ == 0) {
+            sql += ' WHERE ' + col.name + '= ?';
+          } else {
+            sql += ' AND ' + col.name + '= ?';
+          }
         }
       }
     }

@@ -2,36 +2,46 @@
 
 const tokenHandler = require('../utils/token-handler');
 
-const db = require('../db/oracle/oracle-jwt-service');
+//su dung csdl admin_user
+//const db = require('../db/oracle/oracle-jwt-service');
+const db = require('../db/sqlite3/sqlite-admin-service');
+
 
 const NodeRSA = require('node-rsa');
 const MidlewareRSA = new NodeRSA(null, { signingScheme: 'pkcs1-sha256' });
-var PUBLIC_KEY;
+var public_key;
 
-  setTimeout(()=>{
-     db.handler.init(); //khoi tao cac bang du lieu admin va rsa_key
-  },3000); //doi 3 giay de oracle ket noi
+//chi chay 1 lan ban dau tao csdl
+setTimeout(()=>{
+  console.log('Tao bang ban dau')
+  db.handler.init(); //khoi tao cac bang du lieu admin va rsa_key
+},3000); //doi 3 giay de oracle ket noi
 
 
-  var init = () => {
+  var initKey = () => {
     db.handler.
         createServiceKey(db.service_id)
         .then(serverkey => {
-          MidlewareRSA.importKey(serverkey.PRIVATE_KEY);
-          PUBLIC_KEY = {
-            SERVICE_ID: serverkey.SERVICE_ID,
-            PUBLIC_KEY: serverkey.PUBLIC_KEY,
-            SERVICE_NAME: serverkey.SERVICE_NAME,
-            IS_ACTIVE: serverkey.IS_ACTIVE
+          
+          MidlewareRSA.importKey(serverkey.private_key);
+          public_key = {
+            service_id: serverkey.service_id,
+            public_key: serverkey.public_key,
+            service_name: serverkey.service_name,
+            is_active: serverkey.is_active
           };
+
         })
-        .catch(err => { })
+        .catch(err => { 
+          console.log('Error create key',err)
+        })
   }
   //tra key
 
-setTimeout(()=>{
-init(); //5 giay sau khoi tao public key tra cho nguoi dung
-},5000); //doi 3 giay de oracle ket noi
+  setTimeout(()=>{
+    console.log('Tao key service')
+    initKey(); //5 giay sau khoi tao public key tra cho nguoi dung
+  },5000); //doi 3 giay de oracle ket noi
 
 
 /**
@@ -81,19 +91,15 @@ const getAliveSession = (req, res, next) =>{
 }
 
 
-
-
 const getPublickeyJson = (req, res, next) =>{
-          if (PUBLIC_KEY) {
+          if (public_key) {
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(PUBLIC_KEY));
+            res.end(JSON.stringify(public_key));
           } else {
             res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-            res.end(JSON.stringify({message:'No PUBLIC_KEY init on server!'}));
+            res.end(JSON.stringify({message:'No public_key init on server!'}));
           }
   }
-
-
 
 
   /**

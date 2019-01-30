@@ -4,7 +4,8 @@ const postHandler = require('../utils/post-handler');
 const phoneHandler = require('../handlers/phone-handler');
 const tokenHandler = require('../utils/token-handler');
 //gui len so thue bao --> tra ve token temp -> key --> 1h 
-router.post('/request-isdn', postHandler.jsonProcess, phoneHandler.requestIsdn);
+router.post('/request-isdn', postHandler.jsonProcess
+                           , phoneHandler.requestIsdn);
 
 //gui len token temp, key xac thuc -- tra ve token 24h
 router.post('/confirm-key', postHandler.jsonProcess

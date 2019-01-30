@@ -16,14 +16,6 @@ function main(isHttp, isHttps) {
   const cors = require('./handlers/cors-handler');
   app.use(cors.CorsHandler.cors);
 
-  //su dung speedtest
-  const speedtest = require('./routes/speedtest');
-  app.use('/api/speedtest', speedtest); 
-
-  //su dung auth user
-  //const userAuth = require('./routes/user-auth');
-  //app.use('/api/auth', userAuth); 
- 
   //xac thuc theo phone cho website external
   const externalAuth = require('./routes/ext-auth');
   app.use('/api/ext-auth', externalAuth); 
@@ -98,8 +90,6 @@ function main(isHttp, isHttps) {
   io.of('/').on('connection', ioHandler.ChatHandler.rootChat);
   io.of('/app-online').on('connection', ioHandler.ChatHandler.appOnline);
   io.of('/c3-chat').on('connection', ioHandler.ChatHandler.c3Online);
-
-
 
 }
 
