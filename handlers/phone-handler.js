@@ -3,8 +3,8 @@
 const tokenHandler = require('../utils/token-handler');
 
 //su dung csdl admin_user
-//const db = require('../db/oracle/oracle-jwt-service');
-const db = require('../db/sqlite3/sqlite-admin-service');
+const db = require('../db/oracle/oracle-admin-service');
+//const db = require('../db/sqlite3/sqlite-admin-service');
 
 
 const NodeRSA = require('node-rsa');
@@ -30,6 +30,8 @@ setTimeout(()=>{
             service_name: serverkey.service_name,
             is_active: serverkey.is_active
           };
+
+          console.log('public_key created:',public_key)
 
         })
         .catch(err => { 
@@ -263,7 +265,27 @@ const authorizeToken = (req,res,next)=>{
     }
 }
 
+
+
+const sendSMS = (req, res, next) =>{
+  if (req.json_data&&req.json_data.phone&&req.json_data.sms) {
+    db.handler.sendSMS(req)
+    .then(data=>{ //data la mot string kieu json
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    })
+    .catch(err=>{
+      res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(JSON.stringify({message:'Error for send sms', error: err}));  
+    });
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+    res.end(JSON.stringify({message:'No json_data for send sms!'}));
+  }
+}
+
 module.exports = {
+    sendSMS: sendSMS,
     requestIsdn: requestIsdn,
     confirmKey: confirmKey,
     getAliveSession: getAliveSession,

@@ -3,6 +3,7 @@
 
 const NodeRSA = require('node-rsa');
 
+const utils = require('../../utils/array-object');
 const config = require('./sqlite-config');
 const isSilence = config.keep_silence;
 
@@ -44,7 +45,7 @@ class HandleDatabaseService {
             
             return (new Promise((resolve, reject) => {
                 try{
-                  serverKey.importKey(RSAKeyRow.PRIVATE_KEY);
+                  serverKey.importKey(RSAKeyRow.private_key);
                 }catch(err){
                   reject(err); //bao loi khong import key duoc
                 } 
@@ -59,7 +60,7 @@ class HandleDatabaseService {
                 console.log('RSAKeyRow 2:',RSAKeyRow);
                 if (RSAKeyRow){
                     try{
-                        serverKey.importKey(RSAKeyRow.PRIVATE_KEY);
+                        serverKey.importKey(RSAKeyRow.private_key);
                       }catch(err){
                         throw err; //bao loi khong import key duoc
                       } 
@@ -178,13 +179,15 @@ class HandleDatabaseService {
                 console.log(err);
               }
 
+        }else{
+            console.log('NO server Key for create admin User');
         }
 
     }
 
     createUser(userInfo){
 
-    var userInfoSQL = db.convertSqlFromJson('admin_users',userInfo,['username']);
+    var userInfoSQL = utils.convertSqlFromJson('admin_users',userInfo,['username']);
     
         return db.insert(userInfoSQL)
         .then(data => {

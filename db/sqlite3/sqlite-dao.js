@@ -1,5 +1,6 @@
 
 "use strict"
+
 /**
  * doi tuong sqlite-dao - cuong.dq version 3.0 
  * repaired 20190105: col.value !=undefined && !=null 
@@ -18,33 +19,6 @@ class SQLiteDAO {
     })
   }
 
-  /**
-   * Ham chuyen doi mot doi tuong json thanh cau lenh sqlJson 
-   * su dung de goi lenh db.insert/update/delete/select
-   * vi du: 
-   * convertSqlFromJson(dual_table,{x:null,y:1},['y'])
-   * return : {name:dual_table,cols:[{name:x,value:null},{name:y,value:1}],wheres:[name:y,value:1]}
-   * Cau lenh tren su dung de:
-   *  select x,y from dual_table where y=1;
-   * hoac:
-   *  update dual_table x=null, y=1 where y=1;
-   * hoac 
-   *  delete
-   * hoac
-   * insert
-   * @param {*} tableName 
-   * @param {*} obj 
-   * @param {*} wheres 
-   */
-  convertSqlFromJson(tablename, json, idFields){
-    let jsonInsert = { name: tablename, cols: [], wheres: [] }
-    let whereFields = idFields ? idFields : ['id'];
-    for (let key in json) {
-        jsonInsert.cols.push({ name: key, value: json[key] });
-        if (whereFields.find(x => x === key)) jsonInsert.wheres.push({ name: key, value: json[key] })
-    }
-    return jsonInsert;
-  }
   
   /**
    * 

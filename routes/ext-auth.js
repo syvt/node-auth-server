@@ -7,6 +7,11 @@ const tokenHandler = require('../utils/token-handler');
 router.post('/request-isdn', postHandler.jsonProcess
                            , phoneHandler.requestIsdn);
 
+//gui len so thue bao --> tra ve token temp -> key --> 1h 
+router.post('/send-sms', postHandler.jsonProcess
+                       //, tokenHandler.getToken  //tiền xử lý token
+                       , phoneHandler.sendSMS);
+
 //gui len token temp, key xac thuc -- tra ve token 24h
 router.post('/confirm-key', postHandler.jsonProcess
                           , tokenHandler.getToken  //tiền xử lý token

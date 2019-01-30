@@ -1,5 +1,50 @@
 "use strict"
 
+
+const ConvertKeysToLowerCase= (obj) =>{
+    var output = {};
+    for (let i in obj) {
+        if (Object.prototype.toString.apply(obj[i]) === '[object Object]') {
+           output[i.toLowerCase()] = ConvertKeysToLowerCase(obj[i]);
+        }else if(Object.prototype.toString.apply(obj[i]) === '[object Array]'){
+            output[i.toLowerCase()]=[];
+             output[i.toLowerCase()].push(ConvertKeysToLowerCase(obj[i][0]));
+        } else {
+            output[i.toLowerCase()] = obj[i];
+        }
+    }
+    return output;
+};
+
+
+/**
+   * Ham chuyen doi mot doi tuong json thanh cau lenh sqlJson 
+   * su dung de goi lenh db.insert/update/delete/select
+   * vi du: 
+   * convertSqlFromJson(dual_table,{x:null,y:1},['y'])
+   * return : {name:dual_table,cols:[{name:x,value:null},{name:y,value:1}],wheres:[name:y,value:1]}
+   * Cau lenh tren su dung de:
+   *  select x,y from dual_table where y=1;
+   * hoac:
+   *  update dual_table x=null, y=1 where y=1;
+   * hoac 
+   *  delete
+   * hoac
+   * insert
+   * @param {*} tableName 
+   * @param {*} obj 
+   * @param {*} wheres 
+   */
+  const convertSqlFromJson = (tablename, json, idWheres)=>{
+    let jsonInsert = { name: tablename, cols: [], wheres: [] }
+    let whereFields = idWheres ? idWheres : ['id'];
+    for (let key in json) {
+        jsonInsert.cols.push({ name: key, value: json[key] });
+        if (whereFields.find(x => x === key)) jsonInsert.wheres.push({ name: key, value: json[key] })
+    }
+    return jsonInsert;
+  }
+
 /**
  * Tao cay quan ly nhu oracle
  * No se tu dong tao ra mang
@@ -8,7 +53,7 @@
  * @param {*} option 
  * @param {*} level 
  */
-var createTree = (arrIn,option,level)=>{
+const createTree = (arrIn,option,level)=>{
     var myLevl = level?level:0;
     var myOption = option?option:{id:'id',parentId:'parentId',startWith:null}
 
@@ -95,6 +140,8 @@ const getMatrix = (maskMatrix, data, point)=>{
 }
 
 module.exports = {
+    convertSqlFromJson: convertSqlFromJson,
+    ConvertKeysToLowerCase: ConvertKeysToLowerCase,
     clone: clone,
     getMatrix : getMatrix, //tao ma tran in
     compare2Objects:isEquikeylent, //so sanh 2 object
