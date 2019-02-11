@@ -1,5 +1,10 @@
 "use strict"
 
+const url = require('url');
+const systempath = require('path');
+const mime = require('mime-types');
+const fs = require('fs');
+
 const tokenHandler = require('../utils/token-handler');
 
 //su dung csdl admin_user
@@ -18,7 +23,7 @@ setTimeout(()=>{
 },3000); //doi 3 giay de oracle ket noi
 
 
-  var initKey = () => {
+var initKey = () => {
     db.handler.
         createServiceKey(db.service_id)
         .then(serverkey => {
@@ -113,7 +118,7 @@ const getPublickeyJson = (req, res, next) =>{
    */
 const requestIsdn = (req,res,next)=>{
     let test_phone  = '123456789';
-    //console.log('req.json_data',req.json_data); //da dich duoc json
+    console.log('req.json_data',req.json_data); //da dich duoc json
     
     if (req.json_data&&req.json_data.phone){
         let keyOTP =  Math.random().toString(36).substring(2,8).toUpperCase();
@@ -284,11 +289,52 @@ const sendSMS = (req, res, next) =>{
   }
 }
 
+
+const saveUserAvatar = (req, res, next) =>{
+      console.log(req.form_data);
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(req.form_data));
+    }
+    
+const saveUserInfo = (req, res, next) =>{
+      console.log(req.json_data);
+      
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(req.json_data));
+}
+
+
+const getUploadFile = (req, res, next) =>{
+  
+  let path = decodeURIComponent(url.parse(req.url, true, false).pathname);
+  let params = path.substring('/upload-file/'.length);
+  
+  let fileRead = params.replace('/',systempath.sep);
+  let contentType = 'image/jpeg';
+
+  if (mime.lookup(fileRead)) contentType = mime.lookup(fileRead);
+
+  fs.readFile(fileRead, { flag: 'r' }, function (error, data) {
+        if (!error) {
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(data);
+        } else {
+            res.writeHead(404, { 'Content-Type': 'text/html' });
+            res.end(JSON.stringify(error));
+        }
+  });
+
+}
+
 module.exports = {
+    saveUserAvatar: saveUserAvatar,
+    saveUserInfo: saveUserInfo,
     sendSMS: sendSMS,
     requestIsdn: requestIsdn,
     confirmKey: confirmKey,
     getAliveSession: getAliveSession,
     authorizeToken: authorizeToken,
     getPublickeyJson: getPublickeyJson,
+    getUploadFile:getUploadFile
 };

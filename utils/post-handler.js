@@ -16,10 +16,12 @@ var formProcess = (req, res, next) => {
     const form = new formidable.IncomingForm();
     form.parse(req, function (err, fields, files) {
       let formData = {};
+      
       if (err) {
         res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
         res.end(JSON.stringify({message:'Parse Formdata Error', error: err}));
       } else {
+        
         for (let key in fields) {
           //gan them thuoc tinh dynamic
           Object.defineProperty(formData, key, {

@@ -12,6 +12,15 @@ router.post('/send-sms', postHandler.jsonProcess
                        //, tokenHandler.getToken  //tiền xử lý token
                        , phoneHandler.sendSMS);
 
+router.post('/save-user-info', postHandler.jsonProcess
+                       //, tokenHandler.getToken  //tiền xử lý token
+                       , phoneHandler.saveUserInfo);
+
+router.post('/save-user-avatar'
+                      //, tokenHandler.getToken  //tiền xử lý token
+                        , postHandler.formProcess
+                        , phoneHandler.saveUserAvatar);
+
 //gui len token temp, key xac thuc -- tra ve token 24h
 router.post('/confirm-key', postHandler.jsonProcess
                           , tokenHandler.getToken  //tiền xử lý token
@@ -25,6 +34,11 @@ router.post('/authorize-token', postHandler.jsonProcess
 
 //cap key khi co token xac thuc bang isdn
 router.get('/key-json', phoneHandler.getPublickeyJson);
+
+//lay anh avatar tu may chu nay
+router.get('/upload-file/*'
+                        //, tokenHandler.getToken  //tiền xử lý token
+                        , phoneHandler.getUploadFile);
 
 //chi co quyen admin moi truy van alive-session
 router.get('/alive-session', phoneHandler.getAliveSession);
