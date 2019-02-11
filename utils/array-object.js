@@ -1,5 +1,15 @@
 "use strict"
 
+/**
+ * array-object - cuong.dq
+ * version 1.3
+ * 05/02/2019
+ */
+
+const createObjectKey = (obj,key,value)=>{
+    Object.defineProperty(obj, key, {value: value, writable: false, enumerable: true, configurable: false});
+    return obj;
+} 
 
 const ConvertKeysToLowerCase= (obj) =>{
     var output = {};
@@ -140,6 +150,7 @@ const getMatrix = (maskMatrix, data, point)=>{
 }
 
 module.exports = {
+    createObjectKey: createObjectKey,
     convertSqlFromJson: convertSqlFromJson,
     ConvertKeysToLowerCase: ConvertKeysToLowerCase,
     clone: clone,
