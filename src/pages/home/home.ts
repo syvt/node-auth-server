@@ -88,7 +88,7 @@ export class HomePage {
           setTimeout(()=>{
             this.navCtrl.push(DynamicFormWebPage
               ,{
-              that: this, //bind this for call
+              parent: this, //bind this for call
               callback: this.callbackFunction,
               step: 'form-phone',
               form: data
@@ -121,8 +121,8 @@ export class HomePage {
     
     return new Promise((resolve, reject) => {
 
-      //console.log('parent:',that);
-      //console.log('this:',this);
+      console.log('parent:',that);
+      console.log('this:',this);
 
       if (res&&res.error&&res.error.error){
         //console.log('callback error:', res.error.error);
