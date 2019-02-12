@@ -39,7 +39,12 @@
                 <p *ngIf="it.p">{{it.p}}</p>
                 <ion-note item-end *ngIf="it.note">{{it.note}}</ion-note>
 
-                <button item-end *ngIf="!it.isSlidingItemOpen&&!isMobile" ion-button icon-only round color="secondary" (click)="openSwipeOptions(slidingItem, item, it)">
+                <button item-end *ngIf="!it.isSlidingItemOpen
+                                        &&!isMobile
+                                        &&it.options
+                                        &&it.options.length>0
+                                        &&it.options.length<=3" 
+                                        ion-button icon-only round color="secondary" (click)="openSwipeOptions(slidingItem, item, it)">
                     <ion-icon name="arrow-dropleft-circle"></ion-icon>
                 </button>
 

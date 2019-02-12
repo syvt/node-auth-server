@@ -14,6 +14,7 @@ export class DynamicMediasPage {
   dynamicMediasOrigin: any;
   callback: any;
   step: any;
+  parent:any;
   
   isSearch: boolean = false;
   searchString: string = '';
@@ -46,6 +47,7 @@ export class DynamicMediasPage {
     
     this.callback = this.navParams.get("callback");
     this.step = this.navParams.get("step");
+    this.parent = this.navParams.get("parent");
     let call_waiting_data = this.navParams.get("call_waiting_data");
     
     if (call_waiting_data){
@@ -304,8 +306,9 @@ export class DynamicMediasPage {
             .then(nextStep => this.next(nextStep));
         }
       } else if (btn.next == 'NEXT' && btn.next_data && btn.next_data.data) {
-        btn.next_data.list = btn.next_data.data; //gan du lieu tra ve tu server
-        console.log('next',btn);
+        btn.next_data.callback = this.callback; //gan lai cac function object
+        btn.next_data.parent = this.parent;     //gan lai cac function object
+        btn.next_data.form = btn.next_data.data; //gan du lieu tra ve tu server
         this.navCtrl.push(DynamicMediasPage, btn.next_data);
       }
     }

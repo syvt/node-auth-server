@@ -14,6 +14,7 @@ export class DynamicFormWebPage {
   initValues = [];
   callback: any; // ham goi lai khai bao o trang root gui (neu co)
   step: any;     // buoc thuc hien xuat phat trang root goi (neu co)
+  parent:any;    // Noi goi this
 
   password_type: string = 'password';
   eye: string = "eye";
@@ -44,6 +45,7 @@ export class DynamicFormWebPage {
 
     this.callback = this.navParams.get("callback");
     this.step = this.navParams.get("step");
+    this.parent = this.navParams.get("parent");
 
   }
 
@@ -211,12 +213,14 @@ export class DynamicFormWebPage {
         //if (this.navCtrl.length() > 1) this.navCtrl.pop();      //goback 1 step
       } else if (btn.next == 'CALLBACK') {
         if (this.callback) {
-          this.callback(btn.next_data)
+          this.callback(this.parent,btn.next_data)
             .then(nextStep => this.next(nextStep));
         } else {
           try{this.navCtrl.pop()}catch(e){}
         }
       } else if (btn.next == 'NEXT' && btn.next_data && btn.next_data.data) {
+        btn.next_data.callback = this.callback; //gan lai cac function object
+        btn.next_data.parent = this.parent;     //gan lai cac function object
         btn.next_data.form = btn.next_data.data; //gan du lieu tra ve tu server
         this.navCtrl.push(DynamicFormWebPage, btn.next_data);
       }

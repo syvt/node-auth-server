@@ -1,22 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-/* const dynamicType = {
-    title: 1,               //view
-    avatar: 11,             //view 
-    image: 12,              //view
-    text: 2,                //output 
-    text_area: 21,          //output 
-    password: 3,            //output 
-    range: 4,               //output
-    check: 5,               //output
-    toggle: 51,             //output 
-    radio: 6,               //output 
-    select: 61,             //output
-    select_multiple: 62,    //output
-    datetime: 7,                //output 
-    button: 9,              //action post this form to api server, exit, reset
-  }; */
 
 @Injectable()
 export class ApiHttpPublicService {
@@ -61,28 +45,7 @@ export class ApiHttpPublicService {
      sampleFormDynamic: any = {
       title: "Đăng ký"
       , items: [
-        {          name: "Thông tin cá nhân", type: "title"}
-        , { type:"details",
-            details: [
-                {
-                name:"Mã khách hàng",
-                value: "R012234949883"
-                },
-                {
-                name:"Tên khách hàng",
-                value: "Nguyễn Văn B"
-                },
-                {
-                name:"Địa chỉ",
-                value: "Tổ 1, Đội 1, Thôn 2, xã Vinh Hưng, huyện Phú Lộc, tỉnh Thừa Thiên Huế"
-                },
-                {
-                name:"Hình thức thanh toán",
-                value: "Tiền mặt"
-                },
-            ]
-         }
-        , {        name: "Thông tin cá nhân avatar", hint: "Avatar", type: "avatar", url: "https://www.w3schools.com/howto/img_forest.jpg" }
+        {        name: "Thông tin cá nhân avatar", hint: "Avatar", type: "avatar", url: "https://www.w3schools.com/howto/img_forest.jpg" }
         , { id: 1, name: "Check hay không chọn?", type: "check", value: true }
         , { id: 2, name: "Thanh Trượt", type: "range", value: 50, min: 0, max: 100 }
         , { id: 3, name: "Chọn hay không chọn Toggle?", icon: "plane", type: "toggle" }
@@ -98,7 +61,29 @@ export class ApiHttpPublicService {
         , { id: 13, name: "Ngày bắt đầu", hint: "Chọn ngày", type: "datetime", display:"DD/MM/YYYY", picker:"DD MM YYYY"}
         , { id: 14, name: "Thời gian bắt đầu", hint: "Chọn thời gian", type: "datetime", display:"HH:mm:ss", picker:"HH:mm:ss"}
         , { id: 15, name: "Nội dung nhập", hint: "Nhập nhiều dòng", type: "text_area"}
-        , { 
+        , {          name: "Thông tin cá nhân", type: "title"}
+        , { type:"details",
+            details: [
+                {
+                name:"Mã khách hàng",
+                value: "R012234949883"
+                },
+                {
+                name:"Tên khách hàng",
+                value: "Nguyễn Văn B"
+                },
+                {
+                name:"Địa chỉ",
+                value: "263 Nguyễn Văn Linh, Đà nẵng, Việt Nam"
+                },
+                {
+                name:"Hình thức thanh toán",
+                value: "Tiền mặt"
+                },
+            ]
+         }
+        , 
+        { 
             type: "button"
           , options: [
             { name: "Reset", next: "RESET" }
@@ -303,6 +288,53 @@ export class ApiHttpPublicService {
         ]
   };  
 
+
+  sampleListDynamic:any = {
+    title: "Mạng xã hội"
+    , search_bar: {hint: "Tìm cái gì đó"} 
+    , buttons: [
+        {color:"primary", icon:"add", next:"ADD"}
+        , {color:"primary", icon:"contacts", next:"FRIENDS"}
+        , {color:"primary", icon:"notifications", next:"NOTIFY"
+          , alerts:[
+              "cuong.dq"
+              ]
+          }
+        , {color:"royal", icon:"cog", next:"SETTINGS"}
+      ]
+    , items: [
+        {
+            //icon:"contact",
+            image: "assets/imgs/img_forest.jpg"
+            ,h1:"H1 Tieu de"
+            ,h2:"H2 Chuong muc"
+            ,h3:"H3 Muc luc"
+            ,p:"Sau khi đánh cồng khai trương phiên giao dịch đầu xuân Kỷ Hợi 2019 tại Sở Giao dịch chứng khoán Hà Nội vào sáng 12-2, Thủ tướng Chính phủ Nguyễn Xuân Phúc khẳng định tầm quan trọng của thị trường chứng khoán Việt Nam."
+            ,note:"13/02/2019"
+            ,options:[
+                { name: "Xóa", color:"danger", icon:"trash", next:"EXIT"}
+              , { name: "Chỉnh sửa", color:"primary", icon:"create", next: "NEXT"}
+              , { name: "Xem chi tiết", color:"secondary", icon:"list", next: "CALLBACK"}
+            ]
+        }
+        ,{
+            icon:"contact"
+            //image: "assets/imgs/img_forest.jpg"
+            ,h1:"H1 Tieu de 2"
+            ,h2:"H2 Chuong muc 2"
+            ,h3:"H3 Muc luc 2"
+            ,p:"Trong những ngày đánh bắt đầu năm, 3 ngư dân Quảng Trị đã thu hoạch được mẻ cá bè gần 140 tấn; trong đó một ngư dân trúng mẻ cá siêu khủng nặng hơn 100 tấn."
+            ,note:"14/02/2019"
+            ,options:[
+                { name: "Xóa", color:"danger", icon:"trash", next:"EXIT"}
+              , { name: "Chỉnh sửa", color:"primary", icon:"create", next: "NEXT"}
+              , { name: "Xem chi tiết", color:"secondary", icon:"list", next: "CALLBACK"}
+            ]
+        }
+    ]
+  }
+
+
     constructor(private httpClient: HttpClient) {}
 
     /**
@@ -335,6 +367,11 @@ export class ApiHttpPublicService {
     getUserInfoForm(){
         return this.httpClient.get('assets/data/form-register.json')
                .toPromise()
+    }
+
+
+    getDemoList(){
+        return this.sampleListDynamic;
     }
 
     getDemoForm(){

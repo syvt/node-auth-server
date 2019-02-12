@@ -14,7 +14,7 @@ import { ApiAuthService } from '../../services/apiAuthService';
   templateUrl: 'home.html'
 })
 export class HomePage {
-
+  
   constructor(private navCtrl: NavController
             , private pubService: ApiHttpPublicService
             , private auth : ApiAuthService
@@ -88,6 +88,7 @@ export class HomePage {
           setTimeout(()=>{
             this.navCtrl.push(DynamicFormWebPage
               ,{
+              that: this, //bind this for call
               callback: this.callbackFunction,
               step: 'form-phone',
               form: data
@@ -98,6 +99,7 @@ export class HomePage {
 
           this.navCtrl.push(DynamicFormMobilePage
             ,{
+            parent: this, //bind this for call
             callback: this.callbackFunction,
             step: 'form-phone',
             form: data
@@ -108,28 +110,33 @@ export class HomePage {
   .catch(err=> console.log("err ngOnInit()",err)) 
   }
 
-  /**
-   * ham goi lai gui ket qua new button next
-   */
-  callbackFunction(res?:{step?:string,data?:any,error?:any}){
+
+   /**
+    *  ham goi lai gui ket qua new button next
+    * 
+    * @param that chinh la this cua parent callback
+    * @param res 
+    */
+  callbackFunction(that,res?:{step?:string,data?:any,error?:any}){
+    
     return new Promise((resolve, reject) => {
-      
-      //console.log('callback data:', res);
+
+      //console.log('parent:',that);
+      //console.log('this:',this);
 
       if (res&&res.error&&res.error.error){
-        console.log('callback error:', res.error.error);
-        this.presentAlert('Lỗi:<br>' + JSON.stringify(res.error.error.error));
+        //console.log('callback error:', res.error.error);
+        that.presentAlert('Lỗi:<br>' + JSON.stringify(res.error.error.error));
         resolve();
       } else if (res&&res.step==='form-phone'&&res.data){
         console.log('forward data:', res.data.database_out);
         if (res.data.database_out&&res.data.database_out.status===0){
-          this.presentAlert('Chú ý:<br>' + JSON.stringify(res.data.database_out.message));
+           that.presentAlert('Chú ý:<br>' + JSON.stringify(res.data.database_out.message));
         }
         //gui nhu mot button forward
         resolve({
           next:"NEXT" //mo form tiep theo
           , next_data:{
-            callback: this.callbackFunction,
             step: 'form-key',
             data: //new form 
                   {
@@ -148,31 +155,32 @@ export class HomePage {
       } else if (res&&res.step==='form-key'&&res.data.token){
         //lay duoc token
         //ktra token co user, image thi pass new ko thi gui ...
-        //console.log('token verified:', res.data.token);
+        console.log('token verified:', res.data.token);
         // neu nhu gai quyet xong
-        let loading = this.loadingCtrl.create({
+        let loading = that.loadingCtrl.create({
           content: 'Đang xử lý dữ liệu từ máy chủ ....'
         });
         loading.present();
 
-        this.resources.authorizeFromResource(res.data.token)
+        that.resources.authorizeFromResource(res.data.token)
         .then(login=>{
-          //console.log('data',login);
+          console.log('data',login);
           if (login.status
             &&login.user_info
             &&login.token
             ){
-              this.apiStorageService.saveToken(res.data.token);
-              this.navCtrl.setRoot(TabsPage);
+              that.apiStorageService.saveToken(res.data.token);
+              that.navCtrl.setRoot(TabsPage);
           }else{
-            this.presentAlert('Dữ liệu xác thực không đúng <br>' + JSON.stringify(login))
+            that.presentAlert('Dữ liệu xác thực không đúng <br>' + JSON.stringify(login))
           }
+
           loading.dismiss();
           resolve();
         })
         .catch(err=>{
           console.log('err',err);
-          this.presentAlert('Lỗi xác thực - authorizeFromResource')
+          that.presentAlert('Lỗi xác thực - authorizeFromResource')
           loading.dismiss();
           resolve();
         })

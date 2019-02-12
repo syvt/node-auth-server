@@ -25683,148 +25683,248 @@ ion-navbar.toolbar {
   background-color: #556cd69c;
 }
 
-page-chat-home .item-settings {
-  color: #9c2626;
-  margin-bottom: 1px;
-  font-size: 2rem;
-  cursor: pointer;
-  background-color: #abd6c8;
+page-dynamic-card-social .padding-col {
+  padding: 2px;
 }
 
-page-chat-home .item-settings:hover {
-  background-color: #2289a8;
+page-dynamic-card-social .one-image {
+  margin: 2px;
 }
 
-page-chat-home ion-avatar {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 50px !important;
-  max-height: 50px !important;
+page-dynamic-card-social .background-page {
+  background-color: #2d96de;
 }
 
-page-chat-home .other-avatar {
-  background: transparent !important;
+page-dynamic-card-social .gradient {
+  background-image: url("../../assets/imgs/gradient.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
 }
 
-page-chat-home .list-avatar-page ion-note {
-  font-size: 12px;
-  -webkit-align-self: flex-start;
-  -ms-flex-item-align: start;
-  align-self: flex-start;
-  margin-top: 14px;
+page-dynamic-card-social .card-background-page {
+  position: relative;
+  text-align: center;
 }
 
-page-chat-home .swiper-slide {
-  overflow-y: scroll;
-  display: block;
+page-dynamic-card-social .card-background-page .card-title {
+  position: absolute;
+  top: 36%;
+  font-size: 2.0em;
+  width: 100%;
+  font-weight: bold;
+  color: #fff;
 }
 
-page-chat-home .message {
-  padding: 5px !important;
-  margin: 0px !important;
-  -webkit-transition: all 250ms ease-in-out !important;
-  transition: all 250ms ease-in-out !important;
-  border-radius: 10px !important;
-  margin-bottom: 4px !important;
+page-dynamic-card-social .badge-background {
+  position: relative;
+  text-align: left;
 }
 
-page-chat-home .my_message {
-  background: #dff4f8 !important;
-  color: #7425f1 !important;
+page-dynamic-card-social .badge-background .badge-alert {
+  position: absolute;
+  left: 30%;
+  top: 20%;
+  padding: 0;
+  margin: 0;
+  font-size: 0.6em;
+  height: 30%;
+  width: 70%;
+  color: #fff;
 }
 
-page-chat-home .other_message {
-  background: #e0e0e0 !important;
-  color: #0c056b !important;
+page-dynamic-card-social .card-background-page .card-subtitle {
+  font-size: 1.0em;
+  position: absolute;
+  top: 52%;
+  width: 100%;
+  color: #fff;
 }
 
-page-chat-home .nick-name {
-  float: left;
-  color: #650572;
-  font-size: large;
+page-dynamic-card-social .card-background-page-top {
+  position: relative;
 }
 
-page-chat-home .text-message {
-  float: left;
+page-dynamic-card-social .card-background-page-top .card-title-top {
+  text-align: left;
+  top: 0px;
+  left: 5px;
+  position: absolute;
+  font-size: 1.0em;
+  width: 100%;
+  font-weight: bold;
+  color: #fff;
 }
 
-page-chat-home .time {
-  color: #f15c82;
-  float: right;
-  font-size: small;
+page-dynamic-card-social .card-background-page-top .card-subtitle-top {
+  text-align: right;
+  top: 20px;
+  font-size: 0.7em;
+  position: absolute;
+  width: 100%;
+  color: #fff;
 }
 
-page-chat-home .message_row {
-  background-color: #fff;
+@media (min-width: 0px) {
+  page-dynamic-card-social .image-height-1 {
+    background-size: cover;
+    min-height: 200px;
+  }
+  page-dynamic-card-social .image-height-2 {
+    background-size: cover;
+    min-height: 150px;
+  }
+  page-dynamic-card-social .image-height-3 {
+    background-size: cover;
+    min-height: 100px;
+  }
 }
 
-page-chat-room .user_name {
-  color: #afafaf;
+@media (min-width: 420px) {
+  page-dynamic-card-social .image-height-2 {
+    background-size: cover;
+    min-height: 175px;
+  }
 }
 
-page-chat-room .message {
-  padding: 10px !important;
-  -webkit-transition: all 250ms ease-in-out !important;
-  transition: all 250ms ease-in-out !important;
-  border-radius: 10px !important;
-  margin-bottom: 4px !important;
+@media (min-width: 720px) {
+  page-dynamic-card-social .image-height-2 {
+    background-size: cover;
+    min-height: 200px;
+  }
 }
 
-page-chat-room .my_message {
-  background: #488aff !important;
-  color: #000 !important;
+page-dynamic-form-mobile .background-page {
+  background-color: #2d96de;
 }
 
-page-chat-room .other_message {
-  background: #dcdcdc !important;
-  color: #000 !important;
+page-dynamic-form-mobile .background-page ion-icon {
+  color: #2d96de;
 }
 
-page-chat-room .time {
-  color: #afafaf;
-  float: right;
-  font-size: small;
+page-dynamic-form-mobile .gradient {
+  background-image: url("../../assets/imgs/gradient.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
 }
 
-page-chat-room .message_row {
-  background-color: #fff;
+page-dynamic-form-mobile .input-item {
+  border-radius: 1.5em;
+  opacity: 0.9;
+  font-size: 1em;
 }
 
-page-chatting ion-icon {
-  font-size: 30px;
-  padding-top: 5px;
-  padding-right: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
+page-dynamic-form-mobile .title-item {
+  color: white;
+  text-align: center;
+  font-size: 1.4em;
 }
 
-page-chatting ion-buttons {
-  margin: auto;
-  -webkit-flex-basis: 50px;
-  -ms-flex-preferred-size: 50px;
-  flex-basis: 50px;
-}
-
-page-chatting ion-searchbar {
-  border-radius: 2em !important;
-  opacity: 0.7;
-  font-size: 0.9em;
+page-dynamic-form-mobile .button-item {
+  border: solid 0.1em;
   width: 100%;
 }
 
-page-config .item-settings {
-  color: #9c2626;
-  margin-bottom: 1px;
-  font-size: 2rem;
-  cursor: pointer;
-  background-color: #abd6c8;
+page-dynamic-form-web .background-page {
+  background-color: #2d96de;
 }
 
-page-config .item-settings:hover {
-  background-color: #2289a8;
+page-dynamic-form-web .background-page ion-icon {
+  color: #2d96de;
 }
 
-page-login input[type="file"] {
+page-dynamic-form-web .background-card {
+  background-color: #f3f3f3;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+page-dynamic-form-web .background-card ion-icon {
+  color: #2d96de;
+}
+
+page-dynamic-form-web .gradient {
+  background-image: url("../../assets/imgs/gradient.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+page-dynamic-form-web .grid-border {
+  border-radius: 0.5em;
+  border: solid 0.1em #FFFFFF;
+}
+
+page-dynamic-form-web .input-item {
+  border-radius: 1.5em;
+  opacity: 0.9;
+  font-size: 1em;
+}
+
+page-dynamic-form-web .title-item {
+  color: rgba(38, 43, 80, 0.932);
+  text-align: center;
+  font-size: 1.4em;
+}
+
+page-dynamic-form-web .button-item {
+  border: solid 0.1em;
+  width: 100%;
+}
+
+page-dynamic-list .background-page {
+  background-color: #2d96de;
+}
+
+page-dynamic-list .gradient {
+  background-image: url("../../assets/imgs/gradient.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+page-dynamic-list .background-page h1 {
+  color: white;
+}
+
+page-dynamic-list .background-page h2 {
+  color: white;
+}
+
+page-dynamic-list .background-page p {
+  color: white;
+}
+
+page-dynamic-list .background-page ion-note {
+  color: white;
+}
+
+page-dynamic-medias .padding-col {
+  padding: 2px;
+}
+
+page-dynamic-medias .one-image {
+  margin: 2px;
+}
+
+page-dynamic-medias .background-page {
+  background-color: #2d96de;
+}
+
+page-dynamic-medias .gradient {
+  background-image: url("../../assets/imgs/gradient.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+page-dynamic-medias .file-background {
+  position: relative;
+  text-align: center;
+}
+
+page-dynamic-medias .file-background .file-over {
   position: absolute;
   top: 0;
   left: 0;
@@ -25835,90 +25935,100 @@ page-login input[type="file"] {
   cursor: pointer;
 }
 
-page-login .card-background-page ion-card {
+page-dynamic-medias .card-background-page {
   position: relative;
   text-align: center;
 }
 
-page-login .card-background-page .card-subtitle {
-  font-size: 1.0em;
+page-dynamic-medias .card-background-page .card-title {
   position: absolute;
-  top: 52%;
+  top: 36%;
+  font-size: 1.5em;
   width: 100%;
+  font-weight: bold;
   color: #fff;
 }
 
-page-register input[type="file"] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-}
-
-page-register .card-background-page ion-card {
-  position: relative;
-  text-align: center;
-}
-
-page-register .card-background-page .card-subtitle {
-  font-size: 1.0em;
-  position: absolute;
-  top: 52%;
-  width: 100%;
-  color: #fff;
-}
-
-page-sample-icons ion-icon {
-  font-size: 30px;
-  padding-top: 5px;
-  padding-right: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-}
-
-page-sample-icons ion-buttons {
-  margin: auto;
-  -webkit-flex-basis: 50px;
-  -ms-flex-preferred-size: 50px;
-  flex-basis: 50px;
-}
-
-page-sample-icons ion-searchbar {
-  opacity: 0.7;
+page-dynamic-medias .card-background-page .card-subtitle {
   font-size: 0.9em;
-  width: 50%;
-}
-
-page-sample-icons ion-select {
-  opacity: 0.7;
-  font-size: 0.9em;
-  width: 50%;
-}
-
-page-setting input[type="file"] {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-}
-
-page-setting .card-background-page ion-card {
-  position: relative;
-  text-align: center;
-}
-
-page-setting .card-background-page .card-subtitle {
-  font-size: 1.0em;
   position: absolute;
   top: 52%;
   width: 100%;
   color: #fff;
+}
+
+@media (min-width: 0px) {
+  page-dynamic-medias .image-height-1 {
+    background-size: cover;
+    min-height: 200px;
+  }
+  page-dynamic-medias .image-height-2 {
+    background-size: cover;
+    min-height: 150px;
+  }
+  page-dynamic-medias .image-height-3 {
+    background-size: cover;
+    min-height: 100px;
+  }
+}
+
+@media (min-width: 420px) {
+  page-dynamic-medias .image-height-2 {
+    background-size: cover;
+    min-height: 175px;
+  }
+}
+
+@media (min-width: 720px) {
+  page-dynamic-medias .image-height-2 {
+    background-size: cover;
+    min-height: 200px;
+  }
+}
+
+page-home .background-page {
+  background-color: #2d96de;
+}
+
+page-home .background-page ion-icon {
+  color: #2d96de;
+}
+
+page-home .background-card {
+  background-color: #f3f3f3;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+page-home .background-card ion-icon {
+  color: #2d96de;
+}
+
+page-home .gradient {
+  background-image: url("../../assets/imgs/gradient.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+page-home .grid-border {
+  border-radius: 0.5em;
+  border: solid 0.1em #FFFFFF;
+}
+
+page-home .input-item {
+  border-radius: 1.5em;
+  opacity: 0.9;
+  font-size: 1em;
+}
+
+page-home .title-item {
+  color: white;
+  text-align: center;
+  font-size: 1.4em;
+}
+
+page-home .button-item {
+  border: solid 0.1em;
+  width: 100%;
 }

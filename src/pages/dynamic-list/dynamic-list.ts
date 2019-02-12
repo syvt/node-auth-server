@@ -13,6 +13,8 @@ export class DynamicListPage {
   dynamicListOrigin: any;
   callback: any; 
   step: any;  
+  parent:any;
+  offset:number; //dich chuyen option command
   
   isSearch: boolean = false;
   searchString: string = '';
@@ -30,11 +32,13 @@ export class DynamicListPage {
              ) {}
 
   ngOnInit(){
-    this.dynamicListOrigin = this.navParams.get("list") ? this.navParams.get("list") : {};
+    this.dynamicListOrigin = this.navParams.get("list") ? this.navParams.get("list") : this.pubService.getDemoList();
     this.refresh();
     
+    this.offset = this.navParams.get("offset")?this.navParams.get("offset"):250;
     this.callback = this.navParams.get("callback");
     this.step = this.navParams.get("step");
+    this.parent = this.navParams.get("parent");
     let call_waiting_data = this.navParams.get("call_waiting_data");
     
     if (call_waiting_data){
@@ -59,11 +63,12 @@ export class DynamicListPage {
    * @param item 
    */
   openSwipeOptions(slidingItem: ItemSliding, item: Item, it:any ){
+    let _offset =  "translate3d(-"+this.offset+"px, 0px, 0px)"
     it.isSlidingItemOpen=true;
     slidingItem.setElementClass("active-sliding", true);
     slidingItem.setElementClass("active-slide", true);
     slidingItem.setElementClass("active-options-right", true);
-    item.setElementStyle("transform", "translate3d(-350px, 0px, 0px)"); 
+    item.setElementStyle("transform",_offset); 
   }
 
   /**
@@ -161,6 +166,8 @@ export class DynamicListPage {
             .then(nextStep => this.next(nextStep));
         }
       } else if (btn.next == 'NEXT' && btn.next_data && btn.next_data.data) {
+        btn.next_data.callback = this.callback; //gan lai cac function object
+        btn.next_data.parent = this.parent;     //gan lai cac function object
         btn.next_data.form = btn.next_data.data; //gan du lieu tra ve tu server
         this.navCtrl.push(DynamicListPage, btn.next_data);
       }

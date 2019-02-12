@@ -31,10 +31,10 @@ export class TabsPage {
     {
       root: DynamicCardSocialPage,
       title: 'Social',
-      icon: 'today'
+      icon: 'share'
     },
     {
-      root: DynamicCardSocialPage,
+      root: DynamicListPage,
       title: 'List',
       icon: 'paper'
     }
@@ -52,13 +52,6 @@ export class TabsPage {
   
   ngOnInit(){
     //console.log('2. ngOnInit tabs')
-
-    this.tabs[0].params = {
-      step:'bill-cycle',
-      callback: this.callback,
-      call_waiting_data: this.callWaiting
-    }
-
   }
 
   ionViewDidLoad() {

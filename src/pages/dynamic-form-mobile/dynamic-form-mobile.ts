@@ -14,6 +14,7 @@ export class DynamicFormMobilePage {
   initValues = [];
   callback: any; // ham goi lai khai bao o trang root gui (neu co)
   step: any;     // buoc thuc hien xuat phat trang root goi (neu co)
+  parent:any;    // Noi goi this
 
   password_type: string = 'password';
   eye: string = "eye";
@@ -42,6 +43,7 @@ export class DynamicFormMobilePage {
 
     this.callback = this.navParams.get("callback");
     this.step = this.navParams.get("step");
+    this.parent = this.navParams.get("parent");
 
   }
 
@@ -126,22 +128,22 @@ export class DynamicFormMobilePage {
         if (btn.token && keyResults) {
 
           let loading = this.loadingCtrl.create({
-            content: 'Đang xử lý dữ liệu từ máy chủ ....'
+            content: 'Đang xử lý dữ liệu từ máy chủ token....'
           });
           loading.present();
 
           this.authService.postDynamicForm(btn.url, keyResults, btn.token)
             .then(data => {
-              //console.log('data --> next', data, btn.next);
               btn.next_data = {
                 step: this.step,
                 data: data
               }
+              console.log('data token --> next btn', btn);
               this.next(btn);
               loading.dismiss();
             })
             .catch(err => {
-              //console.log('err', err);
+              console.log('err token', err);
               btn.next_data = {
                 step: this.step,
                 error: err
@@ -159,7 +161,7 @@ export class DynamicFormMobilePage {
 
           this.pubService.postDynamicForm(btn.url, keyResults)
             .then(data => {
-              //console.log('data --> next', data, btn.next);
+              console.log('data --> next', data, btn.next);
               btn.next_data = {
                 step: this.step,
                 data: data
@@ -168,7 +170,7 @@ export class DynamicFormMobilePage {
               loading.dismiss();
             })
             .catch(err => {
-              //console.log('err', err);
+              console.log('err', err);
               btn.next_data = {
                 step: this.step,
                 error: err
@@ -206,13 +208,16 @@ export class DynamicFormMobilePage {
       } else if (btn.next == 'BACK') {
         try { this.navCtrl.pop() } catch (e) { }
       } else if (btn.next == 'CALLBACK') {
+        //console.log(btn,this.callback);
         if (this.callback) {
-          this.callback(btn.next_data)
+          this.callback(this.parent,btn.next_data)
             .then(nextStep => this.next(nextStep));
         } else {
           try{this.navCtrl.pop()}catch(e){}
         }
       } else if (btn.next == 'NEXT' && btn.next_data && btn.next_data.data) {
+        btn.next_data.callback = this.callback; //gan lai cac function object
+        btn.next_data.parent = this.parent;     //gan lai cac function object
         btn.next_data.form = btn.next_data.data; //gan du lieu tra ve tu server
         this.navCtrl.push(DynamicFormMobilePage, btn.next_data);
       }
