@@ -10,7 +10,8 @@ function main(isHttp, isHttps) {
   app.use(require('./ddos/ddos-config').express('ip', 'path'));
 
   //web tinh
-  app.use('/api',express.static(__dirname + '/www'));
+  app.use(express.static(__dirname + '/www'));
+  app.use('/api/',express.static(__dirname + '/www'));
 
   //CORS handle
   const cors = require('./handlers/cors-handler');
