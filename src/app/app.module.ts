@@ -26,10 +26,12 @@ import { DynamicFormMobilePage } from '../pages/dynamic-form-mobile/dynamic-form
 import { DynamicCardSocialPage } from '../pages/dynamic-card-social/dynamic-card-social';
 import { DynamicMediasPage } from '../pages/dynamic-medias/dynamic-medias';
 import { ApiHttpPublicService } from '../services/apiHttpPublicServices';
+import { LoginPage } from '../pages/login/login';
 
 @NgModule({
   declarations: [
     MyApp,
+    LoginPage,
     HomePage,
     TabsPage,
     DynamicFormWebPage,
@@ -49,6 +51,7 @@ import { ApiHttpPublicService } from '../services/apiHttpPublicServices';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    LoginPage,
     HomePage,
     TabsPage,
     DynamicFormWebPage,

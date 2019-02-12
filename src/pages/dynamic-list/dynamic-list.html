@@ -31,7 +31,7 @@
 
                 <ion-list>
 
-                    <ion-item-sliding #slidingItem class="background-card" *ngFor="let it of dynamicList?.items">
+                    <ion-item-sliding #slidingItem class="background-list" *ngFor="let it of dynamicList?.items">
                         <ion-item #item class="background-item">
                             <ion-icon item-start *ngIf="!isMobile&&it.icon" name="{{it.icon}}" color="{{it.color}}"></ion-icon>
                             <ion-avatar item-start *ngIf="!isMobile&&it.image">

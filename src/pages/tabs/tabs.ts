@@ -6,6 +6,7 @@ import { ApiResourceService } from '../../services/apiResourceServices';
 import { DynamicFormMobilePage } from '../dynamic-form-mobile/dynamic-form-mobile';
 import { DynamicCardSocialPage } from '../dynamic-card-social/dynamic-card-social';
 import { DynamicMediasPage } from '../dynamic-medias/dynamic-medias';
+import { HomePage } from '../home/home';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -13,6 +14,11 @@ import { DynamicMediasPage } from '../dynamic-medias/dynamic-medias';
 export class TabsPage {
   
   tabs: any = [
+    {
+      root: HomePage,
+      title: 'Home',
+      icon: 'home'
+    },
     {
       root: DynamicFormWebPage,
       title: 'Form',

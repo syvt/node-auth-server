@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { ApiAuthService } from '../services/apiAuthService';
 import { ApiStorageService } from '../services/apiStorageService';
-import { HomePage } from '../pages/home/home';
+import { LoginPage } from '../pages/login/login';
 
 
 @Component({
@@ -45,7 +45,7 @@ export class MyApp {
   }
 
   viewDidLoad() {
-    this.rootPage = HomePage;
+    this.rootPage = LoginPage;
   }
   
 
