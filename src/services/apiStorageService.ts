@@ -8,9 +8,11 @@ const sessionStorageAvailable = isStorageAvailable(sessionStorage);
 export class ApiStorageService {
  
     public static token;
-    //public static apiServer = 'http://localhost:9235'; 
-    public static apiServer = 'https://c3.mobifone.vn';
-    public static authenticationServer = ApiStorageService.apiServer + '/api/auth';
+    //public static resourceServer = ''; 
+    public static resourceServer = 'https://qld-invoices.herokuapp.com'; 
+    //public static resourceServer = 'http://localhost:8080'; 
+    //public static resourceServer = 'https://c3.mobifone.vn';
+    public static authenticationServer = 'https://c3.mobifone.vn/api/ext-auth';
 
     constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
     }
@@ -95,6 +97,49 @@ export class ApiStorageService {
             return messages?messages:[];
         }catch(e){
             return [];
+        }
+    }
+
+
+
+    /**
+     * Chuyển đổi một mảng có cấu trúc thành cấu trúc cây (như oracle)
+     * Phục vụ quản lý theo tiêu chí hình cây
+     * @param arrIn 
+     * @param option 
+     * @param level 
+     */
+    createTree(arrIn,option?:{id:string,parentId:string,startWith:any},level?:number){
+        var myLevl = level?level:0;
+        var myOption = option?option:{id:'id',parentId:'parentId',startWith:null}
+
+        var roots = arrIn.filter(x=>x[option.parentId]!=x[option.id]&&x[option.parentId]==option.startWith);
+        //console.log('roots',roots);
+        if (roots.length>0){
+            myLevl++;
+            roots.forEach(el => {
+                //console.log('myId',el[option.id], myLevl);
+                el.$level= myLevl;
+                el.$children= arrIn.filter(x=>x[option.parentId]!=x[option.id]&&x[option.parentId]==el[option.id]);
+                if (el.$children.length>0){
+                    el.$children.forEach(ch=>{
+                        ch.$level = myLevl + 1;
+                        //console.log('myId child',ch[option.id], ch.$level);
+                        myOption.startWith = ch[option.id];
+                        ch.$children=this.createTree(arrIn,myOption,ch.$level)
+                    })
+                }else{
+                    el.$isleaf=1;
+                    el.$children=undefined;
+                }
+            });
+            return roots;
+        }else {
+            arrIn.forEach(el => {
+                el.$level= myLevl;
+                el.$isleaf=1;
+            });
+            return arrIn //khong tao duoc cay vi khong tim thay
         }
     }
 

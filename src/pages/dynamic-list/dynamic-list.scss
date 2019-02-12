@@ -1,0 +1,26 @@
+page-dynamic-list {
+
+	.background-page {
+		background-color: #2d96de;
+	}
+
+	.gradient {
+        background-image: url("../../assets/imgs/gradient.png");
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-position: center;
+    }
+
+    .background-page h1{
+		color: white;
+    }
+    .background-page h2{
+		color: white;
+    }
+    .background-page p{
+		color: white;
+    }
+    .background-page ion-note{
+		color: white;
+	}
+}

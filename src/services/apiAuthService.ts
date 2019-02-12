@@ -30,13 +30,17 @@ export class ApiAuthService {
         this.midleKey.importKey(this.clientKey.exportKey('public'));
     }
 
+    /**
+     * ham nay phai lay sau khi xac thuc token OTP bang dien thoai
+     * tranh viec hacker ma hoa du lieu lung tung gui len server
+     */
     getServerPublicRSAKey() {
         //console.log('get Public key');
-        if (this.publicKey && this.publicKey.PUBLIC_KEY) {
+        if (this.publicKey && this.publicKey.public_key) {
             //console.log('Public key from in session');
             return (new Promise((resolve, reject) => {
                 try {
-                    this.serverKey.importKey(this.publicKey.PUBLIC_KEY);
+                    this.serverKey.importKey(this.publicKey.public_key);
                 } catch (err) {
                     reject(err); //bao loi khong import key duoc
                 }
@@ -49,16 +53,16 @@ export class ApiAuthService {
             .toPromise()
             .then(jsonData => {
                 this.publicKey = jsonData;
-                    //console.log('co tra ve');
-                    if (this.publicKey && this.publicKey.PUBLIC_KEY) {
+                    console.log('Public key: ', jsonData);
+                    if (this.publicKey && this.publicKey.public_key) {
                         try {
-                            this.serverKey.importKey(this.publicKey.PUBLIC_KEY);
+                            this.serverKey.importKey(this.publicKey.public_key);
                         } catch (err) {
                             throw err;
                         }
                         return this.serverKey;
                     } else {
-                        throw new Error('No PUBLIC_KEY exists!');
+                        throw new Error('No public_key exists!');
                     }
                 })
             ;
@@ -111,7 +115,12 @@ export class ApiAuthService {
         return this.httpClient.post(this.authenticationServer + '/register', formData)
             .toPromise()
             .then(data => {
-                return data;
+                console.log(data);
+                return true;
+            })
+            .catch(err=>{
+                console.log(err);
+                return false;
             });
 
     }
@@ -122,7 +131,12 @@ export class ApiAuthService {
         return this.httpClient.post(this.authenticationServer + '/edit', formData)
             .toPromise()
             .then(data => {
-                return data;
+                console.log(data);
+                return true;
+            })
+            .catch(err=>{
+                console.log(err);
+                return false;
             });
 
     }
@@ -201,22 +215,128 @@ export class ApiAuthService {
 
 
     /**
+     * Ham nay luu lai token cho phien lam viec sau do
+     * dong thoi luu xuong dia token da login thanh cong
+     * @param token 
+     */
+    saveToken(token){
+        this.apiStorageService.saveToken(token);
+        this.userToken={token:token};
+    }
+
+    /**
+     * truong hop logout hoac 
+     * token da het hieu luc, 
+     * ta se xoa khoi de khong tu dong login duoc nua
+     */
+    deleteToken(){
+        this.apiStorageService.deleteToken();
+        this.userToken=null;
+    }
+
+    /**
      * Gui len server kiem tra token co verify thi tra ve token, khong thi khong ghi 
      * @param token 
      */
     authorize(token){
-        this.reqInterceptor.setRequestToken(token); //login nguoi khac
-        return this.httpClient.get(this.authenticationServer + '/authorize')
+        return this.httpClient.post(this.authenticationServer + '/authorize-token',JSON.stringify({
+            token: token
+        }))
             .toPromise()
             .then(data => {
-                //console.log(data);                
                 this.userToken={token:token};
                 return true; 
             })
-            .catch(err => {
-                //console.log(err);
-                return false; 
+    }
+
+
+    //send sms
+    sendSMS(isdn,sms){
+       return this.httpClient.post(this.authenticationServer + '/send-sms', JSON.stringify({
+            isdn:isdn,
+            sms:sms
+            }))
+            .toPromise()
+            .then(data => {
+                return data;
             });
+    }
+
+    /**
+     * yeu cau mot OTP tu phone
+     * @param jsonString 
+     */
+    requestIsdn(jsonString){
+        //chuyen len bang form co ma hoa
+        return this.httpClient.post(this.authenticationServer + '/request-isdn', jsonString)
+             .toPromise()
+             .then(data => {
+                 return data;
+             });
+     }
+
+
+     /**
+      * confirm OTP key
+      * @param jsonString 
+      */
+    confirmKey(jsonString){
+         //chuyen di bang form co ma hoa
+        return this.httpClient.post(this.authenticationServer + '/confirm-key', jsonString)
+             .toPromise()
+             .then(data => {
+                 this.userToken = data;
+                 if (this.userToken&&this.userToken.token){
+                    this.reqInterceptor.setRequestToken(this.userToken.token); //gan token ap dung cho cac phien tiep theo
+                    return this.userToken.token;
+                }else{
+                    //neu ho nhap so dien thoai nhieu lan sai so spam thi ??
+                    throw 'Không đúng máy chủ<br>';
+                }
+             });
+     }
+
+     sendUserInfo(jsonString){
+         //gui token + userInfo (pass encrypted) --ghi vao csdl
+         //tra ket qua cho user
+         return true;
+     }
+
+     sendImageBase64(jsonString){
+         //gui token + userInfo (pass encrypted) --ghi vao csdl
+         //tra ket qua cho user
+         return true;
+     }
+
+
+     injectToken(){
+        this.reqInterceptor.setRequestToken(this.userToken.token);
+     }
+
+
+
+     postDynamicForm(url:string, json_data:Object, token?:string){
+        //lay token cua phien xac thuc
+        this.reqInterceptor.setRequestToken(token?token:this.userToken?this.userToken.token:'');
+        return this.httpClient.post(url,JSON.stringify(json_data))
+                .toPromise()
+                .then(data => {
+                    let rtn:any;
+                    rtn = data;
+                    return rtn;
+                });
+    }
+
+    postDynamicFormData(url:string, form_data:any, token?:string){
+        //lay token cua phien xac thuc
+        this.reqInterceptor.setRequestToken(token?token:this.userToken?this.userToken.token:'');
+        return this.httpClient.post(url,form_data)
+                .toPromise()
+                .then(data => {
+                    let rtn:any;
+                    rtn = data;
+                    return rtn;
+                });
     }
 
 }
