@@ -25877,6 +25877,23 @@ page-dynamic-list .background-page {
   background-color: #2d96de;
 }
 
+page-dynamic-list .background-card {
+  background-color: #e9dbdb;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+page-dynamic-list .background-card ion-icon {
+  color: #2d96de;
+}
+
+page-dynamic-list .background-item {
+  background-color: #f3f3f3;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  border-radius: 0.8em;
+}
+
 page-dynamic-list .gradient {
   background-image: url("../../assets/imgs/gradient.png");
   background-repeat: no-repeat;
@@ -25884,20 +25901,25 @@ page-dynamic-list .gradient {
   background-position: center;
 }
 
+page-dynamic-list .grid-border {
+  border-radius: 0.5em;
+  border: solid 0.1em #FFFFFF;
+}
+
 page-dynamic-list .background-page h1 {
-  color: white;
+  color: #030303;
 }
 
 page-dynamic-list .background-page h2 {
-  color: white;
+  color: #030303;
 }
 
 page-dynamic-list .background-page p {
-  color: white;
+  color: #030303;
 }
 
 page-dynamic-list .background-page ion-note {
-  color: white;
+  color: #030303;
 }
 
 page-dynamic-medias .padding-col {
