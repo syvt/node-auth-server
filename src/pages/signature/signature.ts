@@ -85,15 +85,15 @@ export class SignaturePage {
 
   handleStart(ev) {
     let canvasPosition = this.canvasElement.getBoundingClientRect();
-    this.lastX = ev.touches[0].pageX// - canvasPosition.x;
-    this.lastY = ev.touches[0].pageY// - canvasPosition.y;
+    this.lastX = ev.touches[0].pageX - canvasPosition.x;
+    this.lastY = ev.touches[0].pageY - canvasPosition.y;
   }
   
   handleMove(ev) {
     
     let canvasPosition = this.canvasElement.getBoundingClientRect();
-    let currentX = ev.touches[0].pageX// - canvasPosition.x;
-    let currentY = ev.touches[0].pageY// - canvasPosition.y;
+    let currentX = ev.touches[0].pageX - canvasPosition.x;
+    let currentY = ev.touches[0].pageY - canvasPosition.y;
     
     let ctx = this.canvasElement.getContext('2d');
     ctx.lineJoin = "round";
