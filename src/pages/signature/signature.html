@@ -21,12 +21,12 @@
 </ion-header>
 
 <ion-content padding no-bounce>
-  <div class="draw-background" #fixedContainer ion-fixed>
+  <!-- <div class="draw-background" #fixedContainer ion-fixed> -->
     <canvas #imageCanvas (touchstart)="handleStart($event)" (touchmove)="handleMove($event)"></canvas>
-    <button ion-button full (click)="saveCanvasImage()">Save Image</button>
-  </div>
+   <!--  <button ion-button full (click)="saveCanvasImage()">Save Image</button>
+  </div> -->
 
-  <ion-list *ngIf="storedImages.length > 0">
+  <!-- <ion-list *ngIf="storedImages.length > 0">
       <ion-list-header>Previous Drawings</ion-list-header>
       <ion-card *ngFor="let obj of storedImages; let i = index">
         <ion-card-content>
@@ -38,7 +38,7 @@
           </button>
         </ion-row>
       </ion-card>
-    </ion-list>
+    </ion-list> -->
 
 </ion-content>
 
