@@ -8,8 +8,8 @@ const fs = require('fs');
 const tokenHandler = require('../utils/token-handler');
 
 //su dung csdl admin_user
-//const db = require('../db/oracle/oracle-admin-service');
-const db = require('../db/sqlite3/sqlite-admin-service');
+const db = require('../db/oracle/oracle-admin-service');
+//const db = require('../db/sqlite3/sqlite-admin-service');
 
 
 const NodeRSA = require('node-rsa');

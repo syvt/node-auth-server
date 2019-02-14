@@ -14,145 +14,237 @@ import { ApiAuthService } from '../../services/apiAuthService';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  
+
   constructor(private navCtrl: NavController
-            , private pubService: ApiHttpPublicService
-            , private auth : ApiAuthService
-            , private resources : ApiResourceService
-            , private apiStorageService: ApiStorageService
-            , private platform: Platform
-            , private modalCtrl: ModalController
-            , private loadingCtrl: LoadingController
-            , private alertCtrl: AlertController
-              ) {}
+    , private pubService: ApiHttpPublicService
+    , private auth: ApiAuthService
+    , private resources: ApiResourceService
+    , private apiStorageService: ApiStorageService
+    , private platform: Platform
+    , private modalCtrl: ModalController
+    , private loadingCtrl: LoadingController
+    , private alertCtrl: AlertController
+  ) { }
 
-  ngOnInit(){
-    
+  ngOnInit() {
     //console.log('2. ngOnInit Home');
-    //hien thi kieu popup info -- dissmiss
-    //this.openModal(data);
 
-    if (this.apiStorageService.getToken()){
+    if (this.apiStorageService.getToken()) {
 
       let loading = this.loadingCtrl.create({
-        content: 'Đang kiểm tra xác thực ....'
+        content: 'Đang kiểm tra xác thực máy chủ....'
       });
       loading.present();
 
       this.auth.authorize
-      (this.apiStorageService.getToken())
-      .then(status=>{
+        (this.apiStorageService.getToken())
+        .then(status => {
 
-        loading.dismiss();
+          loading.dismiss();
 
           this.auth.getServerPublicRSAKey()
-          .then(pk => {
-            
-            let userInfo = this.auth.getUserInfo();
-            
-            console.log('Save token user', userInfo);
-            
-            //kiem tra token chua khai nickname, va image thi phai nhay vao slide khai thong tin
-            if (
-              userInfo
-              // &&userInfo.image
-              // &&userInfo.nickname
+            .then(pk => {
+
+              let userInfo = this.auth.getUserInfo();
+
+              //console.log('Save token user', userInfo);
+
+              //kiem tra token chua khai nickname, va image thi phai nhay vao slide khai thong tin
+              if (
+                userInfo
+                // &&userInfo.image
+                // &&userInfo.nickname
               )
-            //cho phep truy cap thi gui token kem theo
-            this.auth.injectToken(); //Tiêm token cho các phiên làm việc lấy số liệu cần xác thực
+                //cho phep truy cap thi gui token kem theo
+                this.auth.injectToken(); //Tiêm token cho các phiên làm việc lấy số liệu cần xác thực
 
-            this.navCtrl.setRoot(TabsPage);
+              //this.navCtrl.setRoot(TabsPage);
+              //Thông tin login sẽ được ghi ở trang login thành công
+              this.callLoginOk(userInfo);
+            })
+            .catch(err => {
+              //console.log('Public key err', err);
+              throw err;
+            });
 
-          })
-          .catch(err=>{
-            console.log('Public key err', err);
-          });
+        })
+        .catch(err => {
+          loading.dismiss();
+          console.log('Token invalid: ', err);
+          this.auth.deleteToken();
+          this.ionViewDidLoad_Login();
 
-      })
-      .catch(err=>{
-        loading.dismiss();
-        //console.log('Token invalid: ', err);
-        this.auth.deleteToken();
-      });
+        });
+    } else {
+      this.ionViewDidLoad_Login();
     }
 
   }
 
-  ionViewDidLoad() {
+
+  callLoginOk(userInfo) {
+    //console.log(userInfo);
+    let data = {
+      title: "Đã Login"
+      , items: [
+        {
+          type: "details",
+          details: [
+            {
+              name: "Username",
+              value: userInfo.username
+            },
+            {
+              name: "Nickname",
+              value: userInfo.nickname
+            },
+            {
+              name: "Địa chỉ",
+              value: userInfo.address
+            },
+            {
+              name: "Điện thoại",
+              value: userInfo.phone
+            },
+            {
+              name: "Email",
+              value: userInfo.email
+            },
+            {
+              name: "Địa chỉ ip",
+              value: userInfo.req_ip
+            },
+            {
+              name: "Địa chỉ nguồn",
+              value: userInfo.origin
+            },
+            {
+              name: "Thiết bị",
+              value: userInfo.req_device
+            },
+            {
+              name: "Mức xác thực",
+              value: userInfo.level
+            },
+            {
+              name: "Thời gian khởi tạo",
+              value: userInfo.iat
+            },
+            {
+              name: "Thời gian hết hạn",
+              value: userInfo.exp
+            },
+            {
+              name: "Giờ địa phương",
+              value: userInfo.local_time
+            }
+          ]
+        },
+        { 
+          type: "button"
+        , options: [
+          { name: "Thoát", command:"EXIT" , next: "CALLBACK"}
+        ]
+      }
+      ]
+    }
+    this.navCtrl.setRoot(DynamicFormWebPage
+      , {
+        parent: this, //bind this for call
+        callback: this.callbackUserInfo,
+        step: 'form-user-info',
+        form: data
+      });
+  }
+
+  callbackUserInfo(that, res?: { step?: string, button?: any, data?: any, error?: any }) {
+    console.log('Gọi cái gì đây',res);
+    return new Promise((resolve, reject) => {
+      if (res.button&&res.button.command==="EXIT"){
+        that.auth.deleteToken();
+        that.ionViewDidLoad_Login();
+      }
+      resolve();
+    });
+
+  }
+
+  ionViewDidLoad_Login() {
     //console.log('3. ionViewDidLoad Home');
 
     this.pubService.getDataForm('form-phone.json')
-      .then(data=>{
-    if (this.platform.platforms()[0] === 'core'){
-      
-          setTimeout(()=>{
+      .then(data => {
+        if (this.platform.platforms()[0] === 'core') {
+
+          setTimeout(() => {
             this.navCtrl.push(DynamicFormWebPage
-              ,{
+              , {
+                parent: this, //bind this for call
+                callback: this.callbackFunction,
+                step: 'form-phone',
+                form: data
+              });
+          }, 1000);
+
+        } else {
+
+          this.navCtrl.push(DynamicFormMobilePage
+            , {
               parent: this, //bind this for call
               callback: this.callbackFunction,
               step: 'form-phone',
               form: data
-              });
-          },1000);
-      
-    }else{
-
-          this.navCtrl.push(DynamicFormMobilePage
-            ,{
-            parent: this, //bind this for call
-            callback: this.callbackFunction,
-            step: 'form-phone',
-            form: data
             });
 
-    }
-  })
-  .catch(err=> console.log("err ngOnInit()",err)) 
+        }
+      })
+      .catch(err => console.log("err ngOnInit()", err))
   }
 
 
-   /**
-    *  ham goi lai gui ket qua new button next
-    * 
-    * @param that chinh la this cua parent callback
-    * @param res 
-    */
-  callbackFunction(that,res?:{step?:string,data?:any,error?:any}){
-    
+  /**
+   *  ham goi lai gui ket qua new button next
+   * 
+   * @param that chinh la this cua parent callback
+   * @param res 
+   */
+  callbackFunction(that, res?: { step?: string, data?: any, error?: any }) {
+
     return new Promise((resolve, reject) => {
 
-      console.log('parent:',that);
-      console.log('this:',this);
+      console.log('parent:', that);
+      console.log('this:', this);
 
-      if (res&&res.error&&res.error.error){
+      if (res && res.error && res.error.error) {
         //console.log('callback error:', res.error.error);
         that.presentAlert('Lỗi:<br>' + JSON.stringify(res.error.error.error));
         resolve();
-      } else if (res&&res.step==='form-phone'&&res.data){
+      } else if (res && res.step === 'form-phone' && res.data) {
         console.log('forward data:', res.data.database_out);
-        if (res.data.database_out&&res.data.database_out.status===0){
-           that.presentAlert('Chú ý:<br>' + JSON.stringify(res.data.database_out.message));
+        if (res.data.database_out && res.data.database_out.status === 0) {
+          that.presentAlert('Chú ý:<br>' + JSON.stringify(res.data.database_out.message));
         }
         //gui nhu mot button forward
         resolve({
-          next:"NEXT" //mo form tiep theo
-          , next_data:{
+          next: "NEXT" //mo form tiep theo
+          , next_data: {
             step: 'form-key',
             data: //new form 
-                  {
-                    items: [
-                      { name: "Nhập mã OTP",type: "title"}
-                      , { key: "key", name: "Mã OTP", hint: "Nhập mã OTP gửi đến điện thoại",type: "text", input_type: "text", validators: [{ required: true, min: 6, max: 6, pattern: "^[0-9A-Z]*$" }]}
-                      , { type: "button"
-                        , options: [
-                            { name: "Trở về", next: "BACK"}
-                            , { name: "Xác nhận OTP", next: "CALLBACK", url: "https://c3.mobifone.vn/api/ext-auth/confirm-key", token: res.data.token}
-                        ]
-                      }]
-                }
+            {
+              items: [
+                { name: "Nhập mã OTP", type: "title" }
+                , { key: "key", name: "Mã OTP", hint: "Nhập mã OTP gửi đến điện thoại", type: "text", input_type: "text", validators: [{ required: true, min: 6, max: 6, pattern: "^[0-9A-Z]*$" }] }
+                , {
+                  type: "button"
+                  , options: [
+                    { name: "Trở về", next: "BACK" }
+                    , { name: "Xác nhận OTP", next: "CALLBACK", url: "https://c3.mobifone.vn/api/ext-auth/confirm-key", token: res.data.token }
+                  ]
+                }]
+            }
           }
         });
-      } else if (res&&res.step==='form-key'&&res.data.token){
+      } else if (res && res.step === 'form-key' && res.data.token) {
         //lay duoc token
         //ktra token co user, image thi pass new ko thi gui ...
         console.log('token verified:', res.data.token);
@@ -163,31 +255,31 @@ export class LoginPage {
         loading.present();
 
         that.resources.authorizeFromResource(res.data.token)
-        .then(login=>{
-          console.log('data',login);
-          if (login.status
-            &&login.user_info
-            &&login.token
-            ){
+          .then(login => {
+            console.log('data', login);
+            if (login.status
+              && login.user_info
+              && login.token
+            ) {
               that.apiStorageService.saveToken(res.data.token);
               that.navCtrl.setRoot(TabsPage);
-          }else{
-            that.presentAlert('Dữ liệu xác thực không đúng <br>' + JSON.stringify(login))
-          }
+            } else {
+              that.presentAlert('Dữ liệu xác thực không đúng <br>' + JSON.stringify(login))
+            }
 
-          loading.dismiss();
-          resolve();
-        })
-        .catch(err=>{
-          console.log('err',err);
-          that.presentAlert('Lỗi xác thực - authorizeFromResource')
-          loading.dismiss();
-          resolve();
-        })
+            loading.dismiss();
+            resolve();
+          })
+          .catch(err => {
+            console.log('err', err);
+            that.presentAlert('Lỗi xác thực - authorizeFromResource')
+            loading.dismiss();
+            resolve();
+          })
       } else {
         resolve();
       }
-      
+
     });
   }
 

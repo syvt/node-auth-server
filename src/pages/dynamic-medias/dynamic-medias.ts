@@ -11,7 +11,43 @@ import { ApiImageService } from '../../services/apiImageService';
 export class DynamicMediasPage {
 
   dynamicMedias: any; 
-  dynamicMediasOrigin: any;
+  dynamicMediasOrigin: any = {
+    title:"Đa phương tiện"
+    /* ,buttons: [
+        {color:"primary", icon:"arrow-dropdown-circle",  next:"DOWN"}
+        , {color:"primary", icon:"arrow-dropup-circle", next:"UP"}
+      ] */
+    ,medias: [
+        {image:"assets/imgs/img_forest.jpg"
+            ,title:"Miền quê yêu dấu"
+            ,h1: "Chốn yên bình"
+            ,p: "Là nơi bình yên nhất. Bạn có thể dạo bước trên con đường rợp bóng mát thanh bình đến lạ"}
+        ,{image:"assets/imgs/anh_vua.png"
+            ,h1: "Nội dung bài viết vể cao tốc"
+            ,p: "Một bài viết về cao tốc đây nhé"}
+        ,{image:"assets/imgs/ca_nau.jpg"
+            ,h2: "Cá Nâu ở Quê Mỹ lợi"
+            ,p: "Cá ngày mồng 3 tết ở quê"}
+        ,{image:"assets/imgs/ca_the.jpg"
+            ,h1: "Cá Thệ ở Quê Mỹ lợi"
+            ,p: "Cá ngày mồng 3 tết ở quê, Cá thệ kho dưa rất tuyệt vời"}
+        ,{image:"assets/imgs/img_forest.jpg"}
+        ,{image:"assets/imgs/anh_nho.png"
+            ,h1: "Mùa trái cây chín đỏ"
+            ,p: "Trái cây vựa, miền quê nhiều cá lắm đó"}
+    ]
+    ,actions:{
+        //file: {name:"Open file", size: 480, color:"primary", icon: "image", next:"FILE"}
+        // ,
+        files: {name:"Open files", color:"primary", icon: "images", next:"FILES"}
+        , open: {key: "down", link_key:"up", name:"Expand", color:"primary", icon:"arrow-dropdown",  next:"DOWN"}
+        , close: {key: "up", link_key:"down", name:"Collapse", color:"primary", icon:"arrow-dropup", next:"UP"}
+        , buttons: [
+             {name:"Save", icon: "share-alt", color:"primary", url:"https://c3.mobifone.vn/api/ext-auth/save-user-avatar", method: "FORM-DATA", token:true , next:"SAVE"}
+        ]
+    }
+};
+
   callback: any;
   step: any;
   parent:any;
@@ -41,7 +77,7 @@ export class DynamicMediasPage {
 
   ngOnInit(){
 
-    this.dynamicMediasOrigin = this.navParams.get("list") ? this.navParams.get("list") : this.pubService.getDemoMedias();
+    this.dynamicMediasOrigin = this.navParams.get("list") ? this.navParams.get("list") : this.dynamicMediasOrigin;
     this.refresh();
     this.myShow = this.showButton;
     
@@ -308,7 +344,7 @@ export class DynamicMediasPage {
       } else if (btn.next == 'NEXT' && btn.next_data && btn.next_data.data) {
         btn.next_data.callback = this.callback; //gan lai cac function object
         btn.next_data.parent = this.parent;     //gan lai cac function object
-        btn.next_data.form = btn.next_data.data; //gan du lieu tra ve tu server
+        btn.next_data.list = btn.next_data.data; //gan du lieu tra ve tu server
         this.navCtrl.push(DynamicMediasPage, btn.next_data);
       }
     }

@@ -6,7 +6,10 @@ import { ApiResourceService } from '../../services/apiResourceServices';
 import { DynamicFormMobilePage } from '../dynamic-form-mobile/dynamic-form-mobile';
 import { DynamicCardSocialPage } from '../dynamic-card-social/dynamic-card-social';
 import { DynamicMediasPage } from '../dynamic-medias/dynamic-medias';
+import { DynamicListOrderPage } from '../dynamic-list-order/dynamic-list-order';
 import { HomePage } from '../home/home';
+import { SignaturePage } from '../signature/signature';
+import { LoginPage } from '../login/login';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -20,13 +23,18 @@ export class TabsPage {
       icon: 'home'
     },
     {
-      root: DynamicFormWebPage,
-      title: 'Form',
+      root: LoginPage,
+      title: 'Login',
       icon: 'log-in'
     },
     {
+      root: DynamicFormWebPage,
+      title: 'Form web',
+      icon: 'desktop'
+    },
+    {
       root: DynamicFormMobilePage,
-      title: 'Mobile',
+      title: 'Form mobile',
       icon: 'phone-portrait'
     },
     {
@@ -41,8 +49,18 @@ export class TabsPage {
     },
     {
       root: DynamicListPage,
-      title: 'List',
+      title: 'List Options',
       icon: 'paper'
+    },
+    {
+      root: DynamicListOrderPage,
+      title: 'List Order',
+      icon: 'reorder'
+    },
+    {
+      root: SignaturePage,
+      title: 'Signature',
+      icon: 'create'
     }
   ];
 

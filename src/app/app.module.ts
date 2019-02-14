@@ -18,6 +18,7 @@ import { RequestInterceptor } from '../interceptors/requestInterceptor';
 import { ResponseInterceptor } from '../interceptors/responseInterceptor';
 
 import { MyApp } from './app.component';
+import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { DynamicFormWebPage } from '../pages/dynamic-form-web/dynamic-form-web';
@@ -25,8 +26,10 @@ import { DynamicListPage } from '../pages/dynamic-list/dynamic-list';
 import { DynamicFormMobilePage } from '../pages/dynamic-form-mobile/dynamic-form-mobile';
 import { DynamicCardSocialPage } from '../pages/dynamic-card-social/dynamic-card-social';
 import { DynamicMediasPage } from '../pages/dynamic-medias/dynamic-medias';
+import { DynamicListOrderPage } from '../pages/dynamic-list-order/dynamic-list-order';
+import { SignaturePage } from '../pages/signature/signature';
+
 import { ApiHttpPublicService } from '../services/apiHttpPublicServices';
-import { LoginPage } from '../pages/login/login';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,9 @@ import { LoginPage } from '../pages/login/login';
     DynamicListPage,
     DynamicFormMobilePage,
     DynamicCardSocialPage,
-    DynamicMediasPage
+    DynamicMediasPage,
+    DynamicListOrderPage,
+    SignaturePage
   ],
   imports: [
     BrowserModule,
@@ -58,7 +63,9 @@ import { LoginPage } from '../pages/login/login';
     DynamicListPage,
     DynamicFormMobilePage,
     DynamicCardSocialPage,
-    DynamicMediasPage
+    DynamicMediasPage,
+    DynamicListOrderPage,
+    SignaturePage
   ],
   providers: [
     StatusBar,

@@ -23,7 +23,7 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding class="background-page gradient">
+<ion-content no-padding class="background-page gradient">
     <ion-grid>
         <ion-row>
             <ion-col class="background-card gradient grid-border" text-center col-12 offset-xl-3 col-xl-6 offset-lg-3
@@ -40,8 +40,8 @@
 
                             <h1 *ngIf="it.h1">{{it.h1}}</h1>
                             <h2 *ngIf="it.h2">{{it.h2}}</h2>
-                            <p *ngIf="it.p">{{it.p}}</p>
-                            <ion-note item-end *ngIf="it.note">{{it.note}}</ion-note>
+                            <p text-wrap style="text-align: justify;" *ngIf="it.p">{{it.p}}</p>
+                            <ion-note text-wrap style="text-align: justify;" item-end *ngIf="it.note">{{it.note}}</ion-note>
 
                             <button item-end *ngIf="!it.isSlidingItemOpen
                                         &&!isMobile

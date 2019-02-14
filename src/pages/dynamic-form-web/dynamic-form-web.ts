@@ -10,7 +10,60 @@ import { ApiAuthService } from '../../services/apiAuthService';
 })
 export class DynamicFormWebPage {
 
-  dynamicForm: any;
+  dynamicForm: any = {
+    title: "Đăng ký"
+    , items: [
+      {        name: "Thông tin cá nhân avatar", hint: "Avatar", type: "avatar", url: "https://www.w3schools.com/howto/img_forest.jpg" }
+      , { id: 1, name: "Check hay không chọn?", type: "check", value: true }
+      , { id: 2, name: "Thanh Trượt", type: "range", value: 50, min: 0, max: 100 }
+      , { id: 3, name: "Chọn hay không chọn Toggle?", icon: "plane", type: "toggle" }
+      , { id: 4, name: "Chọn radio cái nào", type: "radio", icon: "plane", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
+      , { id: 5, name: "Chọn 1 cái nào", type: "select", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
+      , { id: 6, name: "Chọn nhiều cái nào", type: "select_multiple", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
+      , {        name: "Ảnh cá nhân", hint: "image viewer", type: "image", url: "https://www.w3schools.com/howto/img_forest.jpg" }
+      , { id: 8, key: "username", name: "username", hint: "Số điện thoại di động 9 số bỏ số 0 ở đầu", type: "text", input_type: "userName", icon: "information-circle", validators: [{ required: true, min: 9, max: 9, pattern: "^[0-9]*$" }]}
+      , { id: 9, key: "password", name: "password", hint: "Mật khẩu phải có chữ hoa, chữ thường, ký tự đặc biệt, số", type: "password", input_type: "password", icon: "information-circle", validators: [{ required: true, min: 6, max: 20}]}
+      , { id: 10, name: "Họ và tên", type: "text", input_type: "text", icon: "person" }
+      , { id: 11, name: "Điện thoại", hint: "Yêu cầu định dạng số điện thoại nhé", type: "text", input_type: "tel", icon: "call", validators: [{ pattern: "^[0-9]*$" }]}
+      , { id: 12, name: "email", hint: "Yêu cầu định dạng email nhé", type: "text", input_type: "email", icon: "mail", validators: [{ pattern: "^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" }]}
+      , { id: 13, name: "Ngày bắt đầu", hint: "Chọn ngày", type: "datetime", display:"DD/MM/YYYY", picker:"DD MM YYYY"}
+      , { id: 14, name: "Thời gian bắt đầu", hint: "Chọn thời gian", type: "datetime", display:"HH:mm:ss", picker:"HH:mm:ss"}
+      , { id: 15, name: "Nội dung nhập", hint: "Nhập nhiều dòng", type: "text_area"}
+      , {          name: "Thông tin cá nhân", type: "title"}
+      , { type:"details",
+          details: [
+              {
+              name:"Mã khách hàng",
+              value: "R012234949883"
+              },
+              {
+              name:"Tên khách hàng",
+              value: "Nguyễn Văn B"
+              },
+              {
+              name:"Địa chỉ",
+              value: "263 Nguyễn Văn Linh, Đà nẵng, Việt Nam"
+              },
+              {
+              name:"Hình thức thanh toán",
+              value: "Tiền mặt"
+              },
+          ]
+       }
+      , 
+      { 
+          type: "button"
+        , options: [
+          { name: "Reset", next: "RESET" }
+          , { name: "Exit", next: "EXIT" }
+          , { name: "Close", next: "CLOSE" }
+          , { name: "Back", next: "BACK"}
+          , { name: "Continue", next: "CONTINUE"}
+          , { name: "Register", next: "BACK", url: "https://chonsoc3.mobifone.vn/ionic/", command: "USER_LOGIN_REDIRECT" }
+          , { name: "LOGIN", next: "CONTINUE" , url: "https://chonsoc3.mobifone.vn/ionic/", command: "USER_CHECK_EXISTS", token: true }
+        ]
+      }]
+};
   initValues = [];
   callback: any; // ham goi lai khai bao o trang root gui (neu co)
   step: any;     // buoc thuc hien xuat phat trang root goi (neu co)
@@ -32,7 +85,7 @@ export class DynamicFormWebPage {
 
   ngOnInit() {
 
-    this.dynamicForm = this.navParams.get("form") ? this.navParams.get("form") : this.pubService.getDemoForm();
+    this.dynamicForm = this.navParams.get("form") ? this.navParams.get("form") : this.dynamicForm;
 
     if (this.dynamicForm.items) {
       this.dynamicForm.items.forEach((el, idx) => {
@@ -187,6 +240,7 @@ export class DynamicFormWebPage {
 
         btn.next_data = {
           step: this.step,
+          button: btn, //chuyen dieu khien nut cho ben ngoai
           data: keyResults
         }
         this.next(btn);
