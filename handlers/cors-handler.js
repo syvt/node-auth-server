@@ -1,5 +1,11 @@
+
+"use strict"
+
+const url = require('url');
+
 //chi cho phep cac domain chua cac thong tin nhu sau moi duoc phep truy cap
 var Access_Control_Allow_Origin_List=['.mobifone.vn','cuongdq','herokuapp','localhost','file'];
+
 
 function validateOrigin(originStr){
   for (let value of Access_Control_Allow_Origin_List){
@@ -13,11 +19,28 @@ function validateOrigin(originStr){
 
 class CorsHandler {
 
+
+    /**
+     * Tra ve req. tat ca cac bien doi ban dau cua 
+     * device, request
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
     cors(req, res, next) {
 
-      console.log('req.method',req.method);
-      console.log('req.url',req.url);
-      console.log('req.headers',req.headers);
+       console.log('*** req.method',req.method);
+       console.log('*** req.url',req.url);
+       //console.log('*** req.headers',req.headers);
+       //console.log('*** req.url_parse',url.parse(req.url, true, false));
+      
+      req.pathName = decodeURIComponent(url.parse(req.url, true, false).pathname);
+      req.paramS = url.parse(req.url, true, false).query;
+      
+      console.log('*** req.pathName',req.pathName);
+      console.log('*** req.paramS',req.paramS);
+      
 
       let ip;
       if (req.headers["client_ip"]){
