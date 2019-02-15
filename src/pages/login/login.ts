@@ -233,7 +233,7 @@ export class LoginPage {
       } else if (res && res.step === 'form-key' && res.data.token) {
         //lay duoc token
         //ktra token co user, image thi pass new ko thi gui ...
-        console.log('token verified:', res.data.token);
+        //console.log('token verified:', res.data.token);
         // neu nhu gai quyet xong
         let loading = that.loadingCtrl.create({
           content: 'Đang xử kiểm tra từ máy chủ Tài nguyên....'
@@ -242,7 +242,7 @@ export class LoginPage {
 
         that.resources.authorizeFromResource(res.data.token)
           .then(login => {
-            console.log('data', login);
+            //console.log('data', login);
             if (login.status
               && login.user_info
               && login.token
