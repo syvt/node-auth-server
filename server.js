@@ -16,7 +16,11 @@ function main(isHttp, isHttps) {
   //CORS handle
   const cors = require('./handlers/cors-handler');
   app.use(cors.CorsHandler.cors);
-
+  
+  //public service
+  const externalPublic = require('./routes/ext-public');
+  app.use('/api/ext-public', externalPublic);
+  
   //xac thuc theo phone cho website external
   const externalAuth = require('./routes/ext-auth');
   app.use('/api/ext-auth', externalAuth); 
