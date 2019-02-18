@@ -20,6 +20,10 @@ function main(isHttp, isHttps) {
   //public service
   const externalPublic = require('./routes/ext-public');
   app.use('/api/ext-public', externalPublic);
+
+  //speedtest
+  const speedTest = require('./routes/speedtest');
+  app.use('/api/speedtest', speedTest);
   
   //xac thuc theo phone cho website external
   const externalAuth = require('./routes/ext-auth');

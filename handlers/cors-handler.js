@@ -38,8 +38,8 @@ class CorsHandler {
       req.pathName = decodeURIComponent(url.parse(req.url, true, false).pathname);
       req.paramS = url.parse(req.url, true, false).query;
       
-      console.log('*** req.pathName',req.pathName);
-      console.log('*** req.paramS',req.paramS);
+      //console.log('*** req.pathName',req.pathName);
+      //console.log('*** req.paramS',req.paramS);
       
 
       let ip;
