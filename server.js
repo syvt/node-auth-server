@@ -17,18 +17,22 @@ function main(isHttp, isHttps) {
   const cors = require('./handlers/cors-handler');
   app.use(cors.CorsHandler.cors);
   
-  //public service
+/*   //public service
   const externalPublic = require('./routes/ext-public');
   app.use('/api/ext-public', externalPublic);
 
   //speedtest
   const speedTest = require('./routes/speedtest');
   app.use('/api/speedtest', speedTest);
+ */
+  //
+  const jsonForm = require('./routes/json-form');
+  app.use('/api/json-form', jsonForm);
   
-  //xac thuc theo phone cho website external
+/*   //xac thuc theo phone cho website external
   const externalAuth = require('./routes/ext-auth');
   app.use('/api/ext-auth', externalAuth); 
-
+ */
   //ham tra loi cac dia chi khong co
   //The 404 Route (ALWAYS Keep this as the last route)
   app.all('*',(req, res) => {
